@@ -1,0 +1,926 @@
+<div class="main-page">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="panel panel-default widget-shadow">
+                <div class="panel-heading text-center">
+                    Cliente
+                    <div class="btn-group pull-right">
+                        <a id="nuevoCliente" data-toggle="modal" ng-click="onClickTab(tabs[0])" data-target="#Nuevo_Cliente_modal" class="btn btn-default">Agregar Clientes</a>
+                        <a id="nuevoBanco" data-toggle="modal" data-target="#Nuevo_Banco_modal" class="btn btn-default">Editar Bancos</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-scroll scrollbar1">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Giro</th>
+                                    <th class="text-center hidden-xs hidden-sm">RFC</th>
+                                    <th class="text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #ddd" ng-repeat="client in clients | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                    <td class="text-center">{{client.businessname}}</td>
+                                    <td class="text-center">{{client.businesscategory}}</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{client.rfc}}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group-sm">
+                                            <button ng-click="showclient(client.id,false)" data-toggle="modal" data-target="#Update_Cliente_modal" class="btn btn-default"><i class="material-icons">mode_edit</i></button>
+                                            <button ng-click="DeleteClient(client.id,client.businessname)" class="btn btn-default"><i class="material-icons">delete</i></button>
+                                            <button ng-click="DeleteClient(client.id)" class="btn btn-default"><i class="material-icons">account_balance</i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Nuevo_Cliente_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Nuevo Cliente</h5>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-pills" style="margin-bottom: 5px;">
+                        <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}"><a>{{tab.title}}</a></li>
+                    </ul>
+                    <form ng-show="isActiveTab('personalinfo.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="DataBasica">
+                        <table class="table table-condensed table-bordered" style="padding-bottom:0px;margin-bottom: 2px;">
+                            <tr>
+                                <th class="text-center">Nombre:</th>
+                                <td colspan="3">
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" placeholder="Nombre o Razon Social" ng-model="ModalNuevoCliente.businessname" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">RFC:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" format="RFC" placeholder="RFC" ng-model="ModalNuevoCliente.rfc" required>
+                                    </div>
+                                </td>
+                                <th class="text-center">Giro Empresarial:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" id="txt_Apellido_Empleado" placeholder="Tipo de actividad empresarial" ng-model="ModalNuevoCliente.businesscategory" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Cantidad de Empleados:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="number" class="form-control" placeholder="# Empleados" ng-model="ModalNuevoCliente.employeenumber" min="0" required>
+                                    </div>
+                                </td>
+                                <th class="text-center">Fecha de Constitución:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="date" class="form-control" placeholder="Fecha de Creacion" ng-model="ModalNuevoCliente.constitutiondate" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" colspan="2">FIEL:</th>
+                                <td colspan="2">
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" placeholder="FIEL" ng-model="ModalNuevoCliente.fiel">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" colspan="4">Representante:</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group fixImg">
+                                        <label for="namemanager">Nombre:</label>
+                                        <input id="namemanager" type="text" class="form-control" placeholder="Nombre" ng-model="ModalNuevoCliente.legalrepresentativename" required>
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="form-group fixImg">
+                                        <label for="lastnamemanager">Apellido:</label>
+                                        <input id="lastnamemanager" type="text" class="form-control" placeholder="Apellido" ng-model="ModalNuevoCliente.legalrepresentativelastname" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <label for="rfc_add">RFC:</label>
+                                        <input id="rfc_add" format="RFC" ng-model="ModalNuevoCliente.managerrfc" type="text" class="form-control" placeholder="RFC">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <label for="phone_add">Teléfono:</label>
+                                        <input id="phone_add" ng-model="ModalNuevoCliente.managerphone" type="text" class="form-control" placeholder="Teléfono">
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="col-sm-2">
+                                        <a class="btn btn-default" ng-click="addManager()">Agregar</a>
+                                    </div>
+                                    <div class="col-sm-10 text-center">
+                                        <a class="btn btn-default" data-toggle="collapse" data-target="#Added_manager" aria-expanded="false" aria-controls="Added_manager">Ver Agregados <span ng-if="ModalNuevoCliente.managers.length>0" class="badge">{{ModalNuevoCliente.managers.length}}</span></a>
+                                        <div id="Added_manager" class="collapse">
+                                            <ul>
+                                                <li ng-repeat="manager in ModalNuevoCliente.managers"><span class="label label-default">{{manager.name}} {{manager.lastname}} <a class="btn_label" ng-click="deleteManager($index)"><i class="txt-White">&times;</i></a></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[1])" ng-disabled="DataBasica.$invalid">Siguiente</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <form ng-show="isActiveTab('personalinfo2.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="InfoBasica">
+                        <table class="table table-bordered table-condensed">
+                            <tr>
+                                <th class="text-center" colspan="2">Dirección:</th>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Calle y numero" ng-model="ModalNuevoCliente.address" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Colonia:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Colonia" ng-model="ModalNuevoCliente.colony" required>
+                                    </div>
+                                    <th class="text-center">Codigo Postal:</th>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="Codigo Postal" ng-model="ModalNuevoCliente.postalcode" required>
+                                        </div>
+                                    </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Ciudad:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Ciudad" ng-model="ModalNuevoCliente.city" required>
+                                    </div>
+                                </td>
+                                <th class="text-center">Estado:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Estado" ng-model="ModalNuevoCliente.state" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Email:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input format="email" class="form-control" placeholder="Correo Electronico" ng-model="ModalNuevoCliente.email" required>
+                                    </div>
+                                </td>
+                                <th class="text-center">Telefono:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" format="phone" class="form-control" placeholder="Telefono" ng-model="ModalNuevoCliente.phone" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <div class="pull-left">
+                                        <button class="btn btn-default" ng-click="onClickTab(tabs[0])">Volver</button>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-default" ng-click="onClickTab(tabs[2])" ng-disabled="InfoBasica.$invalid">Siguiente</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <form ng-show="isActiveTab('accionista.tpl.html')" class="nga-default nga-stagger nga-slide-up" name="accionistas_add">
+                        <table class="table table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" colspan="7">Accionistas</th>
+                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <th>Nombre:</th>
+                                        <th>Apellido:</th>
+                                        <th>RFC:</th>
+                                        <th>Participación:</th>
+                                        <th>Fecha de Entrada:</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="text" class="form-control" placeholder="Nombre" ng-model="shareholder.name" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="text" class="form-control" placeholder="Apellido" ng-model="shareholder.lastname" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="text" format="RFC" class="form-control" placeholder="RFC" ng-model="shareholder.rfc" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="number" class="form-control" placeholder="Participación" ng-model="shareholder.participation" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="date" class="form-control" placeholder="Fecha" ng-model="shareholder.oldwork" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button ng-click="AddParticipation()" class="btn btn-success" ng-disabled="validAddShareholder()"><i class="material-icons">add</i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="table-scroll scrollbar1" style="height:150px">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="shareholder in ModalNuevoCliente.shareholder" style="border-bottom: solid 1px #ccc" class="nga-default nga-stagger nga-slide-up">
+                                                        <td class="text-center">
+                                                            <h4>{{shareholder.name}}</h4>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h4>{{shareholder.lastname}}</h4>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h5>{{shareholder.rfc}}</h5>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h5>{{shareholder.participation}}%</h5>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h5>{{shareholder.oldwork.getDate() + "/" + shareholder.oldwork.getMonth()+1 + "/" + shareholder.oldwork.getFullYear()}}</h5>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a ng-click="DeleteParticipation($index)" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="pull-left">
+                                                <a class="btn btn-default" ng-click="onClickTab(tabs[1])">Volver</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <buttona class="btn btn-default" ng-click="onClickTab(tabs[3])" ng-disabled="ModalNuevoCliente.shareholder.length<1">Siguiente</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </thead>
+                        </table>
+                    </form>
+                    <form ng-show="isActiveTab('archivos.tpl.html')" name="files_Add">
+                        <div class="row">
+                            <div ng-repeat="file in filesApp" class="col-sm-2 text-center nga-default nga-stagger nga-fade">
+                                <span class="label label-default" style="margin-right: .5em">{{file.name}} <a class="btn_label" ng-click="deleteFiles($index)"><i class="txt-White">&times;</i></a></span>
+                            </div>
+                        </div>
+                        <div id="dropzone">
+                            <div>Arrastra tus archivos o haz click.</div>
+                            <input type="file" ngf-select="AddFile($file)" />
+                        </div>
+                        <div class="row">
+                            <div class="pull-left">
+                                <a class="btn btn-default" ng-click="onClickTab(tabs[2])" style="margin-right:.5em ">Volver</a>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-default" ng-click="onClickTab(tabs[4])" style="margin-right:.5em ">Siguiente</a>
+                            </div>
+                        </div>
+                    </form>
+                    <form ng-show="isActiveTab('bancos.tpl.html')" class="nga-default nga-stagger nga-slide-up" name="infobank_add">
+                        <table class="table table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" colspan="7">Información Bancaria</th>
+                                </tr>
+                                <tr>
+                                    <th>Banco:</th>
+                                    <th colspan="2">Tipo de Cuenta:</th>
+                                    <th>Numero de Cuenta:</th>
+                                    <th>CLABE:</th>
+                                    <th></th>
+                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <div class="form-group">
+                                                <select ng-options="option.name for option in modalbanco.bancos track by option.id" ng-model="ModalNuevoCliente.selectBank" class="form-control" required>
+                                                    </select>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" colspan="2">
+                                            <div class="form-group fixImg">
+                                                <input type="text" class="form-control" placeholder="Tipo de Cuenta" ng-model="bank.accounttype" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="text" class="form-control" placeholder="Numero de Cuenta" ng-model="bank.accountnumber" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="form-group fixImg">
+                                                <input type="text" class="form-control" placeholder="Antigüedad de Cuenta" ng-model="bank.clabe" required>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button ng-click="AddBank()" class="btn btn-success" ng-disabled="infobank_add.$invalid"><i class="material-icons">add</i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                            <div class="table-scroll scrollbar1">
+                                                <table class="table table-striped">
+                                                    <tr ng-repeat="bankclient in ModalNuevoCliente.banks" class="nga-default nga-stagger nga-slide-up text-center">
+                                                        <td class="text-center">
+                                                            <h4>{{bankclient.banco.name}}</h4>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h5>{{bankclient.accounttype}}</h5>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h5>{{bankclient.accountnumber}}</h5>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <h5>{{bankclient.clabe}}</h5>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <button ng-click="deletePermiso($index)" class="btn btn-danger"><i class="material-icons">delete</i></button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div class="pull-left">
+                                                <a class="btn btn-default" ng-click="onClickTab(tabs[2])">Volver</a>
+                                            </div>
+                                            <div class="pull-right">
+                                                <a class="btn btn-default" ng-click="CreateClient()" ng-disabled="modaladduser.permisos.length<1">Finalizar</<a href=""></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </thead>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="margin-top:0px">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Nuevo_Banco_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nuevo Banco</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="3">Nuevo Banco</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Descripción:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" ng-model="modalbanco.descripcion" class="form-control" id="descripcion_puesto" placeholder="Descripción corta">
+                                    </div>
+                                </td>
+                                <td>
+                                    <a ng-click="AddBanco()" class="btn btn-default">Agregar</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="table-scroll scrollbar1" style="height:200px">
+                                        <table class="table table-condensed">
+                                            <tr ng-repeat="banco in modalbanco.bancos" class="nga-default nga-stagger nga-slide-up">
+                                                <td colspan="3">{{banco.name}}</td>
+                                                <td><button ng-click="deleteBanco(banco.id)" class="btn btn-default pull-right"><i class="material-icons">delete</i></button></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer mt-1">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Update_Cliente_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Actualizar Cliente</h4>
+            </div>
+            <div class="modal-body" style="margin-bottom: 0px;padding-bottom:0px">
+                <ul class="nav nav-pills" style="margin-bottom: 5px;">
+                    <li ng-repeat="tab in tabs" ng-if="tab.title!='Representantes'" ng-class="{active:isActiveTab(tab.url)}"><a>{{tab.title}}</a></li>
+                </ul>
+                <form ng-show="isActiveTab('personalinfo.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="DataBasica_up">
+                    <table class="table table-bordered" style="padding-bottom:0px;margin-bottom: 2px;">
+                        <tr>
+                            <th class="text-center">Nombre:</th>
+                            <td colspan="3">
+                                <div class="form-group fixImg">
+                                    <input type="text" class="form-control" placeholder="Nombre o Razon Social" ng-model="Cliente.businessname" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">RFC:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="text" format="RFC" class="form-control" placeholder="RFC" ng-model="Cliente.rfc" required>
+                                </div>
+                            </td>
+                            <th class="text-center">Giro Empresarial:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="text" class="form-control" id="txt_Apellido_Empleado" placeholder="Tipo de actividad empresarial" ng-model="Cliente.businesscategory" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Cantidad de Empleados:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="number" class="form-control" placeholder="# Empleados" ng-model="Cliente.employeenumber" min="0" required>
+                                </div>
+                            </td>
+                            <th class="text-center">Fecha de Constitución:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="date" class="form-control" placeholder="Fecha de Creacion" ng-model="Cliente.constitutiondate" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="2">FIEL:</th>
+                            <td colspan="2">
+                                <div class="form-group fixImg">
+                                    <input type="text" class="form-control" placeholder="FIEL" ng-model="Cliente.fiel">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[1])" ng-disabled="DataBasica_up.$invalid">Siguiente</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <form ng-show="isActiveTab('personalinfo2.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="InfoBasica_up">
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <th class="text-center" colspan="2">Dirección:</th>
+                            <td colspan="2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Calle y numero" ng-model="Cliente.address" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Colonia:</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Colonia" ng-model="Cliente.colony" required>
+                                </div>
+                                <th class="text-center">Codigo Postal:</th>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Codigo Postal" ng-model="Cliente.postalcode" required>
+                                    </div>
+                                </td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Ciudad:</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Ciudad" ng-model="Cliente.city" required>
+                                </div>
+                            </td>
+                            <th class="text-center">Estado:</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Estado" ng-model="Cliente.state" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Email:</th>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Correo Electronico" ng-model="Cliente.email" format="email" required>
+                                </div>
+                            </td>
+                            <th class="text-center">Telefono:</th>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" format="phone" placeholder="Telefono" ng-model="Cliente.phone" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="pull-left">
+                                    <a class="btn btn-default" ng-click="onClickTab(tabs[0])" style="margin-right: 1em">Volver</a>
+                                    <button class="btn btn-warning" ng-click="updateClient()" ng-disabled="InfoBasica_up.$invalid">Editar</button>
+                                </div>
+                                <div class="pull-right">
+                                    <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[5])" ng-disabled="InfoBasica_up.$invalid">Siguiente</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <form ng-show="isActiveTab('representantes.tpl.html')" class="nga-default nga-stagger nga-slide-up" name="accionistas_add_up">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="7">Representantes</th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th>Nombre:</th>
+                                    <th>Apellido:</th>
+                                    <th>RFC:</th>
+                                    <th>Teléfono:</th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Nombre" ng-model="manager_up.name" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Apellido" ng-model="manager_up.lastname" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" format="RFC" class="form-control" placeholder="RFC" ng-model="manager_up.rfc" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Teléfono" ng-model="manager_up.phone" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button ng-click="AddManager()" class="btn btn-default"><i class="material-icons">add</i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="table-scroll scrollbar1" style="height:150px">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="item in Cliente.managers" style="border-bottom: solid 1px #ccc" class="nga-default nga-stagger nga-slide-up">
+                                                    <td class="text-center">
+                                                        <h4>{{item.name}}</h4>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h4>{{item.lastname}}</h4>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{item.rfc}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{item.phone}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a ng-click="deleteShareholder(shareholder.id)" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        <div class="pull-left">
+                                            <a class="btn btn-default" ng-click="onClickTab(tabs[1])">Volver</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a class="btn btn-default" ng-click="onClickTab(tabs[2])" ng-disabled="Cliente.shareholder.length<1">Siguiente</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </thead>
+                    </table>
+                </form>
+                <form ng-show="isActiveTab('accionista.tpl.html')" class="nga-default nga-stagger nga-slide-up" name="accionistas_add_up">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="7">Accionistas</th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <th>Nombre:</th>
+                                    <th>Apellido:</th>
+                                    <th>RFC:</th>
+                                    <th>Participación:</th>
+                                    <th>Fecha de Entrada:</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Nombre" ng-model="shareholder_up.name" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Apellido" ng-model="shareholder_up.lastname" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" format="RFC" class="form-control" placeholder="RFC" ng-model="shareholder_up.rfc" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="number" class="form-control" placeholder="Participación" ng-model="shareholder_up.participation" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="date" class="form-control" placeholder="Fecha" ng-model="shareholder_up.oldwork" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button ng-click="AddShareholder()" class="btn btn-success" ng-disabled="validAddShareholder_up()"><i class="material-icons">add</i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="table-scroll scrollbar1" style="height:150px">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="shareholder in Cliente.shareholders" style="border-bottom: solid 1px #ccc" class="nga-default nga-stagger nga-slide-up">
+                                                    <td class="text-center">
+                                                        <h4>{{shareholder.name}}</h4>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h4>{{shareholder.lastname}}</h4>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{shareholder.rfc}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{shareholder.participation}}%</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{shareholder.oldwork.split('-')[2]+"/"+shareholder.oldwork.split('-')[1]+"/"+shareholder.oldwork.split('-')[0]}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a ng-click="deleteShareholder(shareholder.id)" class="btn btn-danger"><i class="material-icons">delete</i></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        <div class="pull-left">
+                                            <a class="btn btn-default" ng-click="onClickTab(tabs[5])">Volver</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a class="btn btn-default" ng-click="onClickTab(tabs[3])" ng-disabled="Cliente.shareholder.length<1">Siguiente</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </thead>
+                    </table>
+                </form>
+                <form ng-show="isActiveTab( 'archivos.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="files_up">
+                    <div class="scrollbar scrollbar1" style="height:320px">
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="text-center">Nombre</th>
+                                    <th class="text-center">Descargar</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="Cliente.files.length>0">
+                                <tr ng-repeat="file in Cliente.files">
+                                    <td colspan="4">
+                                        <h4>{{file.name}}</h4>
+                                    </td>
+                                    <td class="center text-center">
+                                        <a class="btn btn-default" ng-click="DownloadFile(file.id)"><i class="material-icons">file_download</i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="ModalUpdateSolicitud.files.length==0">
+                                <tr>
+                                    <th colspan="5" class="text-center">No hay Archivos.</th>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="pull-left">
+                                        <a class="btn btn-default" ng-click="onClickTab(tabs[2])">Volver</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-default" ng-click="onClickTab(tabs[4])">Siguiente</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+                <form ng-show="isActiveTab('bancos.tpl.html')" class="nga-default nga-stagger nga-slide-up" name="infobank_add_up">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" colspan="7">Información Bancaria</th>
+                            </tr>
+                            <tr>
+                                <th>Banco:</th>
+                                <th colspan="2">Tipo de Cuenta:</th>
+                                <th>Numero de Cuenta:</th>
+                                <th>CLABE:</th>
+                                <th></th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <div class="form-group">
+                                            <select ng-options="option.name for option in modalbanco.bancos track by option.id" ng-model="Cliente.selectBank" class="form-control" required>
+                                                    </select>
+                                        </div>
+                                    </td>
+                                    <td class="text-center" colspan="2">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Tipo de Cuenta" ng-model="bank_up.accounttype" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Numero de Cuenta" ng-model="bank_up.accountnumber" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Antigüedad de Cuenta" ng-model="bank_up.clabe" required>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button ng-click="addClientBank()" class="btn btn-success" ng-disabled="infobank_add_up.$invalid"><i class="material-icons">add</i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="table-scroll scrollbar1" style="height:150px">
+                                            <table class="table table-striped">
+                                                <tr ng-repeat="bankclient in Cliente.banks" class="nga-default nga-stagger nga-slide-up text-center">
+                                                    <td class="text-center">
+                                                        <h4>{{returnNameBank(modalbanco.bancos,bankclient.idbank)[0].name}}</h4>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{bankclient.accounttype}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{bankclient.accountnumber}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <h5>{{bankclient.clabe}}</h5>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button ng-click="deleteClientBank(bankclient.id)" class="btn btn-danger"><i class="material-icons">delete</i></button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <div class="pull-left">
+                                            <a class="btn btn-default" ng-click="onClickTab(tabs[3])">Volver</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </thead>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="modal_up_user_cerrar" type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+
+        $('#dropzone').on('dragover', function() {
+            $(this).addClass('hover');
+        });
+
+        $('#dropzone').on('dragleave', function() {
+            $(this).removeClass('hover');
+        });
+
+        $('#dropzone input').on('change', function(e) {
+            var file = this.files[0];
+
+            $('#dropzone').removeClass('hover');
+
+            if (this.accept && $.inArray(file.type, this.accept.split(/, ?/)) == -1) {
+                return alert('File type not allowed.');
+            }
+
+            $('#dropzone').addClass('dropped');
+            $('#dropzone img').remove();
+
+            if ((/^image\/(gif|png|jpeg|jpg)$/i).test(file.type)) {
+                var reader = new FileReader(file);
+
+                reader.readAsDataURL(file);
+
+                reader.onload = function(e) {
+                    var data = e.target.result,
+                        $img = $('<img />').attr('src', data).fadeIn();
+
+                    $('#dropzone div').html($img);
+                };
+            } else {
+                var ext = file.name;
+
+                $('#dropzone div').html(ext);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,339 @@
+<html>
+
+<head>
+    <title>Antejo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <base href="/">
+    <script src="scripts/jquery/jquery-3.1.1.js">
+    </script>
+    <script src="scripts/bootstrap/bootstrap.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap/bootstrap.css">
+    <!-- material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link id="theme" rel="stylesheet" type="text/css" href="styles/bootstrap/sweetalert.css">
+    <link id="theme" rel="stylesheet" type="text/css" href="styles/bootstrap/facebook.css">
+
+    <!-- font CSS -->
+    <!-- font-awesome icons -->
+
+    <!-- js-->
+    <script src="scripts/custom/modernizr.custom.js"></script>
+    <!--webfonts-->
+    <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+    <!--//webfonts-->
+    <!--animate-->
+    <link href="styles/custom/animate.css" rel="stylesheet" type="text/css" media="all">
+    <script src="scripts/custom/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
+    <!--//end-animate-->
+    <!-- chart -->
+    <script src="scripts/custom/Chart.js"></script>
+    <!-- //chart -->
+    <!--Calender-->
+    <link rel="stylesheet" href="styles/custom/clndr.css" type="text/css" />
+    <script src="scripts/custom/underscore-min.js" type="text/javascript"></script>
+    <script src="scripts/custom/moment-2.2.1.js" type="text/javascript"></script>
+    <script src="scripts/custom/clndr.js" type="text/javascript"></script>
+    <!--End Calender-->
+    <!-- Metis Menu -->
+    <script src="scripts/custom/metisMenu.min.js"></script>
+    <script src="scripts/custom/custom.js"></script>
+    <link href="styles/custom/custom.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles/angular/nga.css">
+</head>
+
+<body ng-app="Antejo" class="scrollbar1">
+
+    <div class="main-content" ng-controller="MainCtrl as $main">
+        <nav ng-if="CheckLocal" id="subMenu" class="navbar navbar-inverse navbar-fixed-top" style="display:none">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="Empleados" class="navbar-brand">Empleados</a>
+                    <a class="navbar-brand">Clientes</a>
+                    <a class="navbar-brand">Cobranza</a>
+                    <a class="navbar-brand">Creditos</a>
+                    <a class="navbar-brand">Estadisticas</a>
+                </div>
+            </div>
+        </nav>
+        <div ng-if="CheckLocal">
+            <!--left-fixed -navigation-->
+            <!-- header-starts -->
+            <div class="sticky-header header-section ">
+                <div class="header-left">
+                    <!--toggle button start-->
+                    <button id="activeMenu" class="hidden-lg hidden-md"><i class="material-icons">menu</i></button>
+                    <!--toggle button end-->
+                    <!--logo -->
+                    <a href="/#!/">
+                        <img src="images/logotipo-antejo-png.png" class="img-responsive" style="max-height: 10vh">
+                    </a>
+                    <!--//logo-->
+                    <!--search-box-->
+                </div>
+                <div class="profile_details_left hidden-xs hidden-sm">
+                    <ul class="nofitications-dropdown">
+                        <li class="dropdown head-dpdn padImg" ng-mouseup="goTo('Empleados')">
+                            <a ng-mouseup="goTo('Empleados')" ng-mouseenter="showIt('.navempleados')" style="padding-left:.5em;padding-right:.5em" class="padImg dropdown-toggle navee navempleados padImg" data-toggle="dropdown" aria-expanded="false">Empleados</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="notification_header">
+                                        <h3>Empleados</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <li>
+                                        <a ng-mouseup="goTo('Empleados','nuevoEmpleado')">
+                                            <div class="notification_desc">
+                                                <p>Empleados</p>
+                                                <p><span>Agrega Empleado</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a ng-mouseup="goTo('Empleados','nuevoPuesto')">
+                                            <div class="notification_desc">
+                                                <p>Puestos</p>
+                                                <p><span>Agregar y eliminar puestos</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown head-dpdn padImg" ng-mouseup="goTo('Clientes')">
+                            <a ng-mouseup="goTo('Clientes')" ng-mouseenter="showIt('.navclientes')" class="padImg dropdown-toggle navee navclientes padImg" style="padding-left:.5em;padding-right:.5em" data-toggle="dropdown" aria-expanded="false">Clientes</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="notification_header">
+                                        <h3>Clientes</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a>
+                                        <div class="notification_desc">
+                                            <p>Lorem ipsum dolor amet</p>
+                                            <p><span>1 hour ago</span></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown head-dpdn padImg" ng-mouseup="goTo('Solicitudes')">
+                            <a ng-mouseup="goTo('Solicitudes')" ng-mouseenter="showIt('.navsolicitud')" class="padImg dropdown-toggle navee navsolicitud padImg" style="padding-left:.5em;padding-right:.5em" data-toggle="dropdown" aria-expanded="false">Solicitudes</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="notification_header">
+                                        <h3>Clientes</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a>
+                                        <div class="notification_desc">
+                                            <p>Lorem ipsum dolor amet</p>
+                                            <p><span>1 hour ago</span></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-2 col-sm-push-3 col-lg-push-4">
+                    <div style="margin-top:5vh">
+                        <div class="input-group">
+                            <div class="input-group-addon">Filtrar</div>
+                            <input id="txt_filtro" name="txt_filtro" ng-model="$main.txt_filtro" type="text" class="form-control" placeholder="{{CurrentLocation()}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right hidden-xs hidden-sm">
+                    <div class="profile_details_left">
+                        <!--notifications of menu start -->
+                        <ul class="nofitications-dropdown">
+                            <li class="dropdown head-dpdn">
+                                <a class="dropdown-toggle notification" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">message</i><span class="badge">3</span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="notification_header">
+                                            <h3>You have 3 new messages</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor amet</p>
+                                                <p><span>1 hour ago</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li class="odd">
+                                        <a>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor amet </p>
+                                                <p><span>1 hour ago</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor amet </p>
+                                                <p><span>1 hour ago</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="notification_bottom">
+                                            <a>See all messages</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown head-dpdn">
+                                <a class="dropdown-toggle notification" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">notifications</i><span class="badge blue">3</span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <div class="notification_header">
+                                            <h3>You have 3 new notification</h3>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor amet</p>
+                                                <p><span>1 hour ago</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li class="odd">
+                                        <a>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor amet </p>
+                                                <p><span>1 hour ago</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a>
+                                            <div class="notification_desc">
+                                                <p>Lorem ipsum dolor amet </p>
+                                                <p><span>1 hour ago</span></p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="notification_bottom">
+                                            <a>See all notifications</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <!--notification menu end -->
+                    <div class="profile_details">
+                        <ul>
+                            <li class="dropdown profile_details_drop">
+                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <div class="profile_img">
+                                        <i class="material-icons">account_circle</i>
+                                        <div class="user-name">
+                                            <p>{{username}}</p>
+                                            <span>{{occupation}}</span>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu drp-mnu">
+                                    <li> <a><i class="material-icons">settings</i> Configuración</a> </li>
+                                    <li> <a><i class="material-icons">list</i> Perfil</a> </li>
+                                    <li>
+                                        <a ng-click="LogOut(scope,http,locationobj)"><i class="material-icons">exit_to_app</i> Cerrar Sessión</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+            <!-- //header-ends -->
+            <!-- main content start-->
+
+            <!--footer-->
+
+            <!--//footer-->
+
+        </div>
+        <div ng-view>
+        </div>
+
+        <div ng-if="CheckLocal" class="footer">
+            <p>Antejo &copy; 2016 Todos los derechos reservados por CO Tecnologias</p>
+        </div>
+    </div>
+
+    <!-- Classie -->
+    <script src="scripts/custom/classie.js"></script>
+    <script>
+        var menuLeft = document.getElementById('cbp-spmenu-s1'),
+            showLeftPush = document.getElementById('activeMenu'),
+            body = document.body;
+    </script>
+    <!--scrolling js-->
+    <script src="scripts/custom/jquery.nicescroll.js"></script>
+    <script src="scripts/custom/scripts.js"></script>
+    <!--//scrolling js-->
+
+    <script type="text/javascript" src="scripts/bootstrap/sweetalert.min.js"></script>
+    <script src="scripts/angular/angular.js"></script>
+    <script src="scripts/angular/angular-route.js"></script>
+    <script src="scripts/angular/angular-animate.js"></script>
+    <script src="scripts/angular/angular-base64.js"></script>
+    <script type="text/javascript" src="scripts/angular/SweetAlert.js"></script>
+    <script type="text/javascript" src="scripts/angular/ng-file-upload.js"></script>
+    <script type="text/javascript" src="scripts/angular/html2canvas.js"></script>
+    <script type="text/javascript" src="scripts/angular/jspdf.debug.js"></script>
+    <script type="text/javascript" src="scripts/angular/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/2.0.0/screenfull.js"></script>
+    <script type="text/javascript" src="scripts/angular/angular-screenfull.js"></script>
+    <script type="text/javascript" src="scripts/angular/saveHtmlToPdf.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/Directives/FormatDirective.js"></script>
+    <script src="app/Controllers/autenticacionController.js"></script>
+    <script src="app/Controllers/EmpleadosController.js"></script>
+    <script src="app/Controllers/ClientesController.js"></script>
+    <script src="app/Controllers/MainController.js"></script>
+    <script src="app/Controllers/SolicitudesController.js"></script>
+    <script src="app/Factories/InterceptorFactory.js"></script>
+    <script src="app/Factories/MainFactory.js"></script>
+    <script src="app/Factories/usuariosFactory.js"></script>
+    <script src="app/Factories/puestosFactory.js"></script>
+    <script src="app/Factories/permisosFactory.js"></script>
+    <script src="app/Factories/paginasFactory.js"></script>
+    <script src="app/Factories/EmpleadosFactory.js"></script>
+    <script src="app/Factories/BancosFactory.js"></script>
+    <script src="app/Factories/ClientesFactory.js"></script>
+    <script src="app/Factories/SolicitudesFactory.js"></script>
+</body>
+
+</html>

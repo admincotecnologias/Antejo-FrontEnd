@@ -1,0 +1,680 @@
+<div class="main-page">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="panel panel-default widget-shadow">
+                <div class="panel-heading text-center">Solicitudes
+                    <div class="btn-group pull-right">
+                        <button id="nuevoCliente" data-toggle="modal" ng-click="onClickTab(tabs[0])" data-target="#Nueva_Solicitud_modal" class="btn btn-default">Agregar Solicitud</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="table-scroll scrollbar1">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Cliente</th>
+                                    <th class="text-center">Proyecto</th>
+                                    <th class="text-center hidden-xs hidden-sm">Monto Solicitado</th>
+                                    <th class="text-center hidden-xs hidden-sm">Fecha de Solicitud</th>
+                                    <th class="text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="applications!=null" class="nga-fast nga-stagger nga-slide-up">
+                                <tr style="border-bottom: 1px solid #ddd" ng-repeat="application in applications | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                    <td class="text-left">{{application.businessname}}</td>
+                                    <td class="text-center">{{application.projectname}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{application.amountrequest | currency:""}}$</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{application.applicationdate.split("-")[2]+"/"+application.applicationdate.split("-")[1]+"/"+application.applicationdate.split("-")[0]}}</td>
+                                    <td class="text-center">
+                                        <div class=" btn-group-sm">
+                                            <a ng-click="showApplication(application.id)" data-toggle="modal" data-target="#Update_Application_modal" class="btn btn-default"><i class="material-icons">mode_edit</i></a>
+                                            <a ng-click="DeleteClient(client.id)" class="btn btn-default fontSmall"><i class="material-icons">delete</i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Nueva_Solicitud_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title">Nueva Solicitud</h5>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-pills" style="margin-bottom: 5px;">
+                        <li ng-repeat="tab in tabs" ng-if="$index<3" ng-class="{active:isActiveTab(tab.url)}"><a>{{tab.title}}</a></li>
+                    </ul>
+                    <form ng-show="isActiveTab('solicitud.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="DataBasica_add">
+                        <table class="table table-bordered" style="padding-bottom:0px;margin-bottom: 2px;">
+                            <tr>
+                                <th class="text-center">Cliente:</th>
+                                <td class="text-center" colspan="3">
+                                    <div class="form-group fixImg">
+                                        <select ng-options="option.businessname for option in ModalNuevoSolicitud.Clients track by option.id" ng-model="ModalNuevoSolicitud.selectClient" class="form-control">
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Monto solicitado:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" placeholder="Monto Solicitado" ng-model="ModalNuevoSolicitud.amountrequest" format="number" required>
+                                    </div>
+                                </td>
+                                <th class="text-center">Fecha de Solicitud:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="Date" class="form-control" id="txt_Apellido_Empleado" placeholder="Fecha de Solicitud" ng-model="ModalNuevoSolicitud.applicationdate" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Lugar:</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" placeholder="Lugar de solicitud" ng-model="ModalNuevoSolicitud.place" min="0" required>
+                                    </div>
+                                </td>
+                                <th class="text-center">Plazo de credito (en meses):</th>
+                                <td>
+                                    <div class="form-group fixImg">
+                                        <input type="number" class="form-control" placeholder="# de meses" ng-model="ModalNuevoSolicitud.creditterm" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center" colspan="2">Nombre de proyecto:</th>
+                                <td colspan="2">
+                                    <div class="form-group fixImg">
+                                        <input type="text" class="form-control" placeholder="Proyecto" ng-model="ModalNuevoSolicitud.projectname">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[1])" ng-disabled="DataBasica_add.$invalid">Siguiente</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <form ng-show="isActiveTab('archivos.tpl.html')" name="files_Add_Application">
+                        <div class="row">
+                            <div ng-repeat="file in filesApp" class="col-sm-2 text-center nga-default nga-stagger nga-fade">
+                                <span class="label label-default" style="margin-right: .5em">{{file.name}} <a class="btn_label" ng-click="deleteFiles($index)"><i class="txt-White">&times;</i></a></span>
+                            </div>
+                        </div>
+                        <div id="dropzone">
+                            <div>Arrastra tus archivos o haz click.</div>
+                            <input type="file" ngf-select="AddFile($file)" />
+                        </div>
+                        <div class="row">
+                            <div class="pull-left">
+                                <a class="btn btn-default" ng-click="onClickTab(tabs[0])" style="margin-right:.5em ">Volver</a>
+                            </div>
+                            <div class="pull-right">
+                                <a class="btn btn-default" ng-click="onClickTab(tabs[2])" style="margin-right:.5em ">Siguiente</a>
+                            </div>
+                        </div>
+                    </form>
+                    <form ng-show="isActiveTab('aval.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="InfoBasica_add">
+                        <div ng-if="ModalNuevoSolicitud.avales.length>0" class="row nga-default nga-stagger nga-fade">
+                            <div ng-repeat="aval in ModalNuevoSolicitud.avales" class="col-sm-2 text-center nga-default nga-stagger nga-fade">
+                                <span class="label label-default" ng-if="showNameAval(aval,'Moral')">{{aval.selectClient_aval.businessname}} <a class="btn_label" ng-click="DeleteAval($index)"><i class="txt-White">&times;</i></a></span>
+                                <span class="label label-default" ng-if="showNameAval(aval,'Fisica')">{{aval.name}} {{aval.lastname}} <a class="btn_label" ng-click="DeleteAval($index)"><i class="txt-White">&times;</i></a></span>
+                            </div>
+                        </div>
+                        <div class="scrollbar scrollbar1" style="height:320px">
+                            <table class="table table-bordered table-condensed">
+                                <tr>
+                                    <th class="text-center">Tipo de aval:
+                                        <form name="optradio_add">
+                                            <div class="radio-inline">
+                                                <label><input type="radio" name="optradio_add" ng-model="ModalNuevoSolicitud.aval.typeguarantee" value="Moral">Moral</label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <label><input type="radio" ng-click="viewObject()" name="optradio_add" ng-model="ModalNuevoSolicitud.aval.typeguarantee" value="Fisica">Fisica</label>
+                                            </div>
+                                        </form>
+                                    </th>
+                                    <th class="text-center">AVAL:</th>
+                                    <td colspan="2" ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Moral'">
+                                        <div class="form-group fixImg">
+                                            <select name="sel_aval_add" ng-options="option.businessname for option in ModalNuevoSolicitud.Clients track by option.id" ng-model="ModalNuevoSolicitud.aval.selectClient_aval" class="form-control fixImg">
+                                        </select>
+                                        </div>
+                                    </td>
+                                    <td ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                        <div class="form-group fixImg">
+                                            <input name="name_aval_add" type="text" class="form-control" placeholder="Nombre" ng-model="ModalNuevoSolicitud.aval.name">
+                                        </div>
+                                    </td>
+                                    <td ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                        <div class="form-group fixImg">
+                                            <input name="lastname_aval_add" type="text" class="form-control" placeholder="Apellido" ng-model="ModalNuevoSolicitud.aval.lastname">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">RFC:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input id="rfc_aval_add" name="rfc_aval_add" format="RFC" type="text" class="form-control" placeholder="RFC" ng-model="ModalNuevoSolicitud.aval.rfc">
+                                        </div>
+                                    </td>
+                                    <th class="text-center">CURP:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input name="curp_aval_add" type="text" format="CURP" class="form-control" placeholder="CURP" ng-model="ModalNuevoSolicitud.aval.curp">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Fecha de Nacimiento:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input name="birth_aval_add" type="date" class="form-control" ng-model="ModalNuevoSolicitud.aval.birthday">
+                                        </div>
+                                    </td>
+                                    <th class="text-center">Nacionalidad:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input name="nacionalidad_aval_add" type="text" class="form-control" placeholder="Nacionalidad" ng-model="ModalNuevoSolicitud.aval.nacionality">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Lugar de Nacimiento:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Lugar de Nacimiento" ng-model="ModalNuevoSolicitud.aval.country">
+                                        </div>
+                                    </td>
+                                    <th class="text-center">Telefono:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="text" format="phone" class="form-control" placeholder="Telefono" ng-model="ModalNuevoSolicitud.aval.phone">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Dirección:</th>
+                                    <td colspan="3">
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Dirección" ng-model="ModalNuevoSolicitud.aval.address">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Correo Electronico:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="email" format="email" class="form-control" placeholder="Email" ng-model="ModalNuevoSolicitud.aval.email">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <form name="optradio_edocivil_add">
+                                            <div class="radio-inline">
+                                                <label><input type="radio" name="optradio_edocivil_add" ng-model="ModalNuevoSolicitud.aval.maritalstatus" value="Casado">Casado</label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <label><input type="radio" name="optradio_edocivil_add" ng-model="ModalNuevoSolicitud.aval.maritalstatus" value="Soltero">Soltero</label>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <select ng-options="option.name for option in ModalNuevoSolicitud.aval.statusmarital track by option.id" ng-disabled="ModalNuevoSolicitud.aval.maritalstatus!='Casado'" ng-model="ModalNuevoSolicitud.aval.regimen" class="form-control fixImg"></select>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Relación con el solicitante:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Parentesco o Relación" ng-model="ModalNuevoSolicitud.aval.relationship">
+                                        </div>
+                                    </td>
+                                    <th class="text-center">Lugar de Trabajo:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Empresa de trabajo" ng-model="ModalNuevoSolicitud.aval.companyjob">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Telefono de Trabajo:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="text" format="phone" class="form-control" placeholder="Telefono" ng-model="ModalNuevoSolicitud.aval.phonejob">
+                                        </div>
+                                    </td>
+                                    <th class="text-center">Puesto:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="text" class="form-control" placeholder="Puesto de trabajo" ng-model="ModalNuevoSolicitud.aval.occupation">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr ng-show="ModalNuevoSolicitud.aval.typeguarantee=='Fisica'">
+                                    <th class="text-center">Antigüedad:</th>
+                                    <td>
+                                        <div class="form-group fixImg">
+                                            <input type="date" class="form-control" placeholder="Antigüedad" ng-model="ModalNuevoSolicitud.aval.oldwork">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="pull-left">
+                                            <a class="btn btn-default" ng-click="onClickTab(tabs[1])" style="margin-right:.5em ">Volver</a>
+                                            <a class="btn btn-default " ng-click="addAval()">Agregar</a>
+                                        </div>
+                                        <div class="btn-group pull-right">
+                                            <button class="btn btn-success pull-right" ng-disabled="ModalNuevoSolicitud.avales.length<1" ng-click="AddSolicitud()">Guardar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="margin-top:0px">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div id="Update_Application_modal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title">Editar Solicitud</h5>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-pills" style="margin-bottom: 5px;">
+                    <li ng-repeat="tab in tabs" ng-class="{active:isActiveTab(tab.url)}"><a>{{tab.title}}</a></li>
+                </ul>
+                <div class="row" style="margin:1em">
+                    <div class="col-sm-3">
+                        <h4>Status: <span class="label label-default">{{ModalUpdateSolicitud.application.status}}</span> </h4>
+                    </div>
+                </div>
+                <form ng-show="isActiveTab('solicitud.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="DataBasica_up">
+                    <table class="table table-bordered" style="padding-bottom:0px;margin-bottom: 2px;">
+                        <tr>
+                            <th class="text-center">Cliente:</th>
+                            <td class="text-center" colspan="3">
+                                <div class="form-group fixImg">
+                                    <input class="form-control" ng-model="ModalUpdateSolicitud.application.client" type="text" ng-disabled="ModalUpdateSolicitud.application.status!='Pendiente'">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Monto solicitado:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="text" class="form-control" placeholder="Monto Solicitado" ng-model="ModalUpdateSolicitud.application.amountrequest" format="number" ng-disabled="ModalUpdateSolicitud.application.status!='Pendiente'" required>
+                                </div>
+                            </td>
+                            <th class="text-center">Fecha de Solicitud:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="Date" class="form-control" id="txt_Apellido_Empleado" placeholder="Fecha de Solicitud" ng-model="ModalUpdateSolicitud.application.applicationdate" ng-disabled="ModalUpdateSolicitud.application.status!='Pendiente'" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Lugar:</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="text" class="form-control" placeholder="Lugar de solicitud" ng-model="ModalUpdateSolicitud.application.place" min="0" ng-disabled="ModalUpdateSolicitud.application.status!='Pendiente'" required>
+                                </div>
+                            </td>
+                            <th class="text-center">Plazo de credito (en meses):</th>
+                            <td>
+                                <div class="form-group fixImg">
+                                    <input type="number" class="form-control" placeholder="# de meses" ng-model="ModalUpdateSolicitud.application.creditterm" ng-disabled="ModalUpdateSolicitud.application.status!='Pendiente'" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center" colspan="2">Nombre de proyecto:</th>
+                            <td colspan="2">
+                                <div class="form-group fixImg">
+                                    <input type="text" class="form-control" placeholder="Proyecto" ng-model="ModalUpdateSolicitud.application.projectname" ng-disabled="ModalUpdateSolicitud.application.status!='Pendiente'" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[1])" ng-disabled="DataBasica.$invalid">Siguiente</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <form ng-show="isActiveTab( 'archivos.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="files_up">
+                    <div class="scrollbar scrollbar1" style="height:320px">
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" class="text-center">Nombre</th>
+                                    <th class="text-center">Descargar</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="ModalUpdateSolicitud.files.length>0">
+                                <tr ng-repeat="file in ModalUpdateSolicitud.files">
+                                    <td colspan="4">
+                                        <h4>{{file.name}}</h4>
+                                    </td>
+                                    <td class="center text-center">
+                                        <a class="btn btn-default" ng-click="DownloadFile(file.id)"><i class="material-icons">file_download</i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="ModalUpdateSolicitud.files.length==0">
+                                <tr>
+                                    <th colspan="5" class="text-center">No hay Archivos.</th>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="pull-left">
+                                        <a class="btn btn-default" ng-click="onClickTab(tabs[0])">Volver</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-default" ng-click="onClickTab(tabs[2])" ng-disabled="InfoBasica.$invalid">Siguiente</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+                <form ng-show="isActiveTab( 'aval.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="InfoBasica_up">
+                    <div class="scrollbar scrollbar1" style="height:320px">
+                        <table class="table table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-center">Nombre</th>
+                                    <th class="text-center">Tipo de Aval</th>
+                                    <th class="text-center">RFC</th>
+                                    <th class="text-center">Ver Datos</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="ModalUpdateSolicitud.creditaids.length>0" ng-repeat="aval in ModalUpdateSolicitud.creditaids">
+                                <tr>
+                                    <td colspan="2">
+                                        <h4 data-ng-if="aval.businessname">{{aval.businessname}}</h4>
+                                        <h4 data-ng-if="aval.typeguarantee">{{aval.name}} {{aval.lastname}}</h4>
+                                    </td>
+                                    <td>
+                                        <h4 data-ng-if="aval.typeguarantee">Fisica</h4>
+                                        <h4 data-ng-if="aval.businessname">Moral</h4>
+                                    </td>
+                                    <td>
+                                        <h4>{{aval.rfc}}</h4>
+                                    </td>
+                                    <td class="center text-center">
+                                        <a class="btn btn-default" data-toggle="collapse" data-target="#{{aval.rfc}}"><i class="material-icons">info</i></a>
+                                    </td>
+                                </tr>
+                                <tr id="{{aval.rfc}}" class="collapse nga-fast nga-fade nga-slide-down">
+                                    <td colspan="5">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <td>{{aval.email}}</td>
+                                                    <th>Telefono</th>
+                                                    <td colspan="2">{{aval.phone}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Dirección</th>
+                                                    <td colspan="3">{{aval.address}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="ModalUpdateSolicitud.creditaids.length==0">
+                                <tr>
+                                    <th colspan="5" class="text-center">No hay Avales.</th>
+                                </tr>
+                            </tbody>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="pull-left">
+                                        <a class="btn btn-default" ng-click="onClickTab(tabs[1])">Volver</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[3])" ng-disabled="InfoBasica.$invalid">Siguiente</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+                <form ng-show="isActiveTab( 'autorizar.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="CheckList_up">
+                   <div ngsf-fullscreen>
+                       <table class="table table-condensed table-bordered" ng-if="ModalUpdateSolicitud.application.status == 'Pendiente'">
+                           <tr>
+                               <td>
+                                   <div class="checkbox">
+                                       <label><input type="checkbox" value="true" ng-model="op_1" required>Option 1</label>
+                                   </div>
+                               </td>
+                               <td>
+                                   <div class="checkbox">
+                                       <label><input type="checkbox" value="true" ng-model="op_2" required>Option 2</label>
+                                   </div>
+                               </td>
+                               <td>
+                                   <div class="checkbox">
+                                       <label><input type="checkbox" value="true" ng-model="op_3" required>Option 3</label>
+                                   </div>
+                               </td>
+                               <td>
+                                   <div class="checkbox">
+                                       <label><input type="checkbox" value="true" ng-model="op_4">Option 4</label>
+                                   </div>
+                               </td>
+                               <td>
+                                   <div class="checkbox">
+                                       <label><input type="checkbox" value="true" ng-model="op_5">Option 5</label>
+                                   </div>
+                               </td>
+                               <td class="text-center">
+                                   <button class="btn btn-default center-block text-center" ng-click="autorizarSolicitud()" ng-disabled="CheckList_up.$invalid">Autorizar</button>
+                               </td>
+                           </tr>
+                       </table>
+                       <div ng-show="ModalUpdateSolicitud.application.status == 'Pre-Autorización'">
+                           <table class="print table" >
+                               <thead>
+                               <tr>
+                                   <th class="text-center" colspan="6">
+                                       <h3>Tabla de Amortización</h3>
+                                   </th>
+                               </tr>
+                               </thead>
+                               <tbody>
+                               <tr>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Monto:</label>
+                                           <input class="form-control" ng-value="ModalUpdateSolicitud.application.amountrequest" value="0" ng-model="capital_balance_up" format="number" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Interes Anual:</label>
+                                           <input class="form-control" ng-model="interest_up" format="float" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Interes Moratorio:</label>
+                                           <input class="form-control" ng-value="0" ng-model="interest_arrear_up" format="float" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>IVA:</label>
+                                           <input class="form-control" ng-value="16" ng-model="iva_up" format="float" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Número de Meses:</label>
+                                           <input class="form-control" ng-model="month_up" type="number" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Dias de Gracia:</label>
+                                           <input class="form-control" ng-model="days_up" type="number" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Fecha Inicial:</label>
+                                           <input class="form-control" ng-model="date_app_up" type="date" ng-change="CalcularCredito(1)">
+                                       </div>
+                                   </td>
+                                   <td>
+                                       <div class="form-group">
+                                           <label>Tipo de Cambio:</label>
+                                           <select class="form-control" ng-model="sel_currency_up">
+                                               <option value="MXN">Pesos MXN</option>
+                                               <option value="USD">Dolares USD</option>
+                                           </select>
+                                       </div>
+                                   </td>
+                                   <td colspan="4">
+                                       <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="false">Vista Previa</a>
+                                       <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="true">Cerrar</a>
+                                   </td>
+                               </tr>
+                               </tbody>
+                           </table>
+                           <div class="tabla-amortizacion" show-if-fullscreen="true">
+                               <table class="table">
+                                   <thead>
+                                   <tr>
+                                       <th class="text-center">
+                                           Periodo
+                                       </th>
+                                       <th class="text-center">
+                                           Fecha
+                                       </th>
+                                       <th class="text-center">
+                                           Intereses
+                                       </th>
+                                       <th class="text-center">
+                                           IVA
+                                       </th>
+                                       <th class="text-center">
+                                           Saldo Capital
+                                       </th>
+                                       <th class="text-center">
+                                           Saldo Interes
+                                       </th>
+                                       <th class="text-center">
+                                           Saldo IVA
+                                       </th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>
+                                   <tr ng-repeat="item in TablaAmortizacion_up">
+                                       <td>
+                                           {{item.month}}
+                                       </td>
+                                       <td>
+                                           {{item.date_app | date :  "dd.MM.yyyy" }}
+                                       </td>
+                                       <td>
+                                           {{item.interest | currency:"$":2}}
+                                       </td>
+                                       <td>
+                                           {{item.iva | currency:"$":2}}
+                                       </td>
+                                       <td>
+                                           {{item.capital_balance | currency:"$":2}}
+                                       </td>
+                                       <td>
+                                           {{item.interest_balance | currency:"$":2}}
+                                       </td>
+                                       <td>
+                                           {{item.iva_balance | currency:"$":2}}
+                                       </td>
+                                   </tr>
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="margin-top:0px">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+
+        $('#dropzone').on('dragover', function() {
+            $(this).addClass('hover');
+        });
+
+        $('#dropzone').on('dragleave', function() {
+            $(this).removeClass('hover');
+        });
+
+        $('#dropzone input').on('change', function(e) {
+            var file = this.files[0];
+
+            $('#dropzone').removeClass('hover');
+
+            if (this.accept && $.inArray(file.type, this.accept.split(/, ?/)) == -1) {
+                return alert('File type not allowed.');
+            }
+
+            $('#dropzone').addClass('dropped');
+            $('#dropzone img').remove();
+
+            if ((/^image\/(gif|png|jpeg|jpg)$/i).test(file.type)) {
+                var reader = new FileReader(file);
+
+                reader.readAsDataURL(file);
+
+                reader.onload = function(e) {
+                    var data = e.target.result,
+                        $img = $('<img />').attr('src', data).fadeIn();
+
+                    $('#dropzone div').html($img);
+                };
+            } else {
+                var ext = file.name;
+
+                $('#dropzone div').html(ext);
+            }
+        });
+    });
+</script>
