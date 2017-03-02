@@ -35,7 +35,11 @@ antejo.directive('format', ['$filter', function($filter) {
                         elem.val(newVal);
                         var Regex = /^[A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3}$/;
                         if (!Regex.test(newVal)) {
-                            elem.parent('div').addClass('has-error');
+                            if(newVal != ""){
+                                elem.parent('div').addClass('has-error');
+                            }else{
+                                elem.parent('div').removeClass('has-error');
+                            }
                             ctrl.$setValidity("RFC Incorrecto",false)
                         } else {
                             elem.parent('div').removeClass('has-error');
@@ -51,7 +55,11 @@ antejo.directive('format', ['$filter', function($filter) {
                         elem.val(newVal);
                         var Regex = /^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/;
                         if (!Regex.test(newVal)) {
-                            elem.parent('div').addClass('has-error');
+                            if(newVal != ""){
+                                elem.parent('div').addClass('has-error');
+                            }else{
+                                elem.parent('div').removeClass('has-error');
+                            }
                             ctrl.$setValidity("CURP Incorrecto",false)
                         } else {
                             elem.parent('div').removeClass('has-error');
@@ -68,7 +76,11 @@ antejo.directive('format', ['$filter', function($filter) {
                         elem.val(newVal);
                         var Regex = /^[0-9]{10}$/;
                         if (!Regex.test(newVal)) {
-                            elem.parent('div').addClass('has-error');
+                            if(newVal != ""){
+                                elem.parent('div').addClass('has-error');
+                            }else{
+                                elem.parent('div').removeClass('has-error');
+                            }
                             ctrl.$setValidity("Tel. Incorrecto",false)
                         } else {
                             elem.parent('div').removeClass('has-error');
@@ -84,7 +96,11 @@ antejo.directive('format', ['$filter', function($filter) {
                         elem.val(newVal);
                         var Regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
                         if (!Regex.test(newVal)) {
-                            elem.parent('div').addClass('has-error');
+                            if(newVal != ""){
+                                elem.parent('div').addClass('has-error');
+                            }else{
+                                elem.parent('div').removeClass('has-error');
+                            }
                             ctrl.$setValidity("Email Incorrecto",false)
                         } else {
                             elem.parent('div').removeClass('has-error');
