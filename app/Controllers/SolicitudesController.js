@@ -204,6 +204,11 @@ antejo.controller('ApplicationCtrl', ['$scope', '$http', '$filter', 'SweetAlert'
             ApplicationsFact.allApplication(function(solicitudes) {
                 if (Array.isArray(solicitudes)) {
                     $scope.applications = solicitudes;
+                    setTimeout(function () {
+                        $(function () {
+                            $('[data-toggle="tooltip"]').tooltip()
+                        })
+                    },500);
                 } else {
                     $scope.applications = null;
                 }
@@ -320,6 +325,30 @@ antejo.controller('ApplicationCtrl', ['$scope', '$http', '$filter', 'SweetAlert'
                 break;
             }
         }
+    }
+    $scope.AutorizarCredito = function () {
+        var json = {
+            application:$scope.ModalUpdateSolicitud.application.id,
+            type:1,
+            amount:parseFloat($scope.capital_balance_up),
+            start_date: $scope.date_app_up,
+            term: parseInt($scope.month_up),
+            interest:parseFloat($scope.interest_up),
+            iva: parseFloat($scope.iva_up),
+            interest_arrear: parseFloat($scope.interest_arrear_up),
+            grace_days:parseInt($scope.days_up),
+            currency:$scope.sel_currency_up
+        }
+        ApplicationsFact.addCreditApproved(json).then(function(response){
+            if(response.error==true){
+                SweetAlert.swal("Error", response.message, "error");
+            }else{
+                SweetAlert.swal("Guardado", "Credito guardado.", "success");
+                $scope.allSolicitudes();
+            }
+        },function (error) {
+            SweetAlert.swal("Error", "No se pudo conectar con el servidor.", "error");
+        })
     }
 
 

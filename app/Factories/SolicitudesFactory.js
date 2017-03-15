@@ -24,6 +24,12 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
         }
         return $http.post(apiUrl + "/Solicitudes/add", json);
     }
+    var addCreditApproved = function(obj) {
+        var json = obj;
+
+
+        return $http.post(apiUrl + "/Credits/add", json);
+    }
 
     var AddFile = function(obj, idapp) {
         var formdata = new FormData();
@@ -70,6 +76,7 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
         AddFile: AddFile,
         allApplication: AllApplication,
         showApplication: ShowApplication,
-        DownloadFile: DownloadFile
+        DownloadFile: DownloadFile,
+        addCreditApproved:addCreditApproved
     };
 }]);

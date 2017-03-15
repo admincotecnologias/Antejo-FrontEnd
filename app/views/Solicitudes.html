@@ -12,6 +12,7 @@
                         <table class="table table-striped table-condensed">
                             <thead>
                                 <tr>
+                                    <th class="text-center hidden-xs hidden-sm">Status</th>
                                     <th class="text-center">Cliente</th>
                                     <th class="text-center">Proyecto</th>
                                     <th class="text-center hidden-xs hidden-sm">Monto Solicitado</th>
@@ -21,6 +22,19 @@
                             </thead>
                             <tbody ng-if="applications!=null" class="nga-fast nga-stagger nga-slide-up">
                                 <tr style="border-bottom: 1px solid #ddd" ng-repeat="application in applications | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                    <td class="text-center hidden-xs hidden-sm">
+                                        <div ng-switch="application.status">
+                                            <div ng-switch-when="Pendiente">
+                                                <i class="material-icons text-warning" data-toggle="tooltip" data-placement="top" title="{{application.status}}">fiber_manual_record</i>
+                                            </div>
+                                            <div ng-switch-when="Autorizado">
+                                                <i class="material-icons" style="color: darkgreen" data-toggle="tooltip" data-placement="top" title="{{application.status}}">fiber_manual_record</i>
+                                            </div>
+                                            <div ng-switch-when="Rechazado">
+                                                <i class="material-icons" style="color: darkred" data-toggle="tooltip" data-placement="top" title="{{application.status}}">fiber_manual_record</i>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td class="text-left">{{application.businessname}}</td>
                                     <td class="text-center">{{application.projectname}}</td>
                                     <td class="text-left hidden-xs hidden-sm">{{application.amountrequest | currency:""}}$</td>
@@ -567,6 +581,7 @@
                                    <td colspan="4">
                                        <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="false">Vista Previa</a>
                                        <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="true">Cerrar</a>
+                                       <a class="btn btn-default pull-right" ng-click="AutorizarCredito()" ngsf-toggle-fullscreen show-if-fullscreen="false">Autorizar</a>
                                    </td>
                                </tr>
                                </tbody>
