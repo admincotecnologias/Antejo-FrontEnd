@@ -1,0 +1,136 @@
+<div id="modalPagos" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Agregar Pago</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr style="padding: 0;margin: 0">
+                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago</th>
+                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                            <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                <input class="form-control" format="number" ng-model="modalpay.pay" ng-change="CalcularPago()">
+                            </div>
+                        </td>
+                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
+                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                            <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                <input class="form-control" type="date" ng-model="modalpay.date">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="padding: 0;margin: 0">
+                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Moneda</th>
+                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                            <select class="form-control" ng-model="modalpay.sel_moneda">
+                                <option value="MXN" selected>Pesos MXN</option>
+                                <option value="USD">Dolares USD</option>
+                            </select>
+                        </td>
+                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Tipo de Cambio</th>
+                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                            <div class="form-group" style="margin: 0">
+                                <input class="form-control" ng-model="modalpay.currency" ng-disabled="modalpay.sel_moneda!='USD'" format="number">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="margin: 0">
+                                        <label for="calcMonto" class="label txt-Black">Capital</label>
+                                        <input name="calcMonto" class="form-control" ng-model="calcMonto" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="margin: 0">
+                                        <label for="calcInteres" class="label txt-Black">Interes</label>
+                                        <input name="calcInteres" class="form-control" ng-model="calcInterest" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="margin: 0">
+                                        <label for="calcIva" class="label txt-Black">IVA</label>
+                                        <input name="calcIva" class="form-control" ng-model="calcIva" ng-disabled="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="padding: 0;margin: 0">
+                        <td colspan="4" class="text-center" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                            Arrastra tu comprobante(s) o haz click.
+                            <div id="dropzone" style="height: 100px">
+                                <div>
+                                    <br>
+                                    <i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>
+                                </div>
+                                <input type="file" ngf-select="AddFile($file)" style="width: 100%" />
+                            </div>
+                            <div class="row">
+                                    <h4 class="label label-default" ng-repeat="file in modalpay.file" style="margin: 5px;float: left;">{{file.name}}
+                                        <button type="button" class="close" aria-label="Close" style="margin-left: 5px;:" ng-click="deleteFile($index)">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </h4>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-default" ng-click="insertCondition()">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function() {
+
+        $('#dropzone').on('dragover', function() {
+            $(this).addClass('hover');
+        });
+
+        $('#dropzone').on('dragleave', function() {
+            $(this).removeClass('hover');
+        });
+
+        $('#dropzone input').on('change', function(e) {
+            var file = this.files[0];
+
+            $('#dropzone').removeClass('hover');
+
+            if (this.accept && $.inArray(file.type, this.accept.split(/, ?/)) == -1) {
+                return alert('File type not allowed.');
+            }
+
+            $('#dropzone').addClass('dropped');
+            $('#dropzone img').remove();
+
+            if ((/^image\/(gif|png|jpeg|jpg)$/i).test(file.type)) {
+                var reader = new FileReader(file);
+
+                reader.readAsDataURL(file);
+
+                reader.onload = function(e) {
+                    var data = e.target.result,
+                        $img = $('<img />').attr('src', data).fadeIn();
+
+                    $('#dropzone div').html($img);
+                };
+            } else {
+                var ext = file.name;
+
+                $('#dropzone div').html(ext);
+            }
+        });
+    });
+</script>

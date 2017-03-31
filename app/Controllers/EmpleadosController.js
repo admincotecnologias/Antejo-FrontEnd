@@ -94,6 +94,7 @@ antejo.controller("EmpleadosCtrl", ['$scope', '$http', 'UserFact', 'EmployeesFac
                                 }
                             },
                             function(error) {
+                                console.log(error)
                                 SweetAlert.swal("Error", "No se pudo conectar con el servidor", "error");
                             }
                         );

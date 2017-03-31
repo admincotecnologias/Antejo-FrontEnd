@@ -71,7 +71,7 @@ antejo.directive('format', ['$filter', function($filter) {
                 }
                 case "phone": {
                     scope.$watch(attrs.ngModel,function (newVal,oldVal) {
-                        newVal = newVal.toString().replace(/[^\d]/, '');
+                        newVal = newVal!=null?newVal.toString().replace(/[^\d]/, ''):'';
                         newVal = newVal.toString().toUpperCase().trim();
                         elem.val(newVal);
                         var Regex = /^[0-9]{10}$/;
@@ -92,7 +92,7 @@ antejo.directive('format', ['$filter', function($filter) {
                 }
                 case "email": {
                     scope.$watch(attrs.ngModel,function (newVal,oldVal) {
-                        newVal = newVal.toString().toLowerCase().trim();
+                        newVal = newVal!=null? newVal.toString().toLowerCase().trim():'';
                         elem.val(newVal);
                         var Regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
                         if (!Regex.test(newVal)) {

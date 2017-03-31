@@ -15,10 +15,10 @@ antejo.controller('MainCtrl', ['$http', '$scope', 'MainFact', '$location', 'Auth
         //location.reload();
     }
     $scope.CurrentLocation = function() {
-        return $location.path().split('/').pop();
+        return $location.path().split('/')[1];
     }
     $scope.goTo = function(url, data) {
-        if ($location.path().split('/')[1] != url) {
+        if ($location.path().split('/')[1] != url || $location.path().split('/').length>2) {
             $location.path(url);
             if (data) {
                 window.setTimeout(function() {

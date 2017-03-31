@@ -105,13 +105,13 @@
                                 <td colspan="2">
                                     <div class="form-group fixImg">
                                         <label for="namemanager">Nombre:</label>
-                                        <input id="namemanager" type="text" class="form-control" placeholder="Nombre" ng-model="ModalNuevoCliente.legalrepresentativename" required>
+                                        <input id="namemanager" type="text" class="form-control" placeholder="Nombre" ng-model="ModalNuevoCliente.legalrepresentativename">
                                     </div>
                                 </td>
                                 <td colspan="2">
                                     <div class="form-group fixImg">
                                         <label for="lastnamemanager">Apellido:</label>
-                                        <input id="lastnamemanager" type="text" class="form-control" placeholder="Apellido" ng-model="ModalNuevoCliente.legalrepresentativelastname" required>
+                                        <input id="lastnamemanager" type="text" class="form-control" placeholder="Apellido" ng-model="ModalNuevoCliente.legalrepresentativelastname">
                                     </div>
                                 </td>
                             </tr>
@@ -146,7 +146,7 @@
                             </tr>
                             <tr>
                                 <td colspan="4">
-                                    <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[1])" ng-disabled="DataBasica.$invalid">Siguiente</button>
+                                    <button class="btn btn-default pull-right" ng-click="onClickTab(tabs[1])" ng-disabled="DataBasica.$invalid && ModalNuevoCliente.managers<1">Siguiente</button>
                                 </td>
                             </tr>
                         </table>

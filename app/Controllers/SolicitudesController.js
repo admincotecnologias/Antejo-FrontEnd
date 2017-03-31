@@ -199,7 +199,6 @@ antejo.controller('ApplicationCtrl', ['$scope', '$http', '$filter', 'SweetAlert'
             //$scope.modalpuesto.bancos = bancos.banks;
         });
     }
-
     $scope.allSolicitudes = function() {
             ApplicationsFact.allApplication(function(solicitudes) {
                 if (Array.isArray(solicitudes)) {
@@ -337,7 +336,10 @@ antejo.controller('ApplicationCtrl', ['$scope', '$http', '$filter', 'SweetAlert'
             iva: parseFloat($scope.iva_up),
             interest_arrear: parseFloat($scope.interest_arrear_up),
             grace_days:parseInt($scope.days_up),
-            currency:$scope.sel_currency_up
+            currency:$scope.sel_currency_up,
+            todo: $scope.todo_up,
+            extends:null,
+            status: 'Activo'
         }
         ApplicationsFact.addCreditApproved(json).then(function(response){
             if(response.error==true){

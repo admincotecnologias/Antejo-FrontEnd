@@ -169,6 +169,7 @@ button#activeMenu {
     outline: 0;
     width: 100%;
     text-align: left;
+    padding: 1vh;
 }
 
 .small-img {
@@ -576,7 +577,7 @@ li.dropdown.head-dpdn {
     float: left;
 }
 
-li.dropdown.head-dpdn:nth-child(3) {
+li.dropdown.head-dpdn:nth-last-child(1) {
     border-right: 1px solid #E0E0E0;
 }
 
@@ -1110,6 +1111,9 @@ ul.dropdown-menu.drp-mnu li {
     -moz-box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.21);
     -ms-box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.21);
     -o-box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.21);
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
 }
 
 .footer p {
@@ -4975,7 +4979,7 @@ fieldset[disabled] .form-control {
 
 #dropzone {
     position: relative;
-    border: 5px dotted black;
+    border: 3px dotted black;
     border-radius: 20px;
     color: black;
     font: bold 24px arial;
@@ -5020,8 +5024,32 @@ fieldset[disabled] .form-control {
     bottom: 0;
     left: 0;
 }
+.table-striped>tbody>tr:nth-of-type(odd).selectRow{
+    background-color: #363b69;
+    color: whitesmoke;
+}
+.selectRow{
+    background-color: #363b69;
+    color: whitesmoke;
+}
+.rotate-180 {
 
+    /* Safari */
+    -webkit-transform: rotate(-180deg);
 
+    /* Firefox */
+    -moz-transform: rotate(-180deg);
+
+    /* IE */
+    -ms-transform: rotate(-180deg);
+
+    /* Opera */
+    -o-transform: rotate(-180deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+}
 /*--//responsive-design---*/
 
 html {

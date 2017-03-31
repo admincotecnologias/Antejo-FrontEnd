@@ -1,0 +1,40 @@
+/**
+ * Created by Enrique on 17/03/2017.
+ */
+antejo.factory('CreditsFact', ['$http', function($http) {
+
+    var getCreditsApproved = function (callback) {
+        var json = {}
+        $http.get(apiUrl + "/Credits/all", json).then(function(response) {
+            console.log(response)
+            if (!response.data.error) {
+            callback(response.data);
+        } else {
+            callback(response.data);
+        }
+    }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
+        });
+    }
+    var showCredit = function (id,callback) {
+        var json = {}
+        $http.get(apiUrl + "/Credits/show/"+id,json).then(function (response) {
+            callback(response.data)
+        }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
+        });
+    }
+    var addCreditApproved = function(obj,callback) {
+        var json = obj;
+        $http.post(apiUrl + "/Credits/add", json).then(function (response) {
+            callback(response.data)
+        }).catch(function (param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param })
+        });
+    }
+    return{
+        GetAll:getCreditsApproved,
+        showCredit:showCredit,
+        addCondition:addCreditApproved
+    }
+}]);

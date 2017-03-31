@@ -1,4 +1,4 @@
-antejo.factory('ClientsFact', ['$http', function($http) {
+antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
 
     //CRUD
     var DeleteClients = function(id) {
@@ -15,7 +15,7 @@ antejo.factory('ClientsFact', ['$http', function($http) {
 
     var AddClients = function(obj) {
         var date = new Date(obj.constitutiondate);
-        var stringdate = "" + date.getDate() + '-' + date.getMonth() + 1 + '-' + date.getFullYear();
+        var stringdate = date;
         var json = {
             businessname: obj.businessname,
             employeenumber: obj.employeenumber == '' ? null : parseInt(obj.employeenumber),
