@@ -525,6 +525,15 @@
                                </thead>
                                <tbody>
                                <tr>
+                                   <td>Tipo de Credito</td>
+                                   <td>
+                                       <select class="form-control" ng-model="sel_type_up">
+                                           <option value="1">Pago al Final</option>
+                                           <option value="2">Revolvente</option>
+                                       </select>
+                                   </td>
+                               </tr>
+                               <tr>
                                    <td>
                                        <div class="form-group">
                                            <label>Monto:</label>
@@ -573,9 +582,6 @@
                                        <div class="form-group">
                                            <label>Tipo de Cambio:</label>
                                            <select class="form-control" ng-model="sel_currency_up">
-                                               <option value="MXN">Pesos MXN</option>
-                                               <option value="USD">Dolares USD</option>
-                                           </select><select class="form-control" ng-model="sel_currency_up">
                                                <option value="MXN">Pesos MXN</option>
                                                <option value="USD">Dolares USD</option>
                                            </select>

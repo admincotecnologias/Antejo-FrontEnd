@@ -30,7 +30,7 @@
                                         <div ng-switch-when="Activo">
                                             <i class="material-icons" style="color: darkgreen" data-toggle="tooltip" data-placement="top" title="{{credit.status}}">fiber_manual_record</i>
                                         </div>
-                                        <div ng-switch-when="Finalizado">
+                                        <div ng-switch-when="Liquidado">
                                             <i class="material-icons" style="color: darkred" data-toggle="tooltip" data-placement="top" title="{{credit.status}}">fiber_manual_record</i>
                                         </div>
                                     </div>
@@ -41,8 +41,9 @@
                                 <td class="text-center hidden-xs hidden-sm">{{credit.start_date.split("-")[2]+"/"+credit.start_date.split("-")[1]+"/"+credit.start_date.split("-")[0]}}</td>
                                 <td class="text-center">
                                     <div class=" btn-group-sm">
-                                        <a href="Creditos/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
-                                        <a ng-click="DeleteClient(credit.id)" class="btn btn-default fontSmall"><i class="material-icons">add</i></a>
+                                        <a ng-if="credit.type==1" href="Creditos/PagoFinal/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
+                                        <a ng-if="credit.type==2" href="Creditos/Revolvente/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
+                                        <a ng-click="DeleteClient(credit.id)" class="btn btn-default fontSmall"><i class="material-icons">assignment</i></a>
                                     </div>
                                 </td>
                             </tr>

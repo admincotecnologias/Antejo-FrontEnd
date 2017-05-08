@@ -1,9 +1,9 @@
-<div id="modalCondicion" class="modal fade" tabindex="-1" role="dialog">
+<div id="modalEditRevolvente" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Agregar Condición</h4>
+                <h4 class="modal-title">Editar Condición</h4>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-bordered">
@@ -18,7 +18,7 @@
                         <th>Meses</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" format="float" ng-model="CreditPadre.term" ng-disabled="true">
+                                <input class="form-control" type="number" format="float" ng-model="CreditPadre.term">
                             </div>
                         </td>
                     </tr>
@@ -45,9 +45,9 @@
                         </td>
                         <th>Fecha</th>
                         <td>
-                            <datepicker date-format="fullDate" date-min-limit="{{lastCredit.start_date}}" date-max-limit="{{DateNow}}" class="form-group">
-                                <input class="form-control" ng-model="CreditPadre.start_date">
-                            </datepicker>
+                            <div class="form-group">
+                                <input class="form-control" type="date" ng-model="CreditPadre.start_date">
+                            </div>
                         </td>
                     </tr>
                     <tr>

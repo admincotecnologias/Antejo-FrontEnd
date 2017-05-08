@@ -12,14 +12,14 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" format="number" ng-model="modalpay.pay" ng-change="CalcularPago()">
+                                <input class="form-control" format="number" ng-model="modalpay.pay" ng-change="CalcularPago()" ng-disabled="modalpay.date==''">
                             </div>
                         </td>
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                            <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" type="date" ng-model="modalpay.date">
-                            </div>
+                            <datepicker date-format="fullDate" date-min-limit="{{DateMin}}" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                <input class="form-control" ng-model="modalpay.date" readonly>
+                            </datepicker>
                         </td>
                     </tr>
                     <tr style="padding: 0;margin: 0">
@@ -81,11 +81,29 @@
                         </td>
                     </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            Pago para liquidar a la fecha seleccionada: <span class="label-default">{{liquidarmodal|currency}}</span>
+                        </td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-default" ng-click="insertCondition()">Agregar</button>
+                <button ng-if="CreditPadre.type==1" type="button" class="btn btn-default" ng-click="savePago()"
+                        ng-disabled="newMove.pay_capital>CreditPadre.amount">
+                    Agregar
+                    <span ng-show="newMove.pay_capital>CreditPadre.amount"
+                          class="label label-danger">Pago exedente.</span>
+                </button>
+                <button ng-if="CreditPadre.type==2" type="button" class="btn btn-default" ng-click="savePago()"
+                        ng-disabled="modalpay.pay>liquidarmodal">
+                    Agregar
+                   <span ng-show="modalpay.pay>liquidarmodal"
+                         class="label label-danger">Pago exedente.</span>
+                </button>
             </div>
         </div>
     </div>

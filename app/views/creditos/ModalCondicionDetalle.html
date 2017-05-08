@@ -1,9 +1,9 @@
-<div id="modalCondicion" class="modal fade" tabindex="-1" role="dialog">
+<div id="modalCondicionDetalle" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Agregar Condición</h4>
+                <h4 class="modal-title">Condición</h4>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-bordered">
@@ -12,13 +12,13 @@
                         <th>Capital</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" format="number" ng-disabled="CreditPadre.type!=2" ng-model="CreditPadre.amount" >
+                                <input class="form-control" format="number" ng-model="ModalDetalleCondicion.amount" readonly>
                             </div>
                         </td>
                         <th>Meses</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" format="float" ng-model="CreditPadre.term" ng-disabled="true">
+                                <input class="form-control" format="float" ng-model="ModalDetalleCondicion.term" ng-disabled="true" readonly>
                             </div>
                         </td>
                     </tr>
@@ -26,13 +26,13 @@
                         <th>Interes (%)</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" format="float" ng-model="CreditPadre.interest">
+                                <input class="form-control" format="float" ng-model="ModalDetalleCondicion.interest" readonly>
                             </div>
                         </td>
                         <th>Interes Moratorio (%)</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" format="number" ng-model="CreditPadre.interest_arrear">
+                                <input class="form-control" format="number" ng-model="ModalDetalleCondicion.interest_arrear" readonly>
                             </div>
                         </td>
                     </tr>
@@ -40,21 +40,19 @@
                         <th>IVA (%)</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" format="float" ng-model="CreditPadre.iva">
+                                <input class="form-control" format="float" ng-model="ModalDetalleCondicion.iva" readonly>
                             </div>
                         </td>
                         <th>Fecha</th>
                         <td>
-                            <datepicker date-format="fullDate" date-min-limit="{{lastCredit.start_date}}" date-max-limit="{{DateNow}}" class="form-group">
-                                <input class="form-control" ng-model="CreditPadre.start_date">
-                            </datepicker>
+                            <input class="form-control" value="{{ModalDetalleCondicion.start_date|date:'dd/MM/yyyy'}}" readonly>
                         </td>
                     </tr>
                     <tr>
                         <th>Comentario</th>
                         <td colspan="3">
                             <div class="form-group">
-                                <textarea class="form-control" ng-model="CreditPadre.todo" style="max-width: 400px"></textarea>
+                                <textarea class="form-control" ng-model="ModalDetalleCondicion.todo" style="max-width: 400px" readonly></textarea>
                             </div>
                         </td>
                     </tr>
@@ -63,7 +61,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-default" ng-click="insertCondition()">Agregar</button>
             </div>
         </div>
     </div>

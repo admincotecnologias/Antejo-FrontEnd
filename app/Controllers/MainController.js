@@ -1,4 +1,4 @@
-antejo.controller('MainCtrl', ['$http', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout', function($http, $scope, MainFact, $location, AuthFact, $timeout) {
+antejo.controller('MainCtrl', ['$http','$filter', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout', function($http,$filter, $scope, MainFact, $location, AuthFact, $timeout) {
     var timer;
     $scope.CheckLocal = MainFact.CheckLocal;
     $scope.username = MainFact.username;
@@ -44,5 +44,4 @@ antejo.controller('MainCtrl', ['$http', '$scope', 'MainFact', '$location', 'Auth
     $scope.$on('$locationChangeSuccess', function() {
         $scope.txt_filtro = "";
     });
-
 }]);

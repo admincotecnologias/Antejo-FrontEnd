@@ -32,9 +32,18 @@ antejo.factory('CreditsFact', ['$http', function($http) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param })
         });
     }
+    var addCreditPay = function(obj,callback) {
+        var json = obj;
+        $http.post(apiUrl + "/Credits/add/pay", json).then(function (response) {
+            callback(response.data)
+        }).catch(function (param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param })
+        });
+    }
     return{
         GetAll:getCreditsApproved,
         showCredit:showCredit,
-        addCondition:addCreditApproved
+        addCondition:addCreditApproved,
+        addCreditPay:addCreditPay
     }
 }]);

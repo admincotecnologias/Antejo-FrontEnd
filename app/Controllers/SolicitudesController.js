@@ -136,6 +136,7 @@ antejo.controller('ApplicationCtrl', ['$scope', '$http', '$filter', 'SweetAlert'
             if ($scope.validPersonaFisica_add() == true) {
                 $scope.ModalNuevoSolicitud.aval.regimen = $scope.ModalNuevoSolicitud.aval.regimen.name;
                 var data = angular.copy($scope.ModalNuevoSolicitud.aval);
+                data.idguarantee = null;
                 $scope.ModalNuevoSolicitud.avales.push(data);
                 clear = true;
             } else {
@@ -326,9 +327,10 @@ antejo.controller('ApplicationCtrl', ['$scope', '$http', '$filter', 'SweetAlert'
         }
     }
     $scope.AutorizarCredito = function () {
+        console.log($scope.sel_type_up)
         var json = {
             application:$scope.ModalUpdateSolicitud.application.id,
-            type:1,
+            type:parseInt($scope.sel_type_up),
             amount:parseFloat($scope.capital_balance_up),
             start_date: $scope.date_app_up,
             term: parseInt($scope.month_up),
