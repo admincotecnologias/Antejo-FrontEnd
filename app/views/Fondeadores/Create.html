@@ -1,0 +1,253 @@
+<div class="main-page">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="panel panel-default widget-shadow">
+                <div class="panel-heading text-center">
+                    Fondeadores
+                </div>
+                <div class="panel-body">
+                    <ul class="nav nav-pills nav-justified">
+                        <li role="presentation" class="active"><a href="#" ng-click="stock.menu='info'">Información</a></li>
+                        <li role="presentation" ng-show="stock.stockholders.id!=null && stock.stockholders.type=='Moral'"><a href="#" ng-click="stock.menu='manager'">Representantes</a></li>
+                        <li role="presentation" ng-show="stock.stockholders.id!=null"><a href="#" ng-click="stock.menu='banco'">Cuentas Bancarias</a></li>
+                    </ul>
+                    <div class="scrollbar1" style="overflow-y: auto;height: 50vh">
+                        <div ng-show="stock.menu=='info'">
+                            <form name="stockholderInfo">
+                                <div class="form-group col-sm-4">
+                                    <label for="tipo"> Tipo</label>
+                                    <select name="tipo" ng-model="stock.stockholders.type" class="form-control" required>
+                                        <option value="Fisica">Fisica</option>
+                                        <option value="Moral">Moral</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-8" ng-show="stock.stockholders.type=='Moral'">
+                                    <label for="name"> Razón Social</label>
+                                    <input name="name" type="text" class="form-control" placeholder="Nombre de la empresa" ng-model="stock.stockholders.businessname">
+                                </div>
+                                <div class="form-group col-sm-4" ng-show="stock.stockholders.type=='Fisica'">
+                                    <label for="name"> Nombre</label>
+                                    <input name="name" type="text" class="form-control" placeholder="Nombre" ng-model="stock.stockholders.name">
+                                </div>
+                                <div class="form-group col-sm-4" ng-show="stock.stockholders.type=='Fisica'">
+                                    <label for="lastname"> Apellido</label>
+                                    <input name="lastname" type="text" class="form-control" placeholder="Apellido" ng-model="stock.stockholders.lastname">
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="email"> Correo</label>
+                                    <input name="email" type="email" class="form-control" placeholder="email" ng-model="stock.stockholders.email" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="rfc"> RFC</label>
+                                    <input name="rfc" type="text" class="form-control" placeholder="Nombre" ng-model="stock.stockholders.rfc" format="RFC" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Teléfono</label>
+                                    <input name="phone" type="text" class="form-control" placeholder="Teléfono" ng-model="stock.stockholders.phone" format="phone" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Dirección</label>
+                                    <input name="phone" type="text" class="form-control" placeholder="Calle y Numero" ng-model="stock.stockholders.address" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Colonia</label>
+                                    <input name="phone" type="text" class="form-control" placeholder="Colonia" ng-model="stock.stockholders.colony" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Codigo Postal</label>
+                                    <input name="phone" type="number" class="form-control" placeholder="C.P." ng-model="stock.stockholders.postalcode" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Ciudad</label>
+                                    <input name="phone" type="text" class="form-control" placeholder="Ciudad" ng-model="stock.stockholders.city" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Estado</label>
+                                    <input name="phone" type="text" class="form-control" placeholder="Estado" ng-model="stock.stockholders.state" required>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label for="phone"> Nacionalidad</label>
+                                    <input name="phone" type="text" class="form-control" placeholder="País" ng-model="stock.stockholders.nationality" required>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="pull-right">
+                                        <button class="btn btn-default" ng-disabled="stockholderInfo.$invalid" ng-show="stock.stockholders.id==null" ng-click="stock.createStock()">
+                                            Guardar
+                                        </button>
+                                        <button class="btn btn-default" ng-disabled="stockholderInfo.$invalid" ng-show="stock.stockholders.id!=null" ng-click="stock.updateStock()">
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div ng-show="stock.menu=='manager'">
+                            <div class="col-sm-8">
+                            <form name="stockholderManager">
+                                    <div class="form-group col-sm-6">
+                                        <label for="name"> Nombre</label>
+                                        <input name="name" type="text" class="form-control" placeholder="Nombre" ng-model="stock.managerSelect.name" required>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="lastname"> Apellido</label>
+                                        <input name="lastname" type="text" class="form-control" placeholder="Apellido" ng-model="stock.managerSelect.lastname" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="email"> Correo</label>
+                                        <input name="email" type="email" class="form-control" placeholder="email" ng-model="stock.managerSelect.email" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="rfc"> RFC</label>
+                                        <input name="rfc" type="text" class="form-control" placeholder="Nombre" ng-model="stock.managerSelect.rfc" format="RFC" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="phone"> Teléfono</label>
+                                        <input name="phone" type="text" class="form-control" placeholder="Teléfono" ng-model="stock.managerSelect.phone" format="phone" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="dir"> Dirección</label>
+                                        <input name="dir" type="text" class="form-control" placeholder="Calle y Numero" ng-model="stock.managerSelect.address" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="col"> Colonia</label>
+                                        <input name="col" type="text" class="form-control" placeholder="Colonia" ng-model="stock.managerSelect.colony" required>
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label for="cp"> Codigo Postal</label>
+                                        <input name="cp" type="number" class="form-control" placeholder="C.P." ng-model="stock.managerSelect.postalcode" required>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="city"> Ciudad</label>
+                                        <input name="city" type="text" class="form-control" placeholder="Ciudad" ng-model="stock.managerSelect.city" required>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="state"> Estado</label>
+                                        <input name="state" type="text" class="form-control" placeholder="Estado" ng-model="stock.managerSelect.state" required>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="pull-left">
+                                            <button class="btn btn-default" ng-click="stock.clearManager()">
+                                                Limpiar
+                                            </button>
+                                        </div>
+                                        <div class="pull-right">
+                                            <button class="btn btn-default" ng-disabled="stockholderManager.$invalid"
+                                                    ng-show="stock.managerSelect.id==null" ng-click="stock.createManager()">
+                                                Guardar
+                                            </button>
+                                            <button class="btn btn-default" ng-disabled="stockholderManager.$invalid"
+                                                    ng-show="stock.managerSelect.id!=null" ng-click="stock.updateManager()">
+                                                Actualizar
+                                            </button>
+                                        </div>
+                                    </div>
+                            </form>
+                            </div>
+                            <div class="col-sm-4">
+                                <br>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="3">
+                                            <div class="text-center">Listado de Representantes</div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Apellido</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="manager in stock.managers">
+                                            <td class="text-left">{{manager.name}}</td>
+                                            <td class="text-left">{{manager.lastname}}</td>
+                                            <td class="text-right">
+                                                <button class="btn btn-default" ng-click="stock.selectManager(manager)">
+                                                    <i class="material-icons">
+                                                        mode_edit
+                                                    </i>
+                                                </button>
+                                                <button class="btn btn-default" ng-click="stock.deleteManager(manager)">
+                                                    <i class="material-icons">
+                                                        delete
+                                                    </i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div ng-show="stock.menu=='banco'">
+                            <form name="bancos">
+                                <div class="form-group col-sm-2">
+                                    <label for="banco"> Banco</label>
+                                    <select name="banco" class="form-control" ng-model="stock.AccountSelect.idbank" required>
+                                        <option ng-repeat="option in stock.ListBanks" value="{{option.id}}">{{option.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="accounttype"> Tipo de Cuenta</label>
+                                    <input name="accounttype" type="text" class="form-control" placeholder="Tipo de Cuenta" ng-model="stock.AccountSelect.accounttype" required>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="account"> Número de Cuenta</label>
+                                    <input name="account" type="number" class="form-control" placeholder="Número" ng-model="stock.AccountSelect.accountnumber" required>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label for="clabe"> CLABE</label>
+                                    <input name="clabe" type="number" class="form-control" placeholder="CLABE" ng-model="stock.AccountSelect.clabe" required>
+                                </div>
+                                <div class="col-sm-1 text-center" style="margin-top: 1%;padding: 0">
+                                    <button class="btn btn-default" ng-disabled="bancos.$invalid" ng-click="stock.createBank()" ng-show="stock.AccountSelect.id==null">
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                    <button class="btn btn-default" ng-disabled="bancos.$invalid" ng-click="stock.updateBank()" ng-show="stock.AccountSelect.id!=null">
+                                        <i class="material-icons">mode_edit</i>
+                                    </button>
+                                    <button class="btn btn-default" ng-click="stock.clearAccount()">
+                                        <i class="material-icons">clear_all</i>
+                                    </button>
+                                </div>
+                            </form>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Banco</th>
+                                    <th>Número</th>
+                                    <th>CLABE</th>
+                                    <th>Opciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="banco in stock.accounts">
+                                    <td class="text-center">{{stock.viewNameBank(banco.idbank)}}</td>
+                                    <td class="text-center">{{banco.accountnumber}}</td>
+                                    <td class="text-center">{{banco.clabe}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-default" ng-click="stock.deleteBank(banco)">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                        <button class="btn btn-default" ng-click="stock.selectAccount(banco)">
+                                            <i class="material-icons">mode_edit</i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+       $("ul.nav.nav-pills li").click(function (evt) {
+           $("ul.nav.nav-pills li").removeClass('active')
+           $(this).addClass('active')
+       })
+    });
+</script>

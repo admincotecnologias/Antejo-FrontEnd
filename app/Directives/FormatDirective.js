@@ -94,7 +94,7 @@ antejo.directive('format', ['$filter', function($filter) {
                     scope.$watch(attrs.ngModel,function (newVal,oldVal) {
                         newVal = newVal!=null? newVal.toString().toLowerCase().trim():'';
                         elem.val(newVal);
-                        var Regex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+                        var Regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                         if (!Regex.test(newVal)) {
                             if(newVal != ""){
                                 elem.parent('div').addClass('has-error');

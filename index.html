@@ -114,7 +114,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <div class="notification_header">
-                                        <h3>Clientes</h3>
+                                        <h3>Solicitudes</h3>
                                     </div>
                                 </li>
                                 <li>
@@ -129,11 +129,30 @@
                             </ul>
                         </li>
                         <li class="dropdown head-dpdn padImg" ng-mouseup="goTo('Creditos')">
-                            <a ng-mouseup="goTo('Creditos')" ng-mouseenter="showIt('.navsolicitud')" class="padImg dropdown-toggle navee navsolicitud padImg" style="padding-left:.5em;padding-right:.5em" data-toggle="dropdown" aria-expanded="false">Creditos</a>
+                            <a ng-mouseup="goTo('Creditos')" ng-mouseenter="showIt('.navcreditos')" class="padImg dropdown-toggle navee navcreditos padImg" style="padding-left:.5em;padding-right:.5em" data-toggle="dropdown" aria-expanded="false">Creditos</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <div class="notification_header">
-                                        <h3>Clientes</h3>
+                                        <h3>Creditos</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a>
+                                        <div class="notification_desc">
+                                            <p>Lorem ipsum dolor amet</p>
+                                            <p><span>1 hour ago</span></p>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown head-dpdn padImg" ng-mouseup="goTo('Fondeadores')">
+                            <a ng-mouseup="goTo('Fondeadores')" ng-mouseenter="showIt('.navfondeadores')" class="padImg dropdown-toggle navee navfondeadores padImg" style="padding-left:.5em;padding-right:.5em" data-toggle="dropdown" aria-expanded="false">Fondeadores</a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="notification_header">
+                                        <h3>Fondeadores</h3>
                                     </div>
                                 </li>
                                 <li>
@@ -235,6 +254,9 @@
     <script src="app/Controllers/MainController.js"></script>
     <script src="app/Controllers/SolicitudesController.js"></script>
     <script src="app/Controllers/creditos/RevolventeController.js"></script>
+    <script src="app/Controllers/fondeadores/mainController.js"></script>
+    <script src="app/Controllers/fondeadores/CreateController.js"></script>
+    <script src="app/Controllers/fondeadores/UpdateController.js"></script>
     <script src="app/Factories/InterceptorFactory.js"></script>
     <script src="app/Factories/MainFactory.js"></script>
     <script src="app/Factories/usuariosFactory.js"></script>
@@ -246,6 +268,7 @@
     <script src="app/Factories/ClientesFactory.js"></script>
     <script src="app/Factories/SolicitudesFactory.js"></script>
     <script src="app/Factories/CreditosFactory.js"></script>
+    <script src="app/Factories/FondeadoresFactory.js"></script>
 </body>
 
 </html>
