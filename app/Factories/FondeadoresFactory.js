@@ -58,6 +58,10 @@ antejo.factory("FoundFact", ["$http", function($http) {
         var json = {}
         return $http.delete(apiUrl + "/Fondeadores/delete/"+id+"/account",json);
     }
+    var fundsByStock = function (id) {
+        var json = {}
+        return $http.get(apiUrl + "/Fondeadores/all/fund/"+id,json);
+    }
     return {
         allStockholders: allStockholders,
         byIDStockholders: byIDStockholders,
@@ -72,6 +76,7 @@ antejo.factory("FoundFact", ["$http", function($http) {
         byIDAccount:byIDAccount,
         addAccount:addAccount,
         updateAccount:updateAccount,
-        deleteAccount:deleteAccount
+        deleteAccount:deleteAccount,
+        fundsByStock:fundsByStock
     }
 }]);

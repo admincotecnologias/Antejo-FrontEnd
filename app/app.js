@@ -1,5 +1,5 @@
 antejo = angular.module("Antejo", ['ngRoute', 'oitozero.ngSweetAlert', 'ngAnimate', 'base64', 'ngFileUpload','htmlToPdfSave','angularScreenfull','720kb.datepicker']);
-apiUrl = 'http://192.168.1.66/bantejo/public';
+apiUrl = 'http://192.168.1.107/bantejo/public';
 antejo.config(
     function($routeProvider, $httpProvider, $locationProvider, $provide, $filterProvider) {
         $routeProvider
@@ -60,6 +60,12 @@ antejo.config(
                 templateUrl: 'app/views/Fondeadores/Create.html',
                 controller: 'UpdateStockCtrl',
                 controllerAs:'stock'
+            }).when('/Fondeadores/Creditos/:idStock', {
+                name: "Fondeadores",
+                url: "Fondeadores",
+                templateUrl: 'app/views/CreditosFondeadores/main.html',
+                controller: 'FundsCtrl',
+                controllerAs:'ctrl'
             }).when('/', {
                 name: "Index",
                 url: "Index",

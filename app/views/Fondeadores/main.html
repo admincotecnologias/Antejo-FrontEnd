@@ -16,6 +16,7 @@
                                 <th class="text-center">RFC</th>
                                 <th class="text-center hidden-xs hidden-sm">Telefono</th>
                                 <th class="text-center hidden-xs hidden-sm">E-Mail</th>
+                                <th class="text-center hidden-xs hidden-sm">Cartera</th>
                                 <th class="text-center">Opciones</th>
                             </tr>
                             </thead>
@@ -26,10 +27,11 @@
                                 <td class="text-center">{{stock.rfc}}</td>
                                 <td class="text-center hidden-xs hidden-sm">{{stock.phone}}</td>
                                 <td class="text-center hidden-xs hidden-sm">{{stock.email}}</td>
+                                <td class="text-center hidden-xs hidden-sm">{{stock.capital|currency}}</td>
                                 <td class="text-center">
                                     <div class=" btn-group-sm">
                                         <a href="Fondeadores/{{stock.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
-                                        <a ng-click="DeleteClient(stock.id)" class="btn btn-default fontSmall"><i class="material-icons">assignment</i></a>
+                                        <a href="Fondeadores/Creditos/{{stock.id}}" class="btn btn-default fontSmall"><i class="material-icons">assignment</i></a>
                                     </div>
                                 </td>
                             </tr>
