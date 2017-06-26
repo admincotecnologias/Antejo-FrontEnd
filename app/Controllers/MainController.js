@@ -1,4 +1,4 @@
-antejo.controller('MainCtrl', ['$http','$filter', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout', function($http,$filter, $scope, MainFact, $location, AuthFact, $timeout) {
+antejo.controller('MainCtrl', ['$http','$filter', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout','DTOptionsBuilder', function($http,$filter, $scope, MainFact, $location, AuthFact, $timeout,DTOptionsBuilder) {
     var timer;
     $scope.CheckLocal = MainFact.CheckLocal;
     $scope.username = MainFact.username;

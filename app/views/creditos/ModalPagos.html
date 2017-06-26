@@ -17,8 +17,8 @@
                         </td>
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                            <datepicker date-format="fullDate" date-min-limit="{{DateMin}}" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" ng-model="modalpay.date" readonly>
+                            <datepicker date-format="yyyy-MM-dd" date-min-limit="{{DateMin}}" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                <input type="date" class="form-control" ng-model="modalpay.date" readonly>
                             </datepicker>
                         </td>
                     </tr>

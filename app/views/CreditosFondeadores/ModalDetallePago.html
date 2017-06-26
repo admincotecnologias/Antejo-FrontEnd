@@ -1,0 +1,51 @@
+<div id="modalPagoDet" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Detalle de Pago</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>Fecha</th><td>{{ctrl.modalDetallePago.period|date:'dd/MM/yyyy'}}</td>
+                        <th>Balance de Capital</th><td>{{ctrl.modalDetallePago.capital_balance|currency}}</td>
+                    </tr>
+                    <tr>
+                        <th>Balance de Interes</th><td>{{ctrl.modalDetallePago.interest_balance|currency}}</td>
+                        <th>Balance de Iva</th><td>{{ctrl.modalDetallePago.iva_balance|currency}}</td>
+                    </tr>
+                    <tr>
+                        <th>Balance de Interes Moratorio</th><td>{{ctrl.modalDetallePago.interest_arrear_balance|currency}}</td>
+                        <th>Balance de Interes Moratorio</th><td>{{ctrl.modalDetallePago.interest_arrear_iva_balance|currency}}</td>
+                    </tr>
+                    <tr>
+                        <th>Intereses del Periodo</th><td>{{ctrl.modalDetallePago.interest|currency}}</td>
+                        <th>Interes Moratorio del Periodo</th><td>{{ctrl.modalDetallePago.interest_arrear|currency}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" class="text-center">
+                            Pago:
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Diferido al Capital</th><td>{{ctrl.modalDetallePago.pay_capital|currency}}</td>
+                        <th>Diferido al Interes</th><td>{{ctrl.modalDetallePago.pay_interest|currency}}</td>
+                    </tr>
+                    <tr>
+                        <th>Diferido al Interes Moratorio</th><td>{{ctrl.modalDetallePago.pay_interest_arrear|currency}}</td>
+                        <th>Diferido al IVA</th><td>{{ctrl.modalDetallePago.pay_iva+modalDetallePago.pay_iva_arrear|currency}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right" colspan="2">Pago Total</th><td colspan="2" class="text-center">{{ctrl.modalDetallePago.pay|currency}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

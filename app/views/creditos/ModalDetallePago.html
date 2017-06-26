@@ -40,6 +40,12 @@
                     <tr>
                         <th class="text-right" colspan="2">Pago Total</th><td colspan="2" class="text-center">{{modalDetallePago.pay|currency}}</td>
                     </tr>
+                    <tr ng-if="modalDetallePago.idref">
+                        <th class="text-right" colspan="2">Comprobante</th>
+                        <td colspan="2" class="text-center">
+                            <button class="btn btn-default" ng-click="DownloadFile(modalDetallePago.idref)">Descargar</button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

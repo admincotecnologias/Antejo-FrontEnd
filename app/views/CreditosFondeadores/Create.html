@@ -1,0 +1,408 @@
+<div class="main-page">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="panel panel-default widget-shadow">
+                <div class="panel-heading text-center">
+                    {{ctrl.clientname}}
+                </div>
+                <div class="panel-body">
+                    <div class="table-scroll scrollbar1">
+                        <div class="col-sm-12">
+                            <div>
+                                <form name="creditdata">
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Monto:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.amount"
+                                               format="number" required>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Interes Anual:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.interest"
+                                               format="float" required>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Interes Moratorio:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.interest_arrear"
+                                               format="float" required>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">IVA:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.iva"
+                                               format="float" required>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Número de Meses:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.term"
+                                               type="number" required>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Dias de Gracia:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.grace_days"
+                                               type="number" required>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Fecha de Inicio:</label>
+                                        <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                            <input name="input" type="date" class="form-control"
+                                                   ng-model="ctrl.Credit.start_date" readonly required>
+                                        </datepicker>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Tipo de Moneda:</label>
+                                        <select name="input" class="form-control" ng-model="ctrl.Credit.currency"
+                                                required>
+                                            <option value="MXN">Pesos MXN</option>
+                                            <option value="USD">Dolares USD</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label for="input">Destino Capital/Comentario:</label>
+                                        <textarea name="input" class="form-control" ng-model="ctrl.Credit.todo"
+                                                  required></textarea>
+                                    </div>
+                                    <div class="col-sm-2 text-center" style="margin-top: 1.5%">
+                                        <button class="btn btn-default" ng-click="ctrl.Calcular()">
+                                            Vista Previa
+                                        </button>
+                                        <button class="btn btn-default" ng-disabled="creditdata.$invalid"
+                                                ng-click="ctrl.Aprobar()">
+                                            Autorizar
+                                        </button>
+                                    </div>
+                                </form>
+                                <div id="tablaAmortizacion" class="col-sm-12" ng-if="ctrl.Amortizacion.length>0">
+                                    <div class="col-sm-2 no-print" style="margin: 1%">
+                                        <button class="btn btn-default" ng-click="ctrl.Imprimir()">
+                                            Imprimir
+                                        </button>
+                                    </div>
+                                    <div class="header-print" style="display: none">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 2in">
+                                                    <img src="/images/logotipo-antejo-png.png"
+                                                         class="img-responsive pull-left" style="width: 2in">
+                                                </th>
+                                                <th class="text-center">
+                                                    <strong>Tabla de Amortización</strong>
+                                                </th>
+                                                <th class="text-right">{{ctrl.dateNow|date:'dd/MM/yyyy'}}</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="footer-print" style="display: none">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 2in">
+                                                    <img src="/images/logotipo-antejo-png.png"
+                                                         class="img-responsive pull-left" style="width: 1in">
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="main">
+                                        <table class="table">
+                                            <tr>
+                                                <th>Fondeador:</th>
+                                                <td>{{ctrl.clientname}}</td>
+                                                <th>Tipo:</th>
+                                                <td ng-if="ctrl.Credit.type==1">Pago al Final del Periodo</td>
+                                                <td ng-if="ctrl.Credit.type==2">Revolvente</td>
+                                                <th>Monto Solicitado:</th>
+                                                <td>{{ctrl.Credit.amount|currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Interes Anual:</th>
+                                                <td>{{ctrl.Credit.interest}}%</td>
+                                                <th>Interes Moratorio Anual:</th>
+                                                <td>{{ctrl.Credit.interest_arrear}}%</td>
+                                                <th>IVA:</th>
+                                                <td>{{ctrl.Credit.iva}}%</td>
+                                            </tr>
+                                        </table>
+                                        <table id="tabla-datos" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th colspan="6" class="text-center modal-header">
+                                                    Tabla de Amortización
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">Periodo</th>
+                                                <th class="text-center">Fecha</th>
+                                                <th class="text-center">Capital</th>
+                                                <th class="text-center">Interes</th>
+                                                <th class="text-center">Iva</th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="col-sm-12">
+                                            <div ng-repeat="data in ctrl.Amortizacion"
+                                                 ng-class="{'break':(0===($index+1)%12)&&(($index+2)!=ctrl.Amortizacion.length)&&!$last}">
+                                                <div ng-if="0==(($index)%12)&&$last==false&&$first==false" ng-class="{'padding':(0==(($index)%12)&&$last==false&&$first==false)}" style="display: none">
+                                                    <table id="tabla-datos" class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th colspan="6" class="text-center modal-header">
+                                                                Tabla de Amortización
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="text-center">Periodo</th>
+                                                            <th class="text-center">Fecha</th>
+                                                            <th class="text-center">Capital</th>
+                                                            <th class="text-center">Interes</th>
+                                                            <th class="text-center">Iva</th>
+                                                            <th class="text-center">Total</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">{{data.ciclo}}</div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.fecha|date:'dd/MM/yyyy'}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.capital|currency}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.interes|currency}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.iva|currency}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.total|currency}}
+                                                </div>
+
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.ciclo}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.fecha|date:'dd/MM/yyyy'}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.capital|currency}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.interes|currency}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.iva|currency}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.total|currency}}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="ctrl.Application.status=='Autorizado'">
+                                <form name="creditdata">
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Tipo Credito:</label>
+                                        <input name="input" class="form-control col-sm-2" ng-if="ctrl.Credit.type==1"
+                                               value="Pago al final" disabled>
+                                        <input name="input" class="form-control col-sm-2" ng-if="ctrl.Credit.type==2"
+                                               value="Revolvente" disabled>
+                                    </div>
+                                    <div class="col-sm-2  form-group">
+                                        <label for="input">Monto:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.amount"
+                                               format="number" disabled>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Interes Anual:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.interest"
+                                               format="float" disabled>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Interes Moratorio:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.interest_arrear"
+                                               format="float" disabled>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">IVA:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.iva"
+                                               format="float" disabled>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Número de Meses:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.term"
+                                               type="number" disabled>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Dias de Gracia:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.grace_days"
+                                               type="number" disabled>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Fecha de Inicio:</label>
+                                        <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                            <input name="input" type="date" class="form-control"
+                                                   ng-model="ctrl.Credit.start_date" readonly disabled>
+                                        </datepicker>
+                                    </div>
+                                    <div class="col-sm-2 form-group">
+                                        <label for="input">Tipo de Moneda:</label>
+                                        <input name="input" class="form-control" ng-model="ctrl.Credit.currency"
+                                               disabled>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label for="input">Destino Capital/Comentario:</label>
+                                        <textarea name="input" class="form-control" ng-model="ctrl.Credit.todo"
+                                                  disabled></textarea>
+                                    </div>
+                                    <div class="col-sm-2 text-center no-print" style="margin-top: 1.5%">
+                                        <button class="btn btn-default" ng-click="ctrl.Calcular()"
+                                                ng-disabled="creditdata.$invalid">
+                                            Vista Previa
+                                        </button>
+                                    </div>
+                                </form>
+                                <div id="tablaAmortizacion" class="col-sm-12" ng-if="ctrl.Amortizacion.length>0">
+                                    <div class="col-sm-2 no-print" style="margin: 1%">
+                                        <button class="btn btn-default" ng-click="ctrl.Imprimir()">
+                                            Imprimir
+                                        </button>
+                                    </div>
+                                    <div class="header-print" style="display: none">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 2in">
+                                                    <img src="/images/logotipo-antejo-png.png"
+                                                         class="img-responsive pull-left" style="width: 2in">
+                                                </th>
+                                                <th class="text-center">
+                                                    <strong>Tabla de Amortización</strong>
+                                                </th>
+                                                <th class="text-right">{{ctrl.dateNow|date:'dd/MM/yyyy'}}</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="footer-print" style="display: none">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 2in">
+                                                    <img src="/images/logotipo-antejo-png.png"
+                                                         class="img-responsive pull-left" style="width: 1in">
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div class="main">
+                                        <table class="table">
+                                            <tr>
+                                                <th>Fondeador:</th>
+                                                <td>{{ctrl.clientname}}</td>
+                                                <th>Tipo:</th>
+                                                <td ng-if="ctrl.Credit.type==1">Pago al Final del Periodo</td>
+                                                <td ng-if="ctrl.Credit.type==2">Revolvente</td>
+                                                <th>Monto Solicitado:</th>
+                                                <td>{{ctrl.Credit.amount|currency}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Interes Anual:</th>
+                                                <td>{{ctrl.Credit.interest}}%</td>
+                                                <th>Interes Moratorio Anual:</th>
+                                                <td>{{ctrl.Credit.interest_arrear}}%</td>
+                                                <th>IVA:</th>
+                                                <td>{{ctrl.Credit.iva}}%</td>
+                                            </tr>
+                                        </table>
+                                        <table id="tabla-datos" class="table">
+                                            <thead>
+                                            <tr>
+                                                <th colspan="6" class="text-center modal-header">
+                                                    Tabla de Amortización
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">Periodo</th>
+                                                <th class="text-center">Fecha</th>
+                                                <th class="text-center">Capital</th>
+                                                <th class="text-center">Interes</th>
+                                                <th class="text-center">Iva</th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                        <div class="col-sm-12">
+                                            <div ng-repeat="data in ctrl.Amortizacion"
+                                                 ng-class="{'break':(0===($index+1)%12)&&(($index+2)!=ctrl.Amortizacion.length)&&!$last}">
+                                                <div ng-if="0==(($index)%12)&&$last==false&&$first==false" ng-class="{'padding':(0==(($index)%12)&&$last==false&&$first==false)}" style="display: none">
+                                                    <table id="tabla-datos" class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th colspan="6" class="text-center modal-header">
+                                                                Tabla de Amortización
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="text-center">Periodo</th>
+                                                            <th class="text-center">Fecha</th>
+                                                            <th class="text-center">Capital</th>
+                                                            <th class="text-center">Interes</th>
+                                                            <th class="text-center">Iva</th>
+                                                            <th class="text-center">Total</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">{{data.ciclo}}</div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.fecha|date:'dd/MM/yyyy'}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.capital|currency}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.interes|currency}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.iva|currency}}
+                                                </div>
+                                                <div ng-if="!$last" class="col-xs-2 text-center">
+                                                    {{data.total|currency}}
+                                                </div>
+
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.ciclo}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.fecha|date:'dd/MM/yyyy'}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.capital|currency}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.interes|currency}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.iva|currency}}</strong>
+                                                </div>
+                                                <div ng-if="$last" class="col-xs-2 text-center">
+                                                    <strong>{{data.total|currency}}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

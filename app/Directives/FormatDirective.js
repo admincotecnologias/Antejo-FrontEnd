@@ -90,6 +90,27 @@ antejo.directive('format', ['$filter', function($filter) {
                     });
                     break;
                 }
+                case "clabe": {
+                    scope.$watch(attrs.ngModel,function (newVal,oldVal) {
+                        newVal = newVal!=null?newVal.toString().replace(/[^\d]/, ''):'';
+                        newVal = newVal.toString().toUpperCase().trim();
+                        elem.val(newVal);
+                        var Regex = /^[0-9]{18,20}$/;
+                        if (!Regex.test(newVal)) {
+                            if(newVal != ""){
+                                elem.parent('div').addClass('has-error');
+                            }else{
+                                elem.parent('div').removeClass('has-error');
+                            }
+                            ctrl.$setValidity("Tel. Incorrecto",false)
+                        } else {
+                            elem.parent('div').removeClass('has-error');
+                            ctrl.$setValidity("Tel. Incorrecto",true)
+                        }
+                        return newVal;
+                    });
+                    break;
+                }
                 case "email": {
                     scope.$watch(attrs.ngModel,function (newVal,oldVal) {
                         newVal = newVal!=null? newVal.toString().toLowerCase().trim():'';

@@ -18,7 +18,9 @@
                         <th>Fecha</th>
                         <td>
                             <div class="form-group">
-                                <input class="form-control" type="date" ng-model="Disposicion.start_date">
+                                <datepicker date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                    <input class="form-control" type="date" ng-model="Disposicion.start_date" readonly>
+                                </datepicker>
                             </div>
                         </td>
                     </tr>

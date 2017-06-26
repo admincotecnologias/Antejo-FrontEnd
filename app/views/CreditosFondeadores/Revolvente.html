@@ -1,0 +1,152 @@
+<div class="main-page">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12" style="height: auto">
+            <div class="panel panel-default widget-shadow">
+                <div class="panel-heading"><h4 class="text-center">Fondeador: {{ctrl.name}}</h4>
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <tr>
+                                <th>Linea de Credito</th>
+                                <td class="text-left">{{ctrl.CreditPadre.amount|currency}}</td>
+                                <th>Interes</th>
+                                <td>{{ctrl.CreditPadre.interest}}%</td>
+                                <th>Moratorio</th>
+                                <td>{{ctrl.CreditPadre.interest_arrear}}%</td>
+                                <th>IVA</th>
+                                <td>{{ctrl.CreditPadre.iva}}%</td>
+                                <th>Fecha Inicial</th>
+                                <td class="text-center hidden-xs hidden-sm">{{ctrl.CreditPadre.start_date|date:"dd/MM/yyyy"}}</td>
+                                <th>Fecha de Terminacion</th>
+                                <td class="text-center hidden-xs hidden-sm">{{(ctrl.CreditPadre.datelimit*1000)+(1000*60*60*24)|date:"dd/MM/yyyy"}}</td>
+                                <th>Fecha de Gracia</th>
+                                <td class="text-center hidden-xs hidden-sm">{{(ctrl.CreditPadre.grace*1000)+(1000*60*60*24)|date:"dd/MM/yyyy"}}</td>
+                                <td>
+                                    <a class="btn btn-default" data-toggle="modal" data-target="#modalEditRevolvente"><i class="material-icons">mode_edit</i></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>
+                                    DISPOSICIONES DE CREDITO
+                                </th>
+                                <th class="text-right">Agregar Disposición: </th>
+                                <th>
+                                    <a class="btn btn-default" data-toggle="modal" data-target="#modalDisposicion"><i class="material-icons">add</i></a>
+                                </th>
+                                <th class="text-right">Agregar Pago: </th>
+                                <th>
+                                    <a class="btn btn-default" data-toggle="modal" data-target="#modalPagos"><i class="material-icons">add</i></a>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="scrollbar1">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th class="text-center hidden-xs hidden-sm">#</th>
+                                    <th class="text-center hidden-xs hidden-sm">Monto</th>
+                                    <th class="text-center hidden-xs hidden-sm">Interes</th>
+                                    <th class="text-center hidden-xs hidden-sm">Moratorio</th>
+                                    <th class="text-center hidden-xs hidden-sm">IVA</th>
+                                    <th class="text-center hidden-xs hidden-sm">Fecha</th>
+                                    <th class="text-center hidden-xs hidden-sm">Meses</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody ng-if="ctrl.credit!=null" class="nga-fast nga-stagger nga-slide-up">
+                                <tr id="condicion_{{credito.id}}" style="border-bottom: 1px solid #ddd" ng-repeat="credito in ctrl.credit | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                    <td class="text-left hidden-xs hidden-sm">{{$index+1}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credito.amount | currency:""}}$ {{credito.currency}}</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.interest}} % </td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.interest_arrear}} % </td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.iva}} % </td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.start_date|date:"dd/MM/yyyy"}}</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.term}} </td>
+                                    <td class="text-center">
+                                        <a ng-click="ctrl.SelectCondition(credito)" data-toggle="modal" data-target="#modalCondicionDetalle" class="btn btn-default fontSmall">
+                                            <i class="material-icons">assignment</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tbody ng-if="credit.length<1">
+                                <tr>
+                                    <td colspan="8" class="text-center">
+                                        <b>No Hay Disposiciones</b>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th>
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="scrollbar1" style="height: 46.2vh">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th class="text-center hidden-xs hidden-sm">#</th>
+                                    <th class="text-center hidden-xs hidden-sm">Saldo</th>
+                                    <th class="text-center hidden-xs hidden-sm">Intereses</th>
+                                    <th class="text-center hidden-xs hidden-sm">IVA</th>
+                                    <th class="text-center hidden-xs hidden-sm">Fecha</th>
+                                    <th class="text-center">Pago</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody ng-if="ctrl.selectedCondicion!=null" class="nga-fast nga-stagger nga-slide-up">
+                                <tr style="border-bottom: 1px solid #ddd" ng-repeat="credito in ctrl.selectedCondicion | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                    <td class="text-left hidden-xs hidden-sm">{{$index+1}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credito.capital_balance | currency:""}}$ {{credito.currency}}</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.interest_balance + credito.interest_arrear_balance | currency:""}}$ </td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.iva_balance + credito.interest_arrear_iva_balance | currency:""}}$ </td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.period|date:"dd/MM/yyyy"}}</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.pay | currency:""}}$ </td>
+                                    <td class="text-center hidden-xs hidden-sm">
+                                        <a class="btn btn-default" data-toggle="modal"
+                                           data-target="#modalPagoDet" ng-click="ctrl.selectPago(credito)" >
+                                            <i class="material-icons">assignment</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr ng-if="ctrl.credit.length>0">
+                                    <th colspan="5" class="text-center">Balance Aproximado:</th>
+                                </tr>
+                                <tr ng-if="ctrl.credit.length>0">
+                                    <td>Total</td>
+                                    <td>{{ctrl.lastMove.capital_balance| currency:""}} $ {{ctrl.lastMove.currency}}</td>
+                                    <td>{{ctrl.lastMove.interest_balance + ctrl.lastMove.interest_arrear_balance | currency:""}} $</td>
+                                    <td>{{ctrl.lastMove.iva_balance + ctrl.lastMove.interest_arrear_iva_balance | currency:""}} $</td>
+                                    <td>{{ctrl.lastMove.period | date:"dd/MM/yyyy"}}</td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-include="'app/views/CreditosFondeadores/ModalPagos.html'"></div>
+<div ng-include="'app/views/CreditosFondeadores/disposicion.html'"></div>
+<div ng-include="'app/views/CreditosFondeadores/edit_revolvente.html'"></div>
+<div ng-include="'app/views/CreditosFondeadores/ModalDetallePago.html'"></div>
+<div ng-include="'app/views/CreditosFondeadores/ModalCondicionDetalle.html'"></div>

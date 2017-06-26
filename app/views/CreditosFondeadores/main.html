@@ -4,7 +4,7 @@
             <div class="panel panel-default widget-shadow">
                 <div class="panel-heading text-center">{{ctrl.title}}
                     <div class="btn-group pull-right">
-                        <a href="Fondeadores/Credito/Nuevo" class="btn btn-default">Nuevo</a>
+                        <a href="Fondeadores/{{ctrl.stock.id}}/Credito/Nuevo" class="btn btn-default">Nuevo</a>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -33,8 +33,7 @@
                                 <td class="text-center hidden-xs hidden-sm">{{fund.datelimit|date:'dd-MM-yyyy'}}</td>
                                 <td class="text-center">
                                     <div class=" btn-group-sm">
-                                        <a href="Fondeadores/{{stock.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
-                                        <a ng-click="DeleteClient(stock.id)" class="btn btn-default fontSmall"><i class="material-icons">assignment</i></a>
+                                        <a href="Fondeadores/{{ctrl.stock.id}}/Creditos/{{fund.id}}" class="btn btn-default fontSmall"><i class="material-icons">monetization_on</i></a>
                                     </div>
                                 </td>
                             </tr>

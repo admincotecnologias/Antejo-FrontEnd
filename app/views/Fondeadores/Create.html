@@ -4,6 +4,11 @@
             <div class="panel panel-default widget-shadow">
                 <div class="panel-heading text-center">
                     Fondeadores
+                    <div class="btn-group pull-right" ng-if="stock.stockholders.id!=null">
+                        <a class="btn btn-default" href="/Fondeadores/{{stock.stockholders.id}}/Creditos">
+                            <i class="material-icons">account_balance_wallet</i>
+                        </a>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-pills nav-justified">

@@ -1,0 +1,70 @@
+<div id="modalEditRevolvente" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Editar Condición</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>Capital</th>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control" format="number" ng-model="ctrl.CreditPadre.amount" >
+                            </div>
+                        </td>
+                        <th>Meses</th>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control" type="number" format="float" ng-model="ctrl.CreditPadre.term">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Interes (%)</th>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control" format="float" ng-model="ctrl.CreditPadre.interest">
+                            </div>
+                        </td>
+                        <th>Interes Moratorio (%)</th>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control" format="number" ng-model="ctrl.CreditPadre.interest_arrear">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>IVA (%)</th>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control" format="float" ng-model="ctrl.CreditPadre.iva">
+                            </div>
+                        </td>
+                        <th>Fecha</th>
+                        <td>
+                            <div class="form-group">
+                                <input class="form-control" type="date" ng-model="ctrl.CreditPadre.start_date">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Comentario</th>
+                        <td colspan="3">
+                            <div class="form-group">
+                                <textarea class="form-control" ng-model="ctrl.CreditPadre.todo" style="max-width: 400px"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-default" ng-click="ctrl.insertCondition()">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>

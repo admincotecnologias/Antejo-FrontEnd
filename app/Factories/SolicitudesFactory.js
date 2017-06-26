@@ -13,28 +13,16 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
 
     var AddApplication = function(obj) {
-        var json = {
-            amountrequest: parseFloat(obj.amountrequest),
-            applicationdate: obj.applicationdate,
-            place: obj.place,
-            creditterm: obj.creditterm,
-            projectname: obj.projectname,
-            idclient: obj.idclient,
-            status: obj.status,
-        }
+        var json = obj;
         return $http.post(apiUrl + "/Solicitudes/add", json);
     }
     var addCreditApproved = function(obj) {
         var json = obj;
-
-
         return $http.post(apiUrl + "/Credits/add", json);
     }
 
-    var AddFile = function(obj, idapp) {
-        var formdata = new FormData();
-        formdata.append('file', obj);
-        formdata.append('idapp', idapp);
+    var AddFile = function(obj) {
+        var formdata = obj
         return $http.post(apiUrl + '/FilesApplication/add', formdata, {
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity
@@ -44,27 +32,29 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     var AddCreditAid = function(obj) {
         return $http.post(apiUrl + "/AvalCredito/add", obj);
     }
+    var UpdateCreditAid = function(obj) {
+        return $http.put(apiUrl + "/AvalCredito/update/"+obj.id, obj);
+    }
+    var DeleteCreditAid = function(id) {
+        return $http.delete(apiUrl + "/AvalCredito/delete/"+id, {});
+    }
     var ShowApplication = function(id) {
         var jsonAuth = {};
         return $http.get(apiUrl + "/Solicitudes/show/" + id, jsonAuth);
     }
 
-    var AllApplication = function(callbackFn) {
+    var AllApplication = function() {
         var jsonAuth = {};
-        $http.get(apiUrl + "/Solicitudes/all", jsonAuth).then((response) => {
-            if (!response.data.error) {
-                callbackFn(response.data.applications);
-            } else {
-                callbackFn(response.data.message);
-            }
-        }).catch(function(param) {
-            callbackFn({ error: true, message: "Error al conectarse con el servidor", exc: param });
-        });
+        return $http.get(apiUrl + "/Solicitudes/all", jsonAuth);
+    }
+    var AllClients = function() {
+        var jsonAuth = {};
+        return $http.get(apiUrl + "/Solicitudes/all/Clients", jsonAuth);
     }
     var DownloadFile = function(id) {
         var jsonAuth = {};
         $http.get(apiUrl + "/FilesApplication/show/" + id).then(function(response) {
-            var stringPath = apiUrl.replace('public', '') + response.data.filepath;
+            var stringPath = apiUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
     }
@@ -73,10 +63,13 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
         updateApplication: UpdateApplication,
         addApplication: AddApplication,
         addCreditAid: AddCreditAid,
+        UpdateCreditAid:UpdateCreditAid,
         AddFile: AddFile,
         allApplication: AllApplication,
+        AllClients:AllClients,
         showApplication: ShowApplication,
         DownloadFile: DownloadFile,
-        addCreditApproved:addCreditApproved
+        addCreditApproved:addCreditApproved,
+        DeleteCreditAid:DeleteCreditAid
     };
 }]);

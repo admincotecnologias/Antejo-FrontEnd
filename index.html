@@ -18,9 +18,11 @@
     <link id="theme" rel="stylesheet" type="text/css" href="styles/bootstrap/sweetalert.css">
     <link id="theme" rel="stylesheet" type="text/css" href="styles/bootstrap/facebook.css">
     <link id="theme" rel="stylesheet" type="text/css" href="styles/angular-datepicker.css">
+    <link id="theme" rel="stylesheet" type="text/css" href="styles/angular/angular-datatables.css">
 
     <!-- js-->
     <script src="scripts/custom/modernizr.custom.js"></script>
+
     <!--webfonts-->
     <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
     <!--//webfonts-->
@@ -29,9 +31,9 @@
     <link rel="stylesheet" type="text/css" href="styles/angular/nga.css">
 </head>
 
-<body ng-app="Antejo" class="scrollbar1">
+<body ng-app="Antejo" class="scrollbar1" ng-cloak>
 
-    <div class="main-content" ng-controller="MainCtrl as $main">
+    <div class="main-content" ng-controller="MainCtrl as $main" ng-cloak>
         <nav ng-if="CheckLocal" id="subMenu" class="navbar navbar-inverse navbar-fixed-top" style="display:none">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -227,11 +229,17 @@
 
     <!--scrolling js-->
     <script src="scripts/custom/jquery.nicescroll.js"></script>
+    <script src="scripts/jquery/jQuery.print.js"></script>
     <script src="scripts/custom/scripts.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <!--//scrolling js-->
 
     <script type="text/javascript" src="scripts/bootstrap/sweetalert.min.js"></script>
     <script src="scripts/angular/angular.js"></script>
+    <script src="scripts/angular/locale.js"></script>
+    <script src="scripts/angular/angular-datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+    <script type="text/javascript" src="scripts/angular/angular-chart.js"></script>
     <script src="scripts/angular/angular-route.js"></script>
     <script src="scripts/angular/angular-animate.js"></script>
     <script src="scripts/angular/angular-base64.js"></script>
@@ -250,14 +258,25 @@
     <script src="app/Controllers/creditos/CreditsMainController.js"></script>
     <script src="app/Controllers/creditos/ShowCreditController.js"></script>
     <script src="app/Controllers/EmpleadosController.js"></script>
+    <script src="app/Controllers/Banks/MainController.js"></script>
     <script src="app/Controllers/ClientesController.js"></script>
+    <script src="app/Controllers/Clientes/MainController.js"></script>
+    <script src="app/Controllers/Clientes/CrearClienteController.js"></script>
+    <script src="app/Controllers/Clientes/EditController.js"></script>
+    <script src="app/Controllers/Solicitudes/MainController.js"></script>
+    <script src="app/Controllers/Solicitudes/CreateController.js"></script>
     <script src="app/Controllers/MainController.js"></script>
     <script src="app/Controllers/SolicitudesController.js"></script>
+    <script src="app/Controllers/Solicitudes/UpdateController.js"></script>
+    <script src="app/Controllers/Solicitudes/ApprovedController.js"></script>
     <script src="app/Controllers/creditos/RevolventeController.js"></script>
     <script src="app/Controllers/fondeadores/mainController.js"></script>
     <script src="app/Controllers/fondeadores/CreateController.js"></script>
     <script src="app/Controllers/fondeadores/UpdateController.js"></script>
     <script src="app/Controllers/CreditosFondeadores/mainController.js"></script>
+    <script src="app/Controllers/CreditosFondeadores/Revolvente.js"></script>
+    <script src="app/Controllers/CreditosFondeadores/CreateController.js"></script>
+    <script src="app/Controllers/DashboardController.js"></script>
     <script src="app/Factories/InterceptorFactory.js"></script>
     <script src="app/Factories/MainFactory.js"></script>
     <script src="app/Factories/usuariosFactory.js"></script>
@@ -270,6 +289,7 @@
     <script src="app/Factories/SolicitudesFactory.js"></script>
     <script src="app/Factories/CreditosFactory.js"></script>
     <script src="app/Factories/FondeadoresFactory.js"></script>
+    <script src="app/Factories/DashboardFactory.js"></script>
 </body>
 
 </html>

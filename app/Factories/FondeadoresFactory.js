@@ -62,6 +62,18 @@ antejo.factory("FoundFact", ["$http", function($http) {
         var json = {}
         return $http.get(apiUrl + "/Fondeadores/all/fund/"+id,json);
     }
+    var DetailFundsByStock = function (idStock,id) {
+        var json = {}
+        return $http.get(apiUrl + "/Fondeadores/show/"+idStock+"/fund/"+id,json);
+    }
+    var addCtrl = function(Control) {
+        var json = Control;
+        return $http.post(apiUrl + "/Fondeadores/add/fundcntrl", json);
+    }
+    var addFund = function(Fund) {
+        var json = Fund;
+        return $http.post(apiUrl + "/Fondeadores/add/fund", json);
+    }
     return {
         allStockholders: allStockholders,
         byIDStockholders: byIDStockholders,
@@ -77,6 +89,9 @@ antejo.factory("FoundFact", ["$http", function($http) {
         addAccount:addAccount,
         updateAccount:updateAccount,
         deleteAccount:deleteAccount,
-        fundsByStock:fundsByStock
+        fundsByStock:fundsByStock,
+        DetailFundsByStock:DetailFundsByStock,
+        addCtrl:addCtrl,
+        addFund:addFund
     }
 }]);

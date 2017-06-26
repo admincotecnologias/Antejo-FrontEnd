@@ -7,17 +7,9 @@ antejo.factory("BancosFact", ["$http", function($http) {
         var json = {}
         return $http.delete(apiUrl + "/Bancos/delete/" + id, json);
     }
-    var AllBanco = function(callbackFn) {
+    var AllBanco = function() {
         var json = {}
-        $http.get(apiUrl + "/Bancos/all", json).then((response) => {
-            if (response.data.error == false) {
-                callbackFn(response.data);
-            } else {
-                callbackFn(response.data);
-            }
-        }).catch(function(ex) {
-            callbackFn({ error: true, message: "Error al conectar con el servidor." });
-        });
+        return $http.get(apiUrl + "/Bancos/all", json);
     }
     return { AddBanco: AddBanco, DeleteBanco: DeleteBanco, AllBanco: AllBanco };
 }]);

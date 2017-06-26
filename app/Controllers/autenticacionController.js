@@ -11,7 +11,7 @@ antejo.factory("AuthFact", [function() {
                 scope.CheckLocal = true;
                 scope.username = response.data.nombre;
                 scope.occupation = response.data.puesto;
-                location.path("Empleados");
+                location.path("/");
             } else {
                 alert(response.data.message);
             }

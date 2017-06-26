@@ -1,0 +1,59 @@
+@media print {
+    @page {
+        padding: 1.5in 1in 1in 1in;
+        @bottom-center {
+            counter-increment: page;
+            counter-reset: page 1;
+            content: "page " counter(page);
+        }
+    }
+    .numpage:before {
+        counter-increment: page;
+        content: counter(page);
+    }
+}
+
+.break {
+    page-break-after: always;
+}
+
+.main {
+    margin-top: 1in;
+}
+
+html, body {
+    font-family: "Courier New" sans-serif;
+}
+
+.header-print {
+    width: 95%;
+    text-align: center;
+    position: fixed;
+    display: table !important;
+}
+
+.footer-print {
+    width: 90%;
+    text-align: center;
+    position: fixed;
+    display: table !important;
+}
+
+.header-print {
+    top: 0;
+    height: 1in;
+}
+
+.footer-print {
+    bottom: 0;
+    height: 1in;
+}
+
+.padding {
+    padding-top: 1in;
+    display: block !important;
+}
+
+div.col-xs-2.text-center {
+    padding: 2mm;
+}
