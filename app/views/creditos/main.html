@@ -44,7 +44,8 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-left">{{credit.businessname}}</td>
+                                <td class="text-left" ng-if="credit.businessname != null ">{{credit.businessname}}</td>
+                                <td class="text-left" ng-if="credit.businessname == null ">{{credit.name}} {{credit.lastname}}</td>
                                 <td class="text-center">{{credit.projectname}}</td>
                                 <td class="text-left hidden-xs hidden-sm">{{credit.amount | currency:""}}$</td>
                                 <td class="text-center hidden-xs hidden-sm">{{credit.start_date|date:'dd/MM/yyyy'}}</td>

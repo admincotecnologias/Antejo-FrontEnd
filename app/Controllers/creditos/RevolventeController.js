@@ -270,7 +270,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         CreditsFact.showCredit($scope.idCredito, function (callback) {
             console.log("Callback ", callback)
             if (callback.error) {
-                SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
+                //SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
             } else {
                 $scope.credit = angular.copy(callback.credits);
                 $scope.cliente = callback.client;

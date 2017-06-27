@@ -1,5 +1,5 @@
 antejo = angular.module("Antejo", ['ngRoute', 'oitozero.ngSweetAlert', 'ngAnimate', 'base64', 'ngFileUpload','htmlToPdfSave','angularScreenfull','720kb.datepicker','ngLocale','datatables','chart.js']);
-apiUrl = 'http://api.antejo.com:3050';
+apiUrl = 'http://localhost/bantejo/public';
 antejo.config(
     function($routeProvider, $httpProvider, $locationProvider, $provide, $filterProvider) {
         $routeProvider
