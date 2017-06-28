@@ -41,6 +41,13 @@ antejo.config(
                 controller: 'ClientEditCtrl',
                 controllerAs:'ctrl'
             })
+            .when('/Clientes/Cartera/:idClient',{
+                name: "Clientes",
+                url : "Solicitudes",
+                templateUrl: '/app/views/Clients/Cartera.html',
+                controller: 'ClientWalletCtrl',
+                controllerAs: 'ctrl'
+            })
             .when('/Nuevo/Clientes', {
                 name: "Clientes",
                 url: "Clientes",

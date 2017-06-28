@@ -23,20 +23,20 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
 
     var AddFile = function(obj) {
         var formdata = obj
-        return $http.post(apiUrl + '/FilesApplication/add', formdata, {
+        return $http.post(apiUrl + '/Solicitudes/add/FilesApplication', formdata, {
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity
         });
     }
 
     var AddCreditAid = function(obj) {
-        return $http.post(apiUrl + "/AvalCredito/add", obj);
+        return $http.post(apiUrl + "/Solicitudes/add/AvalCredito", obj);
     }
     var UpdateCreditAid = function(obj) {
-        return $http.put(apiUrl + "/AvalCredito/update/"+obj.id, obj);
+        return $http.put(apiUrl + "/Solicitudes/update/"+obj.id+"/AvalCredito", obj);
     }
     var DeleteCreditAid = function(id) {
-        return $http.delete(apiUrl + "/AvalCredito/delete/"+id, {});
+        return $http.delete(apiUrl + "/Solicitudes/delete/"+id+"/AvalCredito", {});
     }
     var ShowApplication = function(id) {
         var jsonAuth = {};
@@ -53,7 +53,7 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
     var DownloadFile = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "/FilesApplication/show/" + id).then(function(response) {
+        $http.get(apiUrl + "Solicitudes/show/"+id+"/FilesApplication/" + id).then(function(response) {
             var stringPath = apiUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});

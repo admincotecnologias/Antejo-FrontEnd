@@ -42,12 +42,12 @@ antejo.factory("PermisosFact", ['$http', function($http) {
             delete: deletes,
             report: report
         };
-        return $http.post(apiUrl + "/Permisos/add", json);
+        return $http.post(apiUrl + "Usuarios/add/Permisos", json);
     }
 
     var ShowPermission = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "/Permisos/show/" + id, jsonAuth).then((response) => {
+        $http.get(apiUrl + "Usuarios/show/" + id + "/Permisos", jsonAuth).then((response) => {
             if (!response.data.error) {
                 this.selectpage = response.data.page;
             } else {
@@ -59,7 +59,7 @@ antejo.factory("PermisosFact", ['$http', function($http) {
 
     var AllPermission = function() {
         var jsonAuth = {};
-        $http.get(apiUrl + "/Permisos/all", jsonAuth).then((response) => {
+        $http.get(apiUrl + "Usuarios/all/Permisos", jsonAuth).then((response) => {
             if (!response.data.error) {
                 this.PermissionsArray = response.data.Permissions;
             } else {

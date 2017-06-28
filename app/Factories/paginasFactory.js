@@ -2,7 +2,7 @@ antejo.factory("Pagefact", ['$http', function($http) {
 
     var ShowPage = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "/Paginas/show/" + id, jsonAuth).then((response) => {
+        $http.get(apiUrl + "/Usuarios/show/" + id + "/Paginas", jsonAuth).then((response) => {
             if (!response.data.error) {
                 this.selectpage = response.data.page;
             } else {
@@ -16,7 +16,7 @@ antejo.factory("Pagefact", ['$http', function($http) {
 
     var AllPage = function(callbackFn) {
         var jsonAuth = {};
-        $http.get(apiUrl + "/Paginas/all", jsonAuth).then((response) => {
+        $http.get(apiUrl + "/Usuarios/all/Paginas", jsonAuth).then((response) => {
             if (!response.data.error) {
                 callbackFn(response.data.pages);
             } else {

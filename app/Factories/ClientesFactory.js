@@ -24,25 +24,25 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
 
     var deleteShareholder = function(id) {
         var json = {};
-        return $http.delete(apiUrl + "/AccionistasClientes/delete/" + id, json);
+        return $http.delete(apiUrl + "Clientes/delete/" + id + "/AccionistasClientes/", json);
     }
     var deleteManager = function(id) {
         var json = {};
-        return $http.delete(apiUrl + "/Clientes/delete/" + id+"/manager", json);
+        return $http.delete(apiUrl + "/Clientes/delete/" + id + "/Managers", json);
     }
 
     var deleteClientBank = function(id) {
         var json = {};
-        return $http.delete(apiUrl + "/BancosClientes/delete/" + id, json);
+        return $http.delete(apiUrl + "/Clientes/delete/" + id + "/BancosClientes", json);
     }
 
     var AddClientBank = function(obj) {
-        return $http.post(apiUrl + "/BancosClientes/add", obj);
+        return $http.post(apiUrl + "/Clientes/add/BancosClientes", obj);
     }
 
     var AddClientShareholder = function(obj) {
         var json = obj;
-        return $http.post(apiUrl + "/AccionistasClientes/add", json);
+        return $http.post(apiUrl + "/Clientes/add/AccionistasClientes", json);
     }
 
     var ShowClients = function(id) {
@@ -56,23 +56,55 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
     }
     var AddFile = function(obj) {
         var formdata = obj;
-        return $http.post(apiUrl + '/FilesClient/add', formdata, {
+        return $http.post(apiUrl + '/Clientes/add/FilesClient', formdata, {
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity
         });
     }
     var DownloadFile = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "/FilesClient/show/" + id).then(function(response) {
+        $http.get(apiUrl + "/Clientes/show/" + id + "/FilesClient").then(function(response) {
             var stringPath = apiUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
     }
     var deleteFile = function (id) {
-        return $http.delete(apiUrl+"/Clientes/delete/"+id+"/files",{});
+        return $http.delete(apiUrl+"/Clientes/delete/"+id+"/FilesClient",{});
     }
     var addManager = function(obj) {
-        return $http.post(apiUrl + "/Managers/add", obj);
+        return $http.post(apiUrl + "/Clientes/add/Managers", obj);
+    }
+
+    var showApplicationsByClient = function(id){
+        $http.get(apiUrl+"Clientes/all/Applications").then(function(response){
+            $applications = response.data.applications;
+            $filteredApplications = [];
+            foreach ($applications as $application){
+                if($application=>soft_del == 1){
+                    continue;
+                }
+                if($application=>idclient == id){
+                    $filteredApplications.push($application);
+                }
+            }
+            return $filteredApplications;
+        })
+    }
+
+    var showCreditsByClient = function(id){
+        $http.get(apiUrl+"Clientes/all/Credits").then(function(response){
+            $credits = response.data.credits;
+            $filteredCredits = [];
+            foreach($credits as $credit){
+                if($credit=>soft_del == 1){
+                    continue;
+                }
+                if($credit=>application == id){
+                    $filteredCredits.push($credit);
+                }
+            }
+            return $filteredCredits;
+        })
     }
     return {
         allClients: AllClients,
@@ -88,7 +120,8 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
         addManager: addManager,
         deleteShareholder: deleteShareholder,
         deleteFile:deleteFile,
-        deleteManager:deleteManager
+        deleteManager:deleteManager,
+        showApplicationsByClient:showApplicationsByClient
     };
 
 }]);
