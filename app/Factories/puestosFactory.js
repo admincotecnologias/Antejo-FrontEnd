@@ -1,15 +1,15 @@
 antejo.factory("PuestosFact", ["$http", function($http) {
     var AddPuesto = function(descripcion) {
         var json = { name: descripcion }
-        return $http.post(apiUrl + "/Puestos/add", json);
+        return $http.post(apiUrl + "/Usuarios/add/Puestos", json);
     }
     var DeletePuesto = function(id) {
         var json = {}
-        return $http.delete(apiUrl + "/Puestos/delete/" + id, json);
+        return $http.delete(apiUrl + "/Usuarios/delete/"+id+"/Puestos", json);
     }
     var AllPuesto = function(callbackFn) {
         var json = {}
-        $http.get(apiUrl + "/Puestos/all", json).then((response) => {
+        $http.get(apiUrl + "/Usuarios/all/Puestos", json).then((response) => {
             if (response.data.error == false) {
                 callbackFn(response.data);
             } else {

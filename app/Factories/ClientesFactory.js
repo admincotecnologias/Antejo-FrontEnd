@@ -75,36 +75,15 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
         return $http.post(apiUrl + "/Clientes/add/Managers", obj);
     }
 
-    var showApplicationsByClient = function(id){
-        $http.get(apiUrl+"Clientes/all/Applications").then(function(response){
-            $applications = response.data.applications;
-            $filteredApplications = [];
-            foreach ($applications as $application){
-                if($application=>soft_del == 1){
-                    continue;
-                }
-                if($application=>idclient == id){
-                    $filteredApplications.push($application);
-                }
-            }
-            return $filteredApplications;
-        })
+    var allApplications = function(){
+        var jsonAuth = {};
+        return $http.get(apiUrl+"/Clientes/all/Applications",jsonAuth)
     }
 
-    var showCreditsByClient = function(id){
-        $http.get(apiUrl+"Clientes/all/Credits").then(function(response){
-            $credits = response.data.credits;
-            $filteredCredits = [];
-            foreach($credits as $credit){
-                if($credit=>soft_del == 1){
-                    continue;
-                }
-                if($credit=>application == id){
-                    $filteredCredits.push($credit);
-                }
-            }
-            return $filteredCredits;
-        })
+    var allCredits = function(){
+        var jsonAuth = {};
+        return $http.get(apiUrl+"/Clientes/all/Credits",jsonAuth);
+
     }
     return {
         allClients: AllClients,
@@ -121,7 +100,8 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
         deleteShareholder: deleteShareholder,
         deleteFile:deleteFile,
         deleteManager:deleteManager,
-        showApplicationsByClient:showApplicationsByClient
+        allApplications:allApplications,
+        allCredits:allCredits
     };
 
 }]);

@@ -5,7 +5,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
 
     var getCreditsApproved = function (callback) {
         var json = {}
-        $http.get(apiUrl + "/Credits/all", json).then(function(response) {
+        $http.get(apiUrl + "/Creditos/all", json).then(function(response) {
             console.log(response)
             if (!response.data.error) {
             callback(response.data);
@@ -18,7 +18,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     }
     var showCredit = function (id,callback) {
         var json = {}
-        $http.get(apiUrl + "/Credits/show/"+id,json).then(function (response) {
+        $http.get(apiUrl + "/Creditos/show/"+id,json).then(function (response) {
             callback(response.data)
         }).catch(function(param) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
@@ -26,7 +26,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     }
     var addCreditApproved = function(obj,callback) {
         var json = obj;
-        $http.post(apiUrl + "/Credits/add", json).then(function (response) {
+        $http.post(apiUrl + "/Creditos/add", json).then(function (response) {
             callback(response.data)
         }).catch(function (param) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param })
@@ -34,7 +34,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     }
     var addCreditPay = function(obj,callback) {
         var json = obj;
-        $http.post(apiUrl + "/Credits/add/pay", json).then(function (response) {
+        $http.post(apiUrl + "/Creditos/add/pay", json).then(function (response) {
             callback(response.data)
         }).catch(function (param) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param })

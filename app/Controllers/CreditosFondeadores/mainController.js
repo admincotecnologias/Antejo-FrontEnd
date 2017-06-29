@@ -5,6 +5,24 @@ antejo.controller('FundsCtrl', ['$filter', 'SweetAlert','FoundFact','$routeParam
     this.idStock = $routeParams.idStock;
     var ctrl = this;
     ctrl.fund = [];
+
+    ctrl.AddFile = function ($file) {
+        if($file){
+            $scope.modalpay.file.push($file);
+        }
+        console.log($scope.modalpay.file)
+    }
+    ctrl.deleteFile = function (index) {
+        $scope.modalpay.file.splice(index,1);
+        if($scope.modalpay.file.length<1){
+            $("#dropzone").removeClass("dropped");
+            $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
+        }else{
+            $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
+            $('#dropzone img').remove();
+        }
+    }
+
     ctrl.GetAll = function () {
         FoundFact.fundsByStock(ctrl.idStock).then(response=>{
             if(response.data.error){

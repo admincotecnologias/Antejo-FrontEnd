@@ -3,7 +3,7 @@ antejo.factory('EmployeesFact', ['$http', function($http) {
     //CRUD
     var DeleteEmployees = function(id) {
         var json = {};
-        return $http.delete(apiUrl + "/Empleados/delete/" + id, json);
+        return $http.delete(apiUrl + "/Usuarios/delete/" + id + "/Empleados", json);
     }
 
     var UpdateEmployees = function(id, obj) {
@@ -18,7 +18,7 @@ antejo.factory('EmployeesFact', ['$http', function($http) {
             json.idoccupation = obj.puesto;
         }
         if (Object.getOwnPropertyNames(json).length > 0) {
-            return $http.put(apiUrl + "/Empleados/update/" + id, json);
+            return $http.put(apiUrl + "/Usuarios/update/" + id + "/Empleados", json);
         }
         return null;
     }
@@ -30,17 +30,17 @@ antejo.factory('EmployeesFact', ['$http', function($http) {
             iduser: iduser,
             idoccupation: idoccupation
         };
-        return $http.post(apiUrl + "/Empleados/add", json);
+        return $http.post(apiUrl + "/Usuarios/add/Empleados", json);
     }
 
     var ShowEmployees = function(id) {
         var jsonAuth = {};
-        return $http.get(apiUrl + "/Empleados/show/" + id, jsonAuth);
+        return $http.get(apiUrl + "/Usuarios/show/"+id+"/Empleados", jsonAuth);
     }
 
     var AllEmployees = function(callbackFn) {
         var jsonAuth = {};
-        $http.get(apiUrl + "/Empleados/all", jsonAuth).then((response) => {
+        $http.get(apiUrl + "/Usuarios/all/Empleados", jsonAuth).then((response) => {
             if (!response.data.error) {
                 callbackFn(response.data.employees);
             } else {
