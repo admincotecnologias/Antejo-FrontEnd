@@ -22,7 +22,7 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
 
     var AddFile = function(obj) {
-        var formdata = obj
+        var formdata = obj;
         return $http.post(apiUrl + '/Solicitudes/add/FilesApplication', formdata, {
             headers: { 'Content-Type': undefined },
             transformRequest: angular.identity

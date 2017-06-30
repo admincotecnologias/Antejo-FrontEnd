@@ -5,6 +5,8 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
     this.idStock = $routeParams.idStock;
     this.idCredito = $routeParams.idcredito;
     var ctrl = this;
+    const DisposicionType = "Disposicion";
+    const PagoType = "Pago";
     ctrl.DateNow = new Date().toDateString();
     ctrl.DateMin = null;
     ctrl.credit = [];
@@ -18,20 +20,58 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
         sel_moneda:'',
         currency:'',
         date: '',
-        file:[]
+        file: ''
     }
     ctrl.selectPago = function(credito){
-        ctrl.modalDetallePago = credito
+        console.log(credito);
+        ctrl.modalDetallePago = credito;
     }
     ctrl.Disposicion = {}
     ctrl.lastCredit = {}
     ctrl.newMove = {}
     ctrl.newMove = {}
-    ctrl.AddFile = function ($file) {
+    ctrl.AddFilePago = function ($file) {
+        var Form = new FormData();
+        Form.append('file',$file);
+        Form.append('idstock',$routeParams.idStock);
+        Form.append('type',PagoType);
         if($file){
-            ctrl.modalpay.file.push($file);
+            FoundFact.AddFile(Form).then(function(response){
+                if(response.data.error){
+                    console.log(response.data);
+                    SweetAlert.swal("Error1:","No se pudo establecer conexion al servidor.","error");
+                }else{
+                    ctrl.modalpay.file = response.data.file.id;
+                    SweetAlert.swal("Aviso:","Archivo actualizado","success");
+                }
+
+            });
+
         }
     }
+    ctrl.AddFileDisposicion = function ($file) {
+        var Form = new FormData();
+        Form.append('file',$file);
+        Form.append('idstock',$routeParams.idStock);
+        Form.append('type',DisposicionType);
+        if($file){
+            FoundFact.AddFile(Form).then(function(response){
+                if(response.data.error){
+                    console.log(response.data);
+                    SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+                }else{
+                    console.log(response);
+                    ctrl.modalpay.file = response.data.file.id;
+                    SweetAlert.swal("Aviso:","Archivo actualizado","success");
+                }
+
+            });
+
+        }
+        console.log("Hi!");
+    }
+
+
     ctrl.deleteFile = function (index) {
         ctrl.modalpay.file.splice(index,1);
         if(ctrl.modalpay.file.length<1){
@@ -43,6 +83,9 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
         }
     }
 
+    ctrl.DownloadFile = function (id) {
+        FoundFact.DownloadFile(id);
+    }
     ctrl.insertCondition = function(){
 
     }
@@ -59,24 +102,33 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
                         console.log(response.data)
                         SweetAlert.swal("Error:","No se agrego disposición.","error");
                     }else{
-                        SweetAlert.swal({
-                                title: "Mensaje:",
-                                text: "Dispocición Agregada.",
-                                type: "success",
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Aceptar.",
-                                closeOnConfirm: false,
-                                closeOnCancel: false
-                            },
-                            function(isConfirm){
-                                if (isConfirm) {
-                                    location.reload(true);
-                                } else {
-                                    location.reload(true);
-                                }
-                            });
+                        console.log(response.data);
+                        FoundFact.updateControlFundFile(response.data.fund,ctrl.modalpay.file).then(function(response){
+                            if(response.data.error){
+                                SweetAlert.swal("Error2:","No se pudo establecer conexion al servidor.","error");
+                            }else{
+                                SweetAlert.swal({
+                                        title: "Mensaje:",
+                                        text: "Dispocición Agregada.",
+                                        type: "success",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#DD6B55",
+                                        confirmButtonText: "Aceptar.",
+                                        closeOnConfirm: false,
+                                        closeOnCancel: false
+                                    },
+                                    function(isConfirm){
+                                        if (isConfirm) {
+                                            location.reload(true);
+                                        } else {
+                                            location.reload(true);
+                                        }
+                                    });
+                                //SweetAlert.swal("Aviso:","Archivo actualizado","success");
+                            }
+                        });
+
                     }
                 })
             }else{
@@ -213,20 +265,28 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
         FoundFact.addCtrl(ctrl.newMove).then(function (response) {
             callback = response.data;
             if(callback.error==false){
-                SweetAlert.swal({
-                        title: "Guardado",
-                        text: "PAGO CREADO",
-                        type: "success",
-                        showCancelButton: false,
-                        confirmButtonColor: "#4bdd86",
-                        confirmButtonText: "Cerrar",
-                        closeOnConfirm: true
-                    },
-                    function(isConfirm){
-                        if (isConfirm) {
-                            location.reload();
-                        }
-                    });
+
+                FoundFact.updateControlFundFile(response.data.fund,ctrl.modalpay.file).then(function(response){
+                    if(response.data.error){
+                        SweetAlert.swal("Error2:","No se pudo establecer conexion al servidor.","error");
+                    }else{
+                        SweetAlert.swal({
+                                title: "Guardado",
+                                text: "PAGO CREADO",
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#4bdd86",
+                                confirmButtonText: "Cerrar",
+                                closeOnConfirm: true
+                            },
+                            function(isConfirm){
+                                if (isConfirm) {
+                                    location.reload();
+                                }
+                            });
+                    }
+                });
+
             }else if(callback.errors.length>0){
                 var text = "";
                 for(let i = 0;i<callback.errors.length;i++){

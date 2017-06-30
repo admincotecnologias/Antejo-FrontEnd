@@ -74,6 +74,30 @@ antejo.factory("FoundFact", ["$http", function($http) {
         var json = Fund;
         return $http.post(apiUrl + "/Fondeadores/add/fund", json);
     }
+
+    var AddFile = function(obj) {
+        var formdata = obj;
+        return $http.post(apiUrl + '/Fondeadores/add/Files_Stock', formdata, {
+            headers: { 'Content-Type': undefined },
+            transformRequest: angular.identity
+        });
+    }
+    var DownloadFile = function(id) {
+        var jsonAuth = {};
+        $http.get(apiUrl + "/Fondeadores/show/" + id + "/Files_Stock").then(function(response) {
+            var stringPath = apiUrl + '/storage/' + response.data.filepath;
+            window.open(stringPath);
+        }, function(error) {});
+    }
+
+    var updateControlFundFile = function(controlFundId,fileId){
+        var json = {};
+        return $http.put(apiUrl+ "/Fondeadores/update/"+controlFundId+"/Control_Fund/"+fileId,json);
+
+    }
+    var deleteFile = function (id) {
+        return $http.delete(apiUrl+"/Fondeadores/delete/"+id+"/Files_Stock",{});
+    }
     return {
         allStockholders: allStockholders,
         byIDStockholders: byIDStockholders,
@@ -92,6 +116,10 @@ antejo.factory("FoundFact", ["$http", function($http) {
         fundsByStock:fundsByStock,
         DetailFundsByStock:DetailFundsByStock,
         addCtrl:addCtrl,
-        addFund:addFund
+        addFund:addFund,
+        AddFile:AddFile,
+        DownloadFile:DownloadFile,
+        deleteFile:deleteFile,
+        updateControlFundFile:updateControlFundFile
     }
 }]);
