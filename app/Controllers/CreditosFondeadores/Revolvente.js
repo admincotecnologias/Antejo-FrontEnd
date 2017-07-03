@@ -39,7 +39,8 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
             FoundFact.AddFile(Form).then(function(response){
                 if(response.data.error){
                     console.log(response.data);
-                    SweetAlert.swal("Error1:","No se pudo establecer conexion al servidor.","error");
+                    SweetAlert.swagi
+                    l("Error1:","No se pudo establecer conexion al servidor.","error");
                 }else{
                     ctrl.modalpay.file = response.data.file.id;
                     SweetAlert.swal("Aviso:","Archivo actualizado","success");
@@ -268,7 +269,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
 
                 FoundFact.updateControlFundFile(response.data.fund,ctrl.modalpay.file).then(function(response){
                     if(response.data.error){
-                        SweetAlert.swal("Error2:","No se pudo establecer conexion al servidor.","error");
+                        SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
                     }else{
                         SweetAlert.swal({
                                 title: "Guardado",
@@ -337,6 +338,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
     }
     ctrl.getData = function () {
         FoundFact.DetailFundsByStock(ctrl.idStock,ctrl.idCredito).then(function (response) {
+            console.log(response.data);
             ctrl.CreditPadre = angular.copy(response.data.fund[0]);
             ctrl.CreditPadreUnedit = angular.copy(ctrl.CreditPadre);
             delete ctrl.CreditPadre.id;
@@ -351,6 +353,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
             ctrl.Disposicion.start_date = new Date();
             ctrl.Disposicion.todo = "";
         }).catch(function (error) {
+            SweetAlert.swal("Error:","No se pudo establecer conexion con el servidor","error")
             console.log(error)
         })
     }
