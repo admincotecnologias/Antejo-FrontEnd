@@ -56,6 +56,12 @@
                             </div>
                         </td>
                     </tr>
+                    <tr ng-if="ctrl.ModalDetalleCondicion.fileid">
+                        <th class="text-right" colspan="2">Comprobante</th>
+                        <td colspan="2" class="text-center">
+                            <button class="btn btn-default" ng-click="ctrl.DownloadFile(ctrl.ModalDetalleCondicion.fileid)">Descargar</button>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
