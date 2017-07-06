@@ -6,6 +6,8 @@ antejo.controller('FundsCreateCtrl', ['$filter', 'SweetAlert','FoundFact','$rout
     var ctrl = this;
     ctrl.fund = [];
     ctrl.menu='info';
+
+    const DisposicionType = "Disposicion";
     ctrl.Credit = {
         id: null,
         idstock: ctrl.idStock,
@@ -21,8 +23,28 @@ antejo.controller('FundsCreateCtrl', ['$filter', 'SweetAlert','FoundFact','$rout
         status: 'Activo',
         extends: null
     }
+    ctrl.modalpay = {
+        file : []
+    }
     ctrl.dateNow = new Date();
     ctrl.Amortizacion = []
+    ctrl.file = null;
+
+
+
+    ctrl.AddFileDisposicion = function ($file) {
+        if($file){
+            ctrl.filedata.file = $file;
+            ctrl.filedata.idstock = $routeParams.idStock;
+            ctrl.filedata.type = DisposicionType;
+        }
+        ctrl.modalpay.file.push($file);
+        console.log(ctrl.filedata);
+        SweetAlert.swal("Aviso:","Archivo anexado.","success");
+        console.log("DFSL");
+    
+
+    }
     ctrl.Calcular = function () {
         var dateFinal = new Date(angular.copy(ctrl.Credit.start_date));
         console.log(dateFinal)
@@ -68,18 +90,55 @@ antejo.controller('FundsCreateCtrl', ['$filter', 'SweetAlert','FoundFact','$rout
         ctrl.Amortizacion.push(objAmortizacion)
     }
     ctrl.Aprobar = function () {
-        FoundFact.addFund(ctrl.Credit).then(function (response) {
-            console.log(response);
+        var Form = new FormData();
+        Form.append('file',ctrl.filedata.file);
+        Form.append('idstock',ctrl.filedata.idstock);
+        Form.append('type',ctrl.filedata.type);
+
+        FoundFact.AddFile(Form).then(function(response){
             if(response.data.error){
-                SweetAlert.swal("Aviso:","Error al guardar.","warning");
-            }else {
-                SweetAlert.swal("Aviso:","Guardado con exito.","success");
+                SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+            }else{
+                ctrl.file = response.data.file.id;
+                FoundFact.addFund(ctrl.Credit).then(function (response) {
+                    if(response.data.error){
+                        SweetAlert.swal("Error:","El credito no pudo ser aprobado.","error");
+                    }else{
+                        FoundFact.updateFundFile(response.data.fund,ctrl.file).then(function(response){
+                            if(response.data.error){
+                                SweetAlert.swal("Error2:","No se pudo establecer conexion al servidor.","error");
+                            }else{
+                                SweetAlert.swal({
+                                        title: "Mensaje:",
+                                        text: "Credito Aprobado.",
+                                        type: "success",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#DD6B55",
+                                        confirmButtonText: "Aceptar.",
+                                        closeOnConfirm: false,
+                                        closeOnCancel: false
+                                    },
+                                    function(isConfirm){
+                                        if (isConfirm) {
+                                            location.reload(true);
+                                        } else {
+                                            location.reload(true);
+                                        }
+                                    });
+                            }
+                        });
+
+                    }
+                })
             }
-        }).catch(function (error) {
-            console.log(error);
-            SweetAlert.swal("Error:","Error de comunicación con el servidor.","error");
-        })
+
+        });
     }
+    ctrl.filedata={
+        file: '',
+    }
+
     ctrl.Imprimir = function () {
         $(document).ready(function () {
             $("#tablaAmortizacion").print({

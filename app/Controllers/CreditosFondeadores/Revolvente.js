@@ -39,26 +39,9 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
             ctrl.filedata.idstock = $routeParams.idStock;
             ctrl.filedata.type = DisposicionType;
         }
+        ctrl.modalpay.file = $file;
         console.log(ctrl.filedata);
         console.log("PFSL");
-        /*
-        var Form = new FormData();
-        Form.append('file',$file);
-        Form.append('idstock',$routeParams.idStock);
-        Form.append('type',PagoType);
-        if($file){
-            FoundFact.AddFile(Form).then(function(response){
-                if(response.data.error){
-                    console.log(response.data);
-                    SweetAlert.swal("Error1:","No se pudo establecer conexion al servidor.","error");
-                }else{
-                    ctrl.modalpay.file = response.data.file.id;
-                    SweetAlert.swal("Aviso:","Archivo actualizado","success");
-                }
-
-            });
-
-        }*/
     }
     ctrl.AddFileDisposicion = function ($file) {
         if($file){
@@ -69,28 +52,6 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
         console.log(ctrl.filedata);
         console.log("DFSL");
         return;
-
-        /*
-        var Form = new FormData();
-        Form.append('file',$file);
-        Form.append('idstock',$routeParams.idStock);
-        Form.append('type',DisposicionType);
-        if($file){
-            FoundFact.AddFile(Form).then(function(response){
-                if(response.data.error){
-                    console.log(response.data);
-                    SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
-                }else{
-                    console.log(response);
-                    ctrl.modalpay.file = response.data.file.id;
-                    SweetAlert.swal("Aviso:","Archivo actualizado","success");
-                }
-
-            });
-        }
-         console.log("Hi!");
-        */
-
     }
 
 
@@ -108,9 +69,6 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
     ctrl.DownloadFile = function (id) {
         FoundFact.DownloadFile(id);
     }
-    ctrl.insertCondition = function(){
-
-    }
 
     ctrl.insertDisposicion = function () {
         console.log(ctrl.Disposicion);
@@ -125,17 +83,16 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
                 ctrl.Disposicion.extends = ctrl.CreditPadreUnedit.id;
                 FoundFact.AddFile(Form).then(function(response){
                     if(response.data.error){
-                        console.log(response.data);
+        
                         SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
                     }else{
-                        console.log(response);
+                       
                         ctrl.modalpay.file = response.data.file.id;
                         FoundFact.addFund(ctrl.Disposicion).then(function (response) {
                             if(response.data.error){
-                                console.log(response.data)
                                 SweetAlert.swal("Error:","No se agrego disposición.","error");
                             }else{
-                                console.log(response.data);
+                
                                 FoundFact.updateFundFile(response.data.fund,ctrl.modalpay.file).then(function(response){
                                     if(response.data.error){
                                         SweetAlert.swal("Error2:","No se pudo establecer conexion al servidor.","error");
@@ -304,14 +261,14 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
 
         FoundFact.AddFile(Form).then(function(response){
             if(response.data.error){
-                console.log(response.data);
+
                 SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
             }else{
-                console.log(response);
+               
                 ctrl.modalpay.file = response.data.file.id;
                 FoundFact.addCtrl(ctrl.newMove).then(function (response) {
                     callback = response.data;
-                    console.log(response.data);
+    
                     if(callback.error==false){
 
                         FoundFact.updateControlFundFile(response.data.fund,ctrl.modalpay.file).then(function(response){
@@ -390,7 +347,6 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
     }
     ctrl.getData = function () {
         FoundFact.DetailFundsByStock(ctrl.idStock,ctrl.idCredito).then(function (response) {
-            console.log(response.data);
             ctrl.CreditPadre = angular.copy(response.data.fund[0]);
             ctrl.CreditPadreUnedit = angular.copy(ctrl.CreditPadre);
             delete ctrl.CreditPadre.id;
