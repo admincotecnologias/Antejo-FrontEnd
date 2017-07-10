@@ -1,4 +1,4 @@
-antejo = angular.module("Antejo", ['ngRoute', 'oitozero.ngSweetAlert', 'ngAnimate', 'base64', 'ngFileUpload','htmlToPdfSave','angularScreenfull','720kb.datepicker','ngLocale','datatables','chart.js']);
+antejo = angular.module("Antejo", ['ngRoute', 'oitozero.ngSweetAlert', 'ngAnimate', 'base64', 'ngFileUpload', 'htmlToPdfSave', 'angularScreenfull', '720kb.datepicker', 'ngLocale', 'datatables', 'chart.js']);
 apiUrl = 'http://localhost/bantejo/public';
 antejo.config(
     function($routeProvider, $httpProvider, $locationProvider, $provide, $filterProvider) {
@@ -14,36 +14,37 @@ antejo.config(
                 templateUrl: '/app/views/Empleados.html',
                 controller: 'EmpleadosCtrl'
             })
-            /*.when('/Clientes', {
-                name: "Clientes",
-                url: "Clientes",
-                templateUrl: '/app/views/Clientes.html',
-                controller: 'ClientesCtrl'
-            })*/
+            .when('/Empleados/Perfil', {
+                name: "Perfil",
+                url: "Perfil",
+                templateUrl: '/app/views/profile/main.html',
+                controller: 'ProfileMainCtrl',
+                controllerAs: 'ctrl'
+            })
             .when('/Clientes', {
                 name: "Clientes",
                 url: "Clientes",
                 templateUrl: '/app/views/Clients/Main.html',
                 controller: 'ClientMainCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
             .when('/Bancos', {
                 name: "Bancos",
                 url: "Bancos",
                 templateUrl: '/app/views/Banks/Main.html',
                 controller: 'BanksMainCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
             .when('/Clientes/:idClient', {
                 name: "Clientes",
                 url: "Clientes",
                 templateUrl: '/app/views/Clients/Crear.html',
                 controller: 'ClientEditCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
-            .when('/Clientes/Cartera/:idClient',{
+            .when('/Clientes/Cartera/:idClient', {
                 name: "Clientes",
-                url : "Solicitudes",
+                url: "Clientes",
                 templateUrl: '/app/views/Clients/Cartera.html',
                 controller: 'ClientWalletCtrl',
                 controllerAs: 'ctrl'
@@ -53,21 +54,21 @@ antejo.config(
                 url: "Clientes",
                 templateUrl: '/app/views/Clients/Crear.html',
                 controller: 'ClientCreateCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
             .when('/Solicitudes', {
                 name: "Solicitudes",
                 url: "Solicitudes",
                 templateUrl: '/app/views/Solicitudes/Main.html',
                 controller: 'ApplicationMainCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
             .when('/Solicitudes/Nuevo', {
                 name: "Solicitudes",
                 url: "Solicitudes",
                 templateUrl: '/app/views/Solicitudes/Create.html',
                 controller: 'ApplicationCreateCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
             .when('/Solicitudes/Autorizar/:idApp', {
                 name: "Solicitudes",
@@ -104,43 +105,43 @@ antejo.config(
                 url: "Fondeadores",
                 templateUrl: '/app/views/Fondeadores/main.html',
                 controller: 'StockholderCtrl',
-                controllerAs:'stock'
+                controllerAs: 'stock'
             }).when('/Fondeadores/Nuevo', {
                 name: "Fondeadores",
                 url: "Fondeadores",
                 templateUrl: 'app/views/Fondeadores/Create.html',
                 controller: 'CreateStockCtrl',
-                controllerAs:'stock'
+                controllerAs: 'stock'
             }).when('/Fondeadores/:idStock', {
                 name: "Fondeadores",
                 url: "Fondeadores",
                 templateUrl: 'app/views/Fondeadores/Create.html',
                 controller: 'UpdateStockCtrl',
-                controllerAs:'stock'
+                controllerAs: 'stock'
             }).when('/Fondeadores/:idStock/Creditos/', {
                 name: "Fondeadores",
                 url: "Fondeadores",
                 templateUrl: 'app/views/CreditosFondeadores/main.html',
                 controller: 'FundsCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             }).when('/Fondeadores/:idStock/Credito/Nuevo', {
                 name: "Fondeadores",
                 url: "Fondeadores",
                 templateUrl: 'app/views/CreditosFondeadores/Create.html',
                 controller: 'FundsCreateCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             }).when('/Fondeadores/:idStock/Creditos/:idcredito', {
                 name: "Fondeadores",
                 url: "Fondeadores",
                 templateUrl: 'app/views/CreditosFondeadores/Revolvente.html',
                 controller: 'ShowCreditFundsCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             }).when('/', {
                 name: "Index",
                 url: "Index",
-                templateUrl:'app/views/Dashboard/Main.html',
+                templateUrl: 'app/views/Dashboard/Main.html',
                 controller: 'DashboardCtrl',
-                controllerAs:'ctrl'
+                controllerAs: 'ctrl'
             })
             .otherwise({
                 redirectTo: '/'

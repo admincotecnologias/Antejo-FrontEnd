@@ -1,4 +1,4 @@
-antejo.controller('MainCtrl', ['$http','$filter', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout','DTOptionsBuilder', function($http,$filter, $scope, MainFact, $location, AuthFact, $timeout,DTOptionsBuilder) {
+antejo.controller('MainCtrl', ['$http', '$filter', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout', 'DTOptionsBuilder', function($http, $filter, $scope, MainFact, $location, AuthFact, $timeout, DTOptionsBuilder) {
     var timer;
     $scope.CheckLocal = MainFact.CheckLocal;
     $scope.username = MainFact.username;
@@ -18,7 +18,7 @@ antejo.controller('MainCtrl', ['$http','$filter', '$scope', 'MainFact', '$locati
         return $location.path().split('/')[1];
     }
     $scope.goTo = function(url, data) {
-        if ($location.path().split('/')[1] != url || $location.path().split('/').length>2) {
+        if ($location.path().split('/')[1] != url || $location.path().split('/').length > 2) {
             $location.path(url);
             if (data) {
                 window.setTimeout(function() {
@@ -44,4 +44,9 @@ antejo.controller('MainCtrl', ['$http','$filter', '$scope', 'MainFact', '$locati
     $scope.$on('$locationChangeSuccess', function() {
         $scope.txt_filtro = "";
     });
+
+    $scope.gotolocation = function(path) {
+        console.log(path)
+        $location.path(path);
+    }
 }]);

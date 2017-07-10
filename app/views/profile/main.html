@@ -1,0 +1,58 @@
+<div class="main-page">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center"> Editar Perfil</div>
+            <form class="nga-default nga-stagger nga-slide-up" name="personal_info_update">
+                <table class="table table-bordered">
+                    <tr>
+                        <th class="text-center">Nombre:</th>
+                        <td>
+                            <div class="form-group fixImg">
+                                <input type="text" class="form-control" id="txt_Nombre_Empleado" placeholder="Nombre" ng-model="ctrl.profile.name" required>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Apellido:</th>
+                        <td>
+                            <div class="form-group fixImg">
+                                <input type="text" class="form-control" id="txt_Apellido_Empleado" placeholder="Apellido" ng-model="ctrl.profile.lastname" required>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Email:</th>
+                        <td>
+                            <div class="form-group fixImg">
+                                <input type="email" ng-pattern="regexEmail" class="form-control" id="txt_Email" placeholder="Correo Electronico" ng-model="ctrl.profile.email" readonly="readonly" format="email" required>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Contraseña:</th>
+                        <td>
+                            <div class="form-group fixImg">
+                                <input type="password" class="form-control" id="txt_Pwd_Empleado" placeholder="Contraseña" ng-model="ctrl.profile.password" required>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Confirmar Contraseña:</th>
+                        <td>
+                            <div class="form-group fixImg">
+                                <input type="password" class="form-control" id="txt_Pwd_Confirm_Empleado" placeholder="Repita Contraseña" ng-model="ctrl.profile.password2" required>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button class="btn btn-default pull-right" ng-click="ctrl.editModePerfil()">Guardar</button>
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 /**
  * Created by Enrique on 18/05/2017.
  */
-antejo.controller('FundsCtrl', ['$filter', 'SweetAlert','FoundFact','$routeParams', function($filter, SweetAlert,FoundFact,$routeParams) {
+antejo.controller('FundsCtrl', ['$filter', 'SweetAlert','FoundFact','$routeParams', 'DTOptionsBuilder',function($filter, SweetAlert,FoundFact,$routeParams,DTOptionsBuilder) {
     this.idStock = $routeParams.idStock;
     var ctrl = this;
     ctrl.fund = [];
@@ -22,6 +22,34 @@ antejo.controller('FundsCtrl', ['$filter', 'SweetAlert','FoundFact','$routeParam
             $('#dropzone img').remove();
         }
     }
+
+
+    ctrl.dtOptions = DTOptionsBuilder.fromSource()
+        .withLanguage({
+            "sEmptyTable":     "Vacio",
+            "sInfo":           "Viendo _START_ de _END_",
+            "sInfoEmpty":      "Viendo 0 de 0 de un total de 0",
+            "sInfoFiltered":   "(Filtrado de un total de _MAX_)",
+            "sInfoPostFix":    "",
+            "sInfoThousands":  ",",
+            "sLengthMenu":     "Número Por Página _MENU_",
+            "sLoadingRecords": "Cargando...",
+            "sProcessing":     "Procesando...",
+            "sSearch":         "Buscar:",
+            "sZeroRecords":    "No se encontraron coincidencias.",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Ultimo",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": activate to sort column ascending",
+                "sSortDescending": ": activate to sort column descending"
+            }
+        });
+
+    console.log(ctrl.dtOptions)
 
     ctrl.GetAll = function () {
         FoundFact.fundsByStock(ctrl.idStock).then(response=>{

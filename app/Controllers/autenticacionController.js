@@ -12,6 +12,7 @@ antejo.factory("AuthFact", [function() {
                 scope.username = response.data.nombre;
                 scope.occupation = response.data.puesto;
                 location.path("/");
+                window.location.reload();
             } else {
                 alert(response.data.message);
             }

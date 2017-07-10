@@ -19,116 +19,112 @@
                         <br>
                         <div class="col-sm-12">
                             <div class="panel-body">
-                                <div class="table-scroll scrollbar1" ng-show= "ctrl.menu=='application'">
+                                <div class="table-scroll scrollbar1" ng-show="ctrl.menu=='application'">
                                     <table datatable="ng" dt-options="ctrl.dtOptions" class="table table-striped table-condensed">
                                         <thead>
-                                        <tr>
-                                            <th class="text-left hidden-xs hidden-sm">Status</th>
-                                            <th class="text-left hidden-xs hidden-sm">Cliente</th>
-                                            <th class="text-left">Fecha Solicitud</th>
-                                            <th class="text-center">Plazo</th>
-                                            <th class="text-center">Monto Solicitado</th>
-                                            <th class="text-center hidden-xs hidden-sm">No. Avales</th>
-                                            <th class="text-center hidden-xs hidden-sm">No. Archivos</th>
-                                            <th class="text-center">Opciones</th>
-                                        </tr>
+                                            <tr>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Cliente</th>
+                                                <th class="text-center">RFC</th>
+                                                <th class="text-center">Fecha Solicitud</th>
+                                                <th class="text-center">Monto Solicitado</th>
+                                                <th class="text-center">Giro</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Telefono</th>
+                                                <th class="text-center">Opciones</th>
+                                            </tr>
                                         </thead>
                                         <tbody class="nga-fast nga-stagger nga-slide-up">
-                                        <tr style="border-bottom: 1px solid #ddd"
-                                            ng-repeat="app in ctrl.applications | filter:$main.txt_filtro"
-                                            class="nga-fast nga-stagger nga-slide-up">
-                                            <td>
-                                                <i ng-if="app.status=='Pendiente'" class="material-icons" style="color: #cfc400;">fiber_manual_record</i>
-                                                <i ng-if="app.status=='Pre-Aprobado'" class="material-icons" style="color: #ffb290;">fiber_manual_record</i>
-                                                <i ng-if="app.status=='Cancelada'" class="material-icons" style="color: darkred;">fiber_manual_record</i>
-                                                <i ng-if="app.status=='Autorizado'" class="material-icons" style="color: darkgreen;">fiber_manual_record</i>
-                                            </td>
-                                            <td>
-                                                {{app.clientname}}
-                                            </td>
-                                            <td>
-                                                {{app.applicationdate|date:"dd/MM/yyyy"}}
-                                            </td>
-                                            <td>
-                                                {{app.creditterm}}
-                                            </td>
-                                            <td>
-                                                {{app.amountrequest|currency}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{app.avalesnum}}
-                                            </td>
-                                            <td class="text-center">
-                                                {{app.filesnum}}
-                                            </td>
-                                            <td class="text-center">
-                                                <div class=" btn-group-sm">
-                                                    <a href="/Solicitudes/{{app.id}}" class="btn btn-default fontSmall"><i
+                                            <tr style="border-bottom: 1px solid #ddd" ng-repeat="app in ctrl.applications | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                                <td>
+                                                    <i ng-if="app.status=='Pendiente'" class="material-icons" style="color: #cfc400;">fiber_manual_record</i>
+                                                    <i ng-if="app.status=='Pre-Aprobado'" class="material-icons" style="color: #ffb290;">fiber_manual_record</i>
+                                                    <i ng-if="app.status=='Cancelada'" class="material-icons" style="color: darkred;">fiber_manual_record</i>
+                                                    <i ng-if="app.status=='Autorizado'" class="material-icons" style="color: darkgreen;">fiber_manual_record</i>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{app.clientname}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ctrl.client.rfc}}
+
+                                                </td>
+                                                <td class="text-center">
+                                                    {{app.applicationdate|date:"dd/MM/yyyy"}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{app.amountrequest|currency}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ctrl.client.businesscategory}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ctrl.client.email}}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ctrl.client.phone}}
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class=" btn-group-sm">
+                                                        <a href="/Solicitudes/{{app.id}}" class="btn btn-default fontSmall"><i
                                                             class="material-icons">mode_edit</i></a>
-                                                    <a href="/Solicitudes/Autorizar/{{app.id}}" class="btn btn-default fontSmall">
-                                                        <i class="material-icons">assignment_turned_in</i>
-                                                    </a>
-                                                    <a ng-click="ctrl.delete(app)" class="btn btn-default fontSmall">
-                                                        <i class="material-icons">delete</i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                        <a href="/Solicitudes/Autorizar/{{app.id}}" class="btn btn-default fontSmall">
+                                                            <i class="material-icons">assignment_turned_in</i>
+                                                        </a>
+                                                        <a ng-click="ctrl.delete(app)" class="btn btn-default fontSmall">
+                                                            <i class="material-icons">delete</i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="table-scroll scrollbar1" ng-show = "ctrl.menu=='credit'">
+                                <div class="table-scroll scrollbar1" ng-show="ctrl.menu=='credit'">
                                     <table class="table table-striped table-condensed">
                                         <thead>
-                                        <tr>
-                                            <th class="text-center hidden-xs hidden-sm">Status</th>
-                                            <th class="text-left">Cliente</th>
-                                            <th class="text-center">Proyecto</th>
-                                            <th class="hidden-xs hidden-sm">Monto Solicitado</th>
-                                            <th class="text-center hidden-xs hidden-sm">Fecha de Solicitud</th>
-                                            <th class="hidden-xs hidden-sm">Cartera</th>
-                                            <th class="hidden-xs hidden-sm">Intereses Aprox.</th>
-                                            <th class="text-center">Opciones</th>
-                                        </tr>
+                                            <tr>
+                                                <th class="text-center hidden-xs hidden-sm">Status</th>
+                                                <th class="text-left">Cliente</th>
+                                                <th class="text-center">Proyecto</th>
+                                                <th class="hidden-xs hidden-sm">Monto Solicitado</th>
+                                                <th class="text-center hidden-xs hidden-sm">Fecha de Solicitud</th>
+                                                <th class="hidden-xs hidden-sm">Cartera</th>
+                                                <th class="hidden-xs hidden-sm">Intereses Aprox.</th>
+                                                <th class="text-center">Opciones</th>
+                                            </tr>
                                         </thead>
                                         <tbody ng-if="ctrl.credits!=[]" class="nga-fast nga-stagger nga-slide-up">
-                                        <tr style="border-bottom: 1px solid #ddd"
-                                            ng-repeat="credit in ctrl.credits | filter:$main.txt_filtro"
-                                            class="nga-fast nga-stagger nga-slide-up">
-                                            <td class="text-center hidden-xs hidden-sm">
-                                                <div ng-switch="credit.vencimiento">
-                                                    <div ng-switch-when="2">
-                                                        <i class="material-icons text-warning" data-toggle="tooltip"
-                                                           data-placement="top" title="Vencido">fiber_manual_record</i>
+                                            <tr style="border-bottom: 1px solid #ddd" ng-repeat="credit in ctrl.credits | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                                <td class="text-center hidden-xs hidden-sm">
+                                                    <div ng-switch="credit.vencimiento">
+                                                        <div ng-switch-when="2">
+                                                            <i class="material-icons text-warning" data-toggle="tooltip" data-placement="top" title="Vencido">fiber_manual_record</i>
+                                                        </div>
+                                                        <div ng-switch-when="1">
+                                                            <i class="material-icons" style="color: darkgreen" data-toggle="tooltip" data-placement="top" title="Activo">fiber_manual_record</i>
+                                                        </div>
+                                                        <div ng-switch-when="3">
+                                                            <i class="material-icons" style="color: darkred" data-toggle="tooltip" data-placement="top" title="Fuera de Gracia">fiber_manual_record</i>
+                                                        </div>
                                                     </div>
-                                                    <div ng-switch-when="1">
-                                                        <i class="material-icons" style="color: darkgreen" data-toggle="tooltip"
-                                                           data-placement="top" title="Activo">fiber_manual_record</i>
-                                                    </div>
-                                                    <div ng-switch-when="3">
-                                                        <i class="material-icons" style="color: darkred" data-toggle="tooltip"
-                                                           data-placement="top" title="Fuera de Gracia">fiber_manual_record</i>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-left" ng-if="credit.businessname != null ">{{credit.businessname}}</td>
-                                            <td class="text-left" ng-if="credit.businessname == null ">{{credit.name}} {{credit.lastname}}</td>
-                                            <td class="text-center">{{credit.projectname}}</td>
-                                            <td class="text-left hidden-xs hidden-sm">{{credit.amount | currency:""}}$</td>
-                                            <td class="text-center hidden-xs hidden-sm">{{credit.start_date|date:'dd/MM/yyyy'}}</td>
-                                            <td class="text-left hidden-xs hidden-sm">{{credit.lastmove | currency:""}}$</td>
-                                            <td class="text-left hidden-xs hidden-sm">{{credit.intereses | currency:""}}$</td>
-                                            <td class="text-center">
-                                                <div class=" btn-group-sm">
-                                                    <a ng-if="credit.type==1" href="Creditos/PagoFinal/{{credit.id}}"
-                                                       class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
-                                                    <a ng-if="credit.type==2" href="Creditos/Revolvente/{{credit.id}}"
-                                                       class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
-                                                    <a ng-click="DeleteClient(credit.id)" class="btn btn-default fontSmall"><i
+                                                </td>
+                                                <td class="text-left" ng-if="credit.businessname != null ">{{credit.businessname}}</td>
+                                                <td class="text-left" ng-if="credit.businessname == null ">{{credit.name}} {{credit.lastname}}</td>
+                                                <td class="text-center">{{credit.projectname}}</td>
+                                                <td class="text-left hidden-xs hidden-sm">{{credit.amount | currency:""}}$</td>
+                                                <td class="text-center hidden-xs hidden-sm">{{credit.start_date|date:'dd/MM/yyyy'}}</td>
+                                                <td class="text-left hidden-xs hidden-sm">{{credit.lastmove | currency:""}}$</td>
+                                                <td class="text-left hidden-xs hidden-sm">{{credit.intereses | currency:""}}$</td>
+                                                <td class="text-center">
+                                                    <div class=" btn-group-sm">
+                                                        <a ng-if="credit.type==1" href="Creditos/PagoFinal/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
+                                                        <a ng-if="credit.type==2" href="Creditos/Revolvente/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
+                                                        <a ng-click="DeleteClient(credit.id)" class="btn btn-default fontSmall"><i
                                                             class="material-icons">assignment</i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                    </div>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -141,8 +137,8 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $("ul.nav.nav-pills li").click(function (evt) {
+    $(document).ready(function() {
+        $("ul.nav.nav-pills li").click(function(evt) {
             $("ul.nav.nav-pills li").removeClass('active')
             $(this).addClass('active')
         })

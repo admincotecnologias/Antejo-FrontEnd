@@ -74,12 +74,14 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
     var addManager = function(obj) {
         return $http.post(apiUrl + "/Clientes/add/Managers", obj);
     }
-
     var allApplications = function(){
         var jsonAuth = {};
-        return $http.get(apiUrl+"/Clientes/all/Applications",jsonAuth)
+        return $http.get(apiUrl+"/Clientes/all/Applications",jsonAuth);
     }
-
+    var getWallet = function (id) {
+       var jsonAuth = {};
+       return $http.get(apiUrl+"/Clientes/show/"+id+"/Wallet",jsonAuth);
+    }
     var allCredits = function(){
         var jsonAuth = {};
         return $http.get(apiUrl+"/Clientes/all/Credits",jsonAuth);
@@ -101,7 +103,8 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
         deleteFile:deleteFile,
         deleteManager:deleteManager,
         allApplications:allApplications,
-        allCredits:allCredits
+        allCredits:allCredits,
+        getWallet:getWallet
     };
 
 }]);

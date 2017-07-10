@@ -481,182 +481,182 @@
                     </div>
                 </form>
                 <form ng-show="isActiveTab( 'autorizar.tpl.html')" class="nga-default nga-stagger nga-slide-up fixImg" name="CheckList_up">
-                   <div ngsf-fullscreen>
-                       <table class="table table-condensed table-bordered" ng-if="ModalUpdateSolicitud.application.status == 'Pendiente'">
-                           <tr>
-                               <td>
-                                   <div class="checkbox">
-                                       <label><input type="checkbox" value="true" ng-model="op_1" required>Option 1</label>
-                                   </div>
-                               </td>
-                               <td>
-                                   <div class="checkbox">
-                                       <label><input type="checkbox" value="true" ng-model="op_2" required>Option 2</label>
-                                   </div>
-                               </td>
-                               <td>
-                                   <div class="checkbox">
-                                       <label><input type="checkbox" value="true" ng-model="op_3" required>Option 3</label>
-                                   </div>
-                               </td>
-                               <td>
-                                   <div class="checkbox">
-                                       <label><input type="checkbox" value="true" ng-model="op_4">Option 4</label>
-                                   </div>
-                               </td>
-                               <td>
-                                   <div class="checkbox">
-                                       <label><input type="checkbox" value="true" ng-model="op_5">Option 5</label>
-                                   </div>
-                               </td>
-                               <td class="text-center">
-                                   <button class="btn btn-default center-block text-center" ng-click="autorizarSolicitud()" ng-disabled="CheckList_up.$invalid">Autorizar</button>
-                               </td>
-                           </tr>
-                       </table>
-                       <div ng-show="ModalUpdateSolicitud.application.status == 'Pre-Autorización'">
-                           <table class="print table" >
-                               <thead>
-                               <tr>
-                                   <th class="text-center" colspan="6">
-                                       <h3>Tabla de Amortización</h3>
-                                   </th>
-                               </tr>
-                               </thead>
-                               <tbody>
-                               <tr>
-                                   <td>Tipo de Credito</td>
-                                   <td>
-                                       <select class="form-control" ng-model="sel_type_up">
+                    <div ngsf-fullscreen>
+                        <table class="table table-condensed table-bordered" ng-if="ModalUpdateSolicitud.application.status == 'Pendiente'">
+                            <tr>
+                                <td>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="true" ng-model="op_1" required>Option 1</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="true" ng-model="op_2" required>Option 2</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="true" ng-model="op_3" required>Option 3</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="true" ng-model="op_4">Option 4</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="true" ng-model="op_5">Option 5</label>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-default center-block text-center" ng-click="autorizarSolicitud()" ng-disabled="CheckList_up.$invalid">Autorizar</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div ng-show="ModalUpdateSolicitud.application.status == 'Pre-Autorización'">
+                            <table class="print table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" colspan="6">
+                                            <h3>Tabla de Amortización</h3>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tipo de Credito</td>
+                                        <td>
+                                            <select class="form-control" ng-model="sel_type_up">
                                            <option value="1">Pago al Final</option>
                                            <option value="2">Revolvente</option>
                                        </select>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Monto:</label>
-                                           <input class="form-control" ng-value="ModalUpdateSolicitud.application.amountrequest" value="0" ng-model="capital_balance_up" format="number" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Interes Anual:</label>
-                                           <input class="form-control" ng-model="interest_up" format="float" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Interes Moratorio:</label>
-                                           <input class="form-control" ng-value="0" ng-model="interest_arrear_up" format="float" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>IVA:</label>
-                                           <input class="form-control" ng-value="16" ng-model="iva_up" format="float" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Número de Meses:</label>
-                                           <input class="form-control" ng-model="month_up" type="number" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Dias de Gracia:</label>
-                                           <input class="form-control" ng-model="days_up" type="number" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                               </tr>
-                               <tr>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Fecha Inicial:</label>
-                                           <input class="form-control" ng-model="date_app_up" type="date" ng-change="CalcularCredito(1)">
-                                       </div>
-                                   </td>
-                                   <td>
-                                       <div class="form-group">
-                                           <label>Tipo de Cambio:</label>
-                                           <select class="form-control" ng-model="sel_currency_up">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Monto:</label>
+                                                <input class="form-control" ng-value="ModalUpdateSolicitud.application.amountrequest" value="0" ng-model="capital_balance_up" format="number" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Interes Anual:</label>
+                                                <input class="form-control" ng-model="interest_up" format="float" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Interes Moratorio:</label>
+                                                <input class="form-control" ng-value="0" ng-model="interest_arrear_up" format="float" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>IVA:</label>
+                                                <input class="form-control" ng-value="16" ng-model="iva_up" format="float" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Número de Meses:</label>
+                                                <input class="form-control" ng-model="month_up" type="number" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Dias de Gracia:</label>
+                                                <input class="form-control" ng-model="days_up" type="number" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Fecha Inicial:</label>
+                                                <input class="form-control" ng-model="date_app_up" type="date" ng-change="CalcularCredito(1)">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label>Tipo de Cambio:</label>
+                                                <select class="form-control" ng-model="sel_currency_up">
                                                <option value="MXN">Pesos MXN</option>
                                                <option value="USD">Dolares USD</option>
                                            </select>
-                                       </div>
-                                   </td>
-                                   <td colspan="2">
-                                       <div class="form-group">
-                                           <label>Destino del Capital:</label>
-                                           <textarea class="form-control" ng-model="todo_up" ></textarea>
-                                       </div>
-                                   </td>
-                                   <td class="text-center center-block">
-                                       <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="false">Vista Previa</a>
-                                       <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="true">Cerrar</a>
-                                       <a class="btn btn-default pull-right" ng-click="AutorizarCredito()" ngsf-toggle-fullscreen show-if-fullscreen="false">Autorizar</a>
-                                   </td>
-                               </tr>
-                               </tbody>
-                           </table>
-                           <div class="tabla-amortizacion" show-if-fullscreen="true">
-                               <table class="table">
-                                   <thead>
-                                   <tr>
-                                       <th class="text-center">
-                                           Periodo
-                                       </th>
-                                       <th class="text-center">
-                                           Fecha
-                                       </th>
-                                       <th class="text-center">
-                                           Intereses
-                                       </th>
-                                       <th class="text-center">
-                                           IVA
-                                       </th>
-                                       <th class="text-center">
-                                           Saldo Capital
-                                       </th>
-                                       <th class="text-center">
-                                           Saldo Interes
-                                       </th>
-                                       <th class="text-center">
-                                           Saldo IVA
-                                       </th>
-                                   </tr>
-                                   </thead>
-                                   <tbody>
-                                   <tr ng-repeat="item in TablaAmortizacion_up">
-                                       <td>
-                                           {{item.month}}
-                                       </td>
-                                       <td>
-                                           {{item.date_app | date :  "dd.MM.yyyy" }}
-                                       </td>
-                                       <td>
-                                           {{item.interest | currency:"$":2}}
-                                       </td>
-                                       <td>
-                                           {{item.iva | currency:"$":2}}
-                                       </td>
-                                       <td>
-                                           {{item.capital_balance | currency:"$":2}}
-                                       </td>
-                                       <td>
-                                           {{item.interest_balance | currency:"$":2}}
-                                       </td>
-                                       <td>
-                                           {{item.iva_balance | currency:"$":2}}
-                                       </td>
-                                   </tr>
-                                   </tbody>
-                               </table>
-                           </div>
-                       </div>
-                   </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="2">
+                                            <div class="form-group">
+                                                <label>Destino del Capital:</label>
+                                                <textarea class="form-control" ng-model="todo_up"></textarea>
+                                            </div>
+                                        </td>
+                                        <td class="text-center center-block">
+                                            <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="false">Vista Previa</a>
+                                            <a class="btn btn-default pull-right" ng-click="CalcularCredito(1)" ngsf-toggle-fullscreen show-if-fullscreen="true">Cerrar</a>
+                                            <a class="btn btn-default pull-right" ng-click="AutorizarCredito()" ngsf-toggle-fullscreen show-if-fullscreen="false">Autorizar</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="tabla-amortizacion" show-if-fullscreen="true">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                                Periodo
+                                            </th>
+                                            <th class="text-center">
+                                                Fecha
+                                            </th>
+                                            <th class="text-center">
+                                                Intereses
+                                            </th>
+                                            <th class="text-center">
+                                                IVA
+                                            </th>
+                                            <th class="text-center">
+                                                Saldo Capital
+                                            </th>
+                                            <th class="text-center">
+                                                Saldo Interes
+                                            </th>
+                                            <th class="text-center">
+                                                Saldo IVA
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in TablaAmortizacion_up">
+                                            <td>
+                                                {{item.month}}
+                                            </td>
+                                            <td>
+                                                {{item.date_app | date : "dd.MM.yyyy" }}
+                                            </td>
+                                            <td>
+                                                {{item.interest | currency:"$":2}}
+                                            </td>
+                                            <td>
+                                                {{item.iva | currency:"$":2}}
+                                            </td>
+                                            <td>
+                                                {{item.capital_balance | currency:"$":2}}
+                                            </td>
+                                            <td>
+                                                {{item.interest_balance | currency:"$":2}}
+                                            </td>
+                                            <td>
+                                                {{item.iva_balance | currency:"$":2}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer" style="margin-top:0px">
