@@ -60,6 +60,24 @@
                                         <textarea name="input" class="form-control" ng-model="ctrl.Credit.todo"
                                                   required></textarea>
                                     </div>
+
+                                    <div class = "col-sm-4 form-group">
+                                            Arrastra tu comprobante(s) o haz click.
+                                            <div id="dropzone" style="height: 100px">
+                                                <div>
+                                                    <br>
+                                                    <i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>
+                                                </div>
+                                                <input type="file" ngf-select="ctrl.AddFileDisposicion($file)" style="width: 100%" />
+                                            </div>
+                                            <div class="row">
+                                                <h4 class="label label-default" ng-repeat="file in ctrl.modalpay.file" style="margin: 5px;float: left;">{{file.name}}
+                                                    <button type="button" class="close" aria-label="Close" style="margin-left: 5px;" ng-click="ctrl.deleteFile($index)">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </h4>
+                                            </div>
+                                    </div>
                                     <div class="col-sm-2 text-center" style="margin-top: 1.5%">
                                         <button class="btn btn-default" ng-click="ctrl.Calcular()">
                                             Vista Previa
@@ -406,3 +424,46 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+
+        $('#dropzone').on('dragover', function() {
+            $(this).addClass('hover');
+        });
+
+        $('#dropzone').on('dragleave', function() {
+            $(this).removeClass('hover');
+        });
+
+        $('#dropzone input').on('change', function(e) {
+            var file = this.files[0];
+
+            $('#dropzone').removeClass('hover');
+
+            if (this.accept && $.inArray(file.type, this.accept.split(/, ?/)) == -1) {
+                return alert('File type not allowed.');
+            }
+
+            $('#dropzone').addClass('dropped');
+            $('#dropzone img').remove();
+
+            if ((/^image\/(gif|png|jpeg|jpg)$/i).test(file.type)) {
+                var reader = new FileReader(file);
+
+                reader.readAsDataURL(file);
+
+                reader.onload = function(e) {
+                    var data = e.target.result,
+                        $img = $('<img />').attr('src', data).fadeIn();
+
+                    $('#dropzone div').html($img);
+                };
+            } else {
+                var ext = file.name;
+
+                $('#dropzone div').html(ext);
+            }
+        });
+    });
+</script>

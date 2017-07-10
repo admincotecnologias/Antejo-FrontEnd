@@ -95,6 +95,12 @@ antejo.factory("FoundFact", ["$http", function($http) {
         return $http.put(apiUrl+ "/Fondeadores/update/"+controlFundId+"/Control_Fund/"+fileId,json);
 
     }
+
+    var updateFundFile = function(fundId,fileId){
+        var json = {};
+        return $http.put(apiUrl+ "/Fondeadores/update/"+fundId+"/Fund/"+fileId,json);
+
+    }
     var deleteFile = function (id) {
         return $http.delete(apiUrl+"/Fondeadores/delete/"+id+"/Files_Stock",{});
     }
@@ -120,6 +126,7 @@ antejo.factory("FoundFact", ["$http", function($http) {
         AddFile:AddFile,
         DownloadFile:DownloadFile,
         deleteFile:deleteFile,
-        updateControlFundFile:updateControlFundFile
+        updateControlFundFile:updateControlFundFile,
+        updateFundFile:updateFundFile
     }
 }]);
