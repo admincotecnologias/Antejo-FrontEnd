@@ -1486,6 +1486,11 @@ th {
     background-color: #f9f9f9;
 }
 
+.table-striped>tbody>tr.lowgrey,
+.table-striped>tbody>tr.lowgrey {
+    background-color: #DBD7D799;
+}
+
 .table-hover>tbody>tr:hover>td,
 .table-hover>tbody>tr:hover>th {
     background-color: #f5f5f5;

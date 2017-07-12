@@ -22,10 +22,26 @@
                             </tr>
                             </thead>
                             <tbody ng-if="ctrl.fund!=null" class="nga-fast nga-stagger nga-slide-up">
-                            <tr style="border-bottom: 1px solid #ddd" ng-repeat="fund in ctrl.fund | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                            <tr style="border-bottom: 1px solid #ddd" ng-if="fund.statuscode!=3"  ng-repeat="fund in ctrl.fund | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
                                 <td class="text-left" ng-if="fund.statuscode==0"><i class="material-icons" style="color: darkgreen;">fiber_manual_record</i></td>
                                 <td class="text-left" ng-if="fund.statuscode==1"><i class="material-icons" style="color: #ddca00;">fiber_manual_record</i></td>
                                 <td class="text-left" ng-if="fund.statuscode==2"><i class="material-icons" style="color: darkred;">fiber_manual_record</i></td>
+                                <td class="text-left">{{fund.amount|currency}}</td>
+                                <td class="text-center">{{fund.interest}}%</td>
+                                <td class="text-center hidden-xs hidden-sm">{{fund.lastmove|currency}}</td>
+                                <td class="text-center hidden-xs hidden-sm">{{fund.start_date|date:'dd-MM-yyyy'}}</td>
+                                <td class="text-center hidden-xs hidden-sm">{{fund.datelimit|date:'dd-MM-yyyy'}}</td>
+                                <td class="text-center">
+                                    <div class=" btn-group-sm">
+                                        <a href="Fondeadores/{{ctrl.stock.id}}/Creditos/{{fund.id}}" class="btn btn-default fontSmall"><i class="material-icons">monetization_on</i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #ddd" ng-if="fund.statuscode==3" ng-repeat="fund in ctrl.fund | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up lowgrey">
+                                <td class="text-left" ng-if="fund.statuscode==0"><i class="material-icons" style="color: darkgreen;">fiber_manual_record</i></td>
+                                <td class="text-left" ng-if="fund.statuscode==1"><i class="material-icons" style="color: #ddca00;">fiber_manual_record</i></td>
+                                <td class="text-left" ng-if="fund.statuscode==2"><i class="material-icons" style="color: darkred;">fiber_manual_record</i></td>
+                                <td class="text-left" ng-if="fund.statuscode==3"><i class="material-icons" style="color: black;">fiber_manual_record</i></td>
                                 <td class="text-left">{{fund.amount|currency}}</td>
                                 <td class="text-center">{{fund.interest}}%</td>
                                 <td class="text-center hidden-xs hidden-sm">{{fund.lastmove|currency}}</td>

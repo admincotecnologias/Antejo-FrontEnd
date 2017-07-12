@@ -63,8 +63,13 @@ antejo.controller('FundsCtrl', ['$filter', 'SweetAlert','FoundFact','$routeParam
                 }
                 SweetAlert.swal('Mensaje',"No hay Creditos para este Fondeador.",'warning');
             }else{
+                console.log(response);
                 for(var i = 0;i<response.data.fund.length;i++){
                     response.data.fund[i].statuscode = 0;
+                    if(response.data.fund[i].status == 'Liquidado'){
+                        response.data.fund[i].statuscode = 3;
+                        continue;
+                    }
                     if((Date.now()/1000)>response.data.fund[i].datelimit){
                         response.data.fund[i].statuscode = 1;
                         if(Date.now()/1000>response.data.fund[i].grace){
@@ -83,7 +88,22 @@ antejo.controller('FundsCtrl', ['$filter', 'SweetAlert','FoundFact','$routeParam
                 }
             }
         }).catch(function (error) {
-            console.log(error)
+            console.log(error);
+            if(error.status == 401){
+                SweetAlert.swal({
+                        title: "Aviso",
+                        text: "Tu sesion ha expirado.",
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Ok",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        localStorage.clear();
+                        window.location.reload();
+                    });
+            }
             SweetAlert.swal('Error','Error al comunicarse con el servidor.','error')
         })
     }
