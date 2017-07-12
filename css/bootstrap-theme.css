@@ -49,6 +49,16 @@ html {
 
 body {
     margin: 0;
+    background: url(http://lorempixel.com/1920/1920/city/9/) no-repeat center center fixed;
+}
+
+.panel-default {
+    opacity: 0.9;
+    margin-top: 30px;
+}
+
+.form-group.last {
+    margin-bottom: 0px;
 }
 
 a:focus {
@@ -80,7 +90,7 @@ dfn {
 
 hr {
     -moz-box-sizing: content-box;
-    box-sizing: content-box;
+    box-sizing: border-box;
     height: 0;
 }
 
@@ -306,6 +316,20 @@ body {
     line-height: 1.428571429;
     color: #2b2b2b;
     background-color: #ffffff;
+    background-image: 'image/login.png'
+}
+
+.login-img {
+    font-family: Lato;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #2b2b2b;
+    background-color: #ffffff;
+    background-image: url("../images/logimg.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
 }
 
 input,
@@ -370,6 +394,7 @@ img {
 
 .img-circle {
     border-radius: 50%;
+    height: 200;
 }
 
 hr {

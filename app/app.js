@@ -8,9 +8,9 @@ antejo.config(
                 url: "Login",
                 templateUrl: '/app/views/Login.html',
             })
-            .when('/Empleados', {
-                name: "Empleados",
-                url: "Empleados",
+            .when('/Usuarios', {
+                name: "Usuarios",
+                url: "Usuarios",
                 templateUrl: '/app/views/Empleados.html',
                 controller: 'EmpleadosCtrl'
             })
