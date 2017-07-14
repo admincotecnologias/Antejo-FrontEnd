@@ -12,12 +12,18 @@ antejo.factory("AuthFact", [function() {
                 scope.username = response.data.nombre;
                 scope.occupation = response.data.puesto;
                 location.path("/");
-                window.location.reload();
+                jQuery(document).ready(function() {
+                    initializeJS();
+                });
+                //window.location.reload();
+                //setTimeout(function(){
+                //    window.location.reload();
+                //},500);
             } else {
                 alert(response.data.message);
             }
         }).catch(function(e) {
-            // handle errors in processing or in error.
+            // handle errors in processing or in error.a
             alert("Error con el server" + e.message);
         });
     }

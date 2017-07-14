@@ -1,6 +1,18 @@
 antejo.controller('MainCtrl', ['$http', '$filter', '$scope', 'MainFact', '$location', 'AuthFact', '$timeout', 'DTOptionsBuilder', function($http, $filter, $scope, MainFact, $location, AuthFact, $timeout, DTOptionsBuilder) {
     var timer;
     $scope.CheckLocal = MainFact.CheckLocal;
+    var local = localStorage.getItem("auth");
+    if (local == null) {
+        $scope.CheckLocal = false;
+    } else {
+        var today = new Date();
+        var saveDate = new Date(angular.fromJson(local).date);
+        $scope.username = angular.fromJson(local).nombre;
+        $scope.occupation = angular.fromJson(local).puesto;
+        $scope.CheckLocal = true;
+        $location.path("/");
+    }
+
     $scope.username = MainFact.username;
     $scope.occupation = MainFact.occupation;
     $scope.LogIn = AuthFact.LogIn;

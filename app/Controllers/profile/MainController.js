@@ -14,6 +14,7 @@ antejo.controller('ProfileMainCtrl', ['$filter', 'SweetAlert', 'EmployeesFact', 
 
     ctrl.GetAll = function() {
         var json = JSON.parse(localStorage.getItem("auth"));
+        console.log(json);
         EmployeesFact.showEmployees(json.id).then(function(response) {
             if (response.data.error === false) {
                 ctrl.profile = response.data;
