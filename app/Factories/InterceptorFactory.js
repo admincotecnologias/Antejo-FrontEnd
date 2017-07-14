@@ -31,6 +31,7 @@ antejo.factory('InterceptorFact', ['$q', '$location', '$injector', 'SweetAlert',
         return $q.reject(rejection);
     }
     var _response = function(response) {
+        console.log(response.data);
         if (response.data.error == true &&
             (response.data.message == "token inexistente o no coincide" || response.data.message == "limite de conexion alcanzado" || response.data.message == "ip no coincide")) {
             SweetAlert.swal({
