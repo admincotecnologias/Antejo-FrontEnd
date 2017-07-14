@@ -164,7 +164,7 @@ button#activeMenu {
     background: none;
     border-radius: 0;
     box-shadow: none;
-    color: #F2B33F;
+    color: #000;
     outline: 0;
     width: 100%;
     text-align: left;
@@ -1194,7 +1194,7 @@ ul.dropdown-menu.drp-mnu li {
 /*---Tables Pages---*/
 
 .table-scroll {
-    height: auto;
+    height: 75%;
     overflow-y: auto;
 }
 

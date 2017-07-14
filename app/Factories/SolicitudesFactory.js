@@ -18,7 +18,7 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
     var addCreditApproved = function(obj) {
         var json = obj;
-        return $http.post(apiUrl + "/Credits/add", json);
+        return $http.post(apiUrl + "/Creditos/add", json);
     }
 
     var AddFile = function(obj) {
@@ -33,10 +33,10 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
         return $http.post(apiUrl + "/Solicitudes/add/AvalCredito", obj);
     }
     var UpdateCreditAid = function(obj) {
-        return $http.put(apiUrl + "/Solicitudes/update/"+obj.id+"/AvalCredito", obj);
+        return $http.put(apiUrl + "/Solicitudes/update/" + obj.id + "/AvalCredito", obj);
     }
     var DeleteCreditAid = function(id) {
-        return $http.delete(apiUrl + "/Solicitudes/delete/"+id+"/AvalCredito", {});
+        return $http.delete(apiUrl + "/Solicitudes/delete/" + id + "/AvalCredito", {});
     }
     var ShowApplication = function(id) {
         var jsonAuth = {};
@@ -53,7 +53,7 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
     var DownloadFile = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "Solicitudes/show/"+id+"/FilesApplication/" + id).then(function(response) {
+        $http.get(apiUrl + "Solicitudes/show/" + id + "/FilesApplication/" + id).then(function(response) {
             var stringPath = apiUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
@@ -63,13 +63,13 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
         updateApplication: UpdateApplication,
         addApplication: AddApplication,
         addCreditAid: AddCreditAid,
-        UpdateCreditAid:UpdateCreditAid,
+        UpdateCreditAid: UpdateCreditAid,
         AddFile: AddFile,
         allApplication: AllApplication,
-        AllClients:AllClients,
+        AllClients: AllClients,
         showApplication: ShowApplication,
         DownloadFile: DownloadFile,
-        addCreditApproved:addCreditApproved,
-        DeleteCreditAid:DeleteCreditAid
+        addCreditApproved: addCreditApproved,
+        DeleteCreditAid: DeleteCreditAid
     };
 }]);

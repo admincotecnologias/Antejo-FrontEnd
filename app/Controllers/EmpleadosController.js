@@ -35,15 +35,24 @@ antejo.controller("EmpleadosCtrl", ['$scope', '$http', 'UserFact', 'EmployeesFac
         }
         $scope.regexEmail = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
         $scope.validateModalAddUser = function() {
-                if ($scope.modaladduser.password == $scope.modaladduser.password2) {
-                    $scope.onClickTab($scope.tabs[1]);
-                    return false;
-                }
+            if ($scope.modaladduser.password != $scope.modaladduser.password2) {
                 $scope.bool_messageadduser = true;
+                SweetAlert.swal("Error", "Las contraseñas no son iguales.", "error");
                 $("#message_addusermodal").text("Contraseñas no son iguales.");
                 return false;
+
             }
-            //TABS MODAL
+            if ($scope.modaladduser.password.length < 6) {
+                $scope.bool_messageadduser = true;
+                SweetAlert.swal("Error", "La contraseña debe contener al menos 6 caracteres.", "error");
+                $("#message_addusermodal").text("La contraseña debe contener minimo 6 caracteres");
+                return false;
+            }
+            $scope.onClickTab($scope.tabs[1]);
+            return false;
+        }
+
+        //TABS MODAL
         $scope.tabs = [{
                 title: 'Informacion Personal',
                 url: 'personalinfo.tpl.html'
