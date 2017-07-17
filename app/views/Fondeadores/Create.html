@@ -88,7 +88,7 @@
                         </div>
                         <div ng-show="stock.menu=='manager'">
                             <div class="col-sm-8">
-                            <form name="stockholderManager">
+                                <form name="stockholderManager">
                                     <div class="form-group col-sm-6">
                                         <label for="name"> Nombre</label>
                                         <input name="name" type="text" class="form-control" placeholder="Nombre" ng-model="stock.managerSelect.name" required>
@@ -136,32 +136,30 @@
                                             </button>
                                         </div>
                                         <div class="pull-right">
-                                            <button class="btn btn-default" ng-disabled="stockholderManager.$invalid"
-                                                    ng-show="stock.managerSelect.id==null" ng-click="stock.createManager()">
+                                            <button class="btn btn-default" ng-disabled="stockholderManager.$invalid" ng-show="stock.managerSelect.id==null" ng-click="stock.createManager()">
                                                 Guardar
                                             </button>
-                                            <button class="btn btn-default" ng-disabled="stockholderManager.$invalid"
-                                                    ng-show="stock.managerSelect.id!=null" ng-click="stock.updateManager()">
+                                            <button class="btn btn-default" ng-disabled="stockholderManager.$invalid" ng-show="stock.managerSelect.id!=null" ng-click="stock.updateManager()">
                                                 Actualizar
                                             </button>
                                         </div>
                                     </div>
-                            </form>
+                                </form>
                             </div>
                             <div class="col-sm-4">
                                 <br>
                                 <table class="table table-bordered">
                                     <thead>
-                                    <tr>
-                                        <th colspan="3">
-                                            <div class="text-center">Listado de Representantes</div>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Apellido</th>
-                                        <th>Opciones</th>
-                                    </tr>
+                                        <tr>
+                                            <th colspan="3">
+                                                <div class="text-center">Listado de Representantes</div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>Opciones</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="manager in stock.managers">
@@ -190,6 +188,7 @@
                                     <label for="banco"> Banco</label>
                                     <select name="banco" class="form-control" ng-model="stock.AccountSelect.idbank" required>
                                         <option ng-repeat="option in stock.ListBanks" value="{{option.id}}">{{option.name}}</option>
+                                        
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-3">
@@ -218,27 +217,27 @@
                             </form>
                             <table class="table table-bordered">
                                 <thead>
-                                <tr>
-                                    <th>Banco</th>
-                                    <th>Número</th>
-                                    <th>CLABE</th>
-                                    <th>Opciones</th>
-                                </tr>
+                                    <tr>
+                                        <th>Banco</th>
+                                        <th>Número</th>
+                                        <th>CLABE</th>
+                                        <th>Opciones</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="banco in stock.accounts">
-                                    <td class="text-center">{{stock.viewNameBank(banco.idbank)}}</td>
-                                    <td class="text-center">{{banco.accountnumber}}</td>
-                                    <td class="text-center">{{banco.clabe}}</td>
-                                    <td class="text-center">
-                                        <button class="btn btn-default" ng-click="stock.deleteBank(banco)">
+                                    <tr ng-repeat="banco in stock.accounts">
+                                        <td class="text-center">{{stock.viewNameBank(banco.idbank)}}</td>
+                                        <td class="text-center">{{banco.accountnumber}}</td>
+                                        <td class="text-center">{{banco.clabe}}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-default" ng-click="stock.deleteBank(banco)">
                                             <i class="material-icons">delete</i>
                                         </button>
-                                        <button class="btn btn-default" ng-click="stock.selectAccount(banco)">
+                                            <button class="btn btn-default" ng-click="stock.selectAccount(banco)">
                                             <i class="material-icons">mode_edit</i>
                                         </button>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -249,10 +248,10 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
-       $("ul.nav.nav-pills li").click(function (evt) {
-           $("ul.nav.nav-pills li").removeClass('active')
-           $(this).addClass('active')
-       })
+    $(document).ready(function() {
+        $("ul.nav.nav-pills li").click(function(evt) {
+            $("ul.nav.nav-pills li").removeClass('active')
+            $(this).addClass('active')
+        })
     });
 </script>

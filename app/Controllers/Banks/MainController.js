@@ -35,6 +35,8 @@ antejo.controller('BanksMainCtrl', ['$filter', 'SweetAlert', 'BancosFact', 'DTOp
             SweetAlert.swal("Aviso:", "No se pudo conectar con el servidor.", "error");
         })
     }
+
+    /*
     ctrl.delete = function(bank) {
         BancosFact.DeleteBanco(bank.id).then(function(response) {
             if (response.data.error) {
@@ -47,6 +49,37 @@ antejo.controller('BanksMainCtrl', ['$filter', 'SweetAlert', 'BancosFact', 'DTOp
             console.log(error);
             SweetAlert.swal("Aviso:", "No se pudo conectar con el servidor.", "error");
         })
+    }*/
+
+    ctrl.delete = function(bank) {
+        SweetAlert.swal({
+                title: "Aviso",
+                text: "Seguro que desea eliminar este campo",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Si',
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function(isConfirm) {
+                if (isConfirm) {
+
+                    BancosFact.DeleteBanco(bank.id).then(function(response) {
+                        if (response.data.error) {
+                            SweetAlert.swal("Aviso:", response.data.message, "warning");
+                        } else {
+                            SweetAlert.swal("Aviso", "Eliminado correctamente.", "success")
+                            ctrl.GetAll();
+                        }
+                    }).catch(function(error) {
+                        SweetAlert.swal("Aviso:", "Error al conectarse con el servidor.", "error");
+                    });
+                } else {
+                    swal("Cancelado", "Dato no eliminado", "error");
+                }
+            });
     }
 
     ctrl.dtOptions = DTOptionsBuilder.fromSource()

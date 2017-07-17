@@ -118,43 +118,74 @@ antejo.controller("EmpleadosCtrl", ['$scope', '$http', 'UserFact', 'EmployeesFac
         //SHOW BY ID        
         $scope.employee = null;
         $scope.showEmployees = function(id, type) {
-                EmployeesFact.showEmployees(id).then(function(response) {
-                    if (response.data.error === false) {
-                        $scope.employee = response.data;
-                        if (type == true) {
-                            SweetAlert.swal("Empleado:", "Nombre: \n" + $scope.employee.name +
-                                " " + $scope.employee.lastname + "\n\n" +
-                                "Email: \n" + $scope.employee.email + "\n\n" +
-                                "Puesto: \n" + $scope.employee.puesto.name
-                            );
-                        } else {
-                            $scope.modalupuser.id = response.data.id;
-                            $scope.modalupuser.name = response.data.name;
-                            $scope.modalupuser.lastname = response.data.lastname;
-                            $scope.modalupuser.email = response.data.email;
-                            $scope.modalupuser.selected = response.data.puesto;
-                            $scope.modalupuser.permisos = response.data.permisos;
-                        }
+            EmployeesFact.showEmployees(id).then(function(response) {
+                if (response.data.error === false) {
+                    $scope.employee = response.data;
+                    if (type == true) {
+                        SweetAlert.swal("Empleado:", "Nombre: \n" + $scope.employee.name +
+                            " " + $scope.employee.lastname + "\n\n" +
+                            "Email: \n" + $scope.employee.email + "\n\n" +
+                            "Puesto: \n" + $scope.employee.puesto.name
+                        );
                     } else {
-                        SweetAlert.swal("Error", response.data.message);
+                        $scope.modalupuser.id = response.data.id;
+                        $scope.modalupuser.name = response.data.name;
+                        $scope.modalupuser.lastname = response.data.lastname;
+                        $scope.modalupuser.email = response.data.email;
+                        $scope.modalupuser.selected = response.data.puesto;
+                        $scope.modalupuser.permisos = response.data.permisos;
                     }
-                }, function(error) {});
-            }
-            //DELETE EMPLEADO
+                } else {
+                    SweetAlert.swal("Error", response.data.message);
+                }
+            }, function(error) {});
+        }
+
+        //DELETE EMPLEADO
         $scope.deleteEmployee = function(id) {
-                EmployeesFact.deleteEmployees(id).then(function(response) {
-                    if (response.data.error == true) {
-                        SweetAlert.swal("Error", response.data.message, "error");
+            SweetAlert.swal({
+                    title: "Aviso",
+                    text: "Seguro que desea eliminar este campo",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Si',
+                    cancelButtonText: "No",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        EmployeesFact.deleteEmployees(id).then(function(response) {
+                            if (response.data.error) {
+                                SweetAlert.swal("Aviso:", response.data.message, "warning");
+                            } else {
+                                SweetAlert.swal("Aviso", "Eliminado correctamente.", "success")
+                                $scope.allEmployees();
+                            }
+                        }).catch(function(error) {
+                            SweetAlert.swal("Aviso:", "Error al conectarse con el servidor.", "error");
+                        });
                     } else {
-                        $("#modal_up_user_cerrar").click();
-                        SweetAlert.swal("Mensaje", response.data.message, "success");
-                        $scope.allEmployees();
+                        swal("Cancelado", "Dato no eliminado", "error");
                     }
-                }, function(error) {
-                    SweetAlert.swal("Error", "No se pudo conectar con el servidor.", "error");
                 });
-            }
-            //AddPermission
+        }
+
+        /*  $scope.deleteEmployee = function(id) {
+                  EmployeesFact.deleteEmployees(id).then(function(response) {
+                      if (response.data.error == true) {
+                          SweetAlert.swal("Error", response.data.message, "error");
+                      } else {
+                          $("#modal_up_user_cerrar").click();
+                          SweetAlert.swal("Mensaje", response.data.message, "success");
+                          $scope.allEmployees();
+                      }
+                  }, function(error) {
+                      SweetAlert.swal("Error", "No se pudo conectar con el servidor.", "error");
+                  });
+              }*/
+        //AddPermission
         $scope.AddPermission = function() {
             var permisos = {
                 page: $scope.modaladduser.selectPage,
@@ -327,14 +358,34 @@ antejo.controller("EmpleadosCtrl", ['$scope', '$http', 'UserFact', 'EmployeesFac
             }
             //DELETE PUESTO
         $scope.deletePuesto = function(id) {
-                PuestosFact.deletePuesto(id).then(function(response) {
-                    if (response.data.error == true) {
-                        SweetAlert.swal("Error", response.data.message, "error");
-                    } else {
-                        SweetAlert.swal("Mensaje", "Eliminado Correctamente", "success");
-                        $scope.allPuesto();
-                    }
-                }, function(error) {});
+                SweetAlert.swal({
+                        title: "Aviso",
+                        text: "Seguro que desea eliminar este campo",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: '#DD6B55',
+                        confirmButtonText: 'Si',
+                        cancelButtonText: "No",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+
+                            PuestosFact.deletePuesto(id).then(function(response) {
+                                if (response.data.error) {
+                                    SweetAlert.swal("Aviso:", response.data.message, "warning");
+                                } else {
+                                    SweetAlert.swal("Aviso", "Eliminado correctamente.", "success")
+                                    $scope.allPuesto();
+                                }
+                            }).catch(function(error) {
+                                SweetAlert.swal("Aviso:", "Error al conectarse con el servidor.", "error");
+                            });
+                        } else {
+                            swal("Cancelado", "Dato no eliminado", "error");
+                        }
+                    });
             }
             // TABLA PRINCIPAL
         $scope.allPuesto = function() {
