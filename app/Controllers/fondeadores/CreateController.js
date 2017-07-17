@@ -300,8 +300,9 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
         })
     }
     ctrl.getBanks = function () {
-        BancosFact.AllBanco(function (response) {
-            ctrl.ListBanks = response.banks;
+        BancosFact.AllBanco().then(function (response) {
+            ctrl.ListBanks = response.data.banks;
+            console.log(ctrl.ListBanks);
         })
     }
     ctrl.getBanks();

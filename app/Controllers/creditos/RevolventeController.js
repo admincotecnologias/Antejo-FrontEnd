@@ -95,6 +95,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         var diffDays3 = Math.floor((SelectDate.getTime() - new Date($scope.addTerm().setDate($scope.addTerm().getDate() + $scope.CreditPadre.grace_days)).getTime()) / 1000 / 60 / 60 / 24) //Diferecia si se pasa el
         newMove.period = angular.copy(SelectDate)
         newMove.pay = angular.copy(pago)
+        var pagoInteres = 0
         if (dateFinal.getTime() >= SelectDate.getTime()) {
             var interes = parseFloat(angular.copy($scope.lastMove.interest_balance)) +
                 (angular.copy(parseFloat($scope.lastMove.capital_balance)) * ((parseFloat($scope.CreditPadre.interest) / 100 / 365) * diffDays));
@@ -177,7 +178,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             newMove.interest_balance = angular.copy(interes) - angular.copy(pago)
             pago = 0
         }
-        if (pago => $scope.lastMove.capital_balance && pago > 0) {
+        if (pago >= $scope.lastMove.capital_balance && pago > 0) {
             pagoCapital = pago
             newMove.capital_balance -= pago
             newMove.pay_capital = pagoCapital
@@ -217,7 +218,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                         });
                 } else if (callback.errors.length > 0) {
                     var text = "";
-                    for (let i = 0; i < callback.errors.length; i++) {
+                    for (var i = 0; i < callback.errors.length; i++) {
                         text += '\n' + callback.errors[i];
                     }
                     SweetAlert.swal({

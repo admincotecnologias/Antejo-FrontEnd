@@ -15,6 +15,7 @@ function initializeJS() {
     jQuery(".scroll-panel").niceScroll({ styler: "fb", cursorcolor: "#007AFF", cursorwidth: '3', cursorborderradius: '10px', background: '#F7F7F7', cursorborder: '' });
 
     //sidebar dropdown menu
+    var lastBox = null;
     jQuery('#sidebar .sub-menu > a').click(function() {
         var last = jQuery('.sub-menu.open', jQuery('#sidebar'));
         jQuery('.menu-arrow').removeClass('arrow_carrot-right');
@@ -26,7 +27,13 @@ function initializeJS() {
         } else {
             jQuery('.menu-arrow').addClass('arrow_carrot-down');
             sub.slideDown(200);
+            //lastBox = sub;
         }
+        if(lastBox != null && lastBox!=sub){
+            //jQuery('.menu-arrow').addClass('arrow_carrot-right');
+            lastBox.slideUp(200);
+        }
+        lastBox = sub;
         var o = (jQuery(this).offset());
         diff = 200 - o.top;
         if (diff > 0)

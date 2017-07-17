@@ -312,9 +312,17 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
         })
     }
     ctrl.getBanks = function () {
-        BancosFact.AllBanco(function (response) {
-            ctrl.ListBanks = response.banks;
-        })
+        BancosFact.AllBanco().then(function (response) {
+            console.log(response);
+            ctrl.ListBanks = response.data.banks;
+
+        },function(reason){
+            console.log("Error" + reason);
+        },1000).catch(function (err) {
+            console.log(err);
+            SweetAlert.swal("Error:","Ocurrio un problema con la conexion.","error");
+        });
+        console.log("wtf");
     }
     ctrl.getBanks();
     ctrl.getStockholder();

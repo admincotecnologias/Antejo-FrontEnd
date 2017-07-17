@@ -26,17 +26,26 @@
                             <tbody ng-if="credits!=null" class="nga-fast nga-stagger nga-slide-up">
                                 <tr style="border-bottom: 1px solid #ddd" ng-repeat="credit in credits | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
                                     <td class="text-center hidden-xs hidden-sm">
-                                        <div ng-switch="credit.vencimiento">
-                                            <div ng-switch-when="2">
-                                                <i class="material-icons text-warning" data-toggle="tooltip" data-placement="top" title="Vencido">fiber_manual_record</i>
+
+                                        <div ng-switch="credit.status">
+                                            <div ng-switch-when="Liquidado">
+                                                <i class="material-icons" style="color: black" data-toggle="tooltip" data-placement="top" title="Liquidado">fiber_manual_record</i>
                                             </div>
-                                            <div ng-switch-when="1">
-                                                <i class="material-icons" style="color: darkgreen" data-toggle="tooltip" data-placement="top" title="Activo">fiber_manual_record</i>
-                                            </div>
-                                            <div ng-switch-when="3">
-                                                <i class="material-icons" style="color: darkred" data-toggle="tooltip" data-placement="top" title="Fuera de Gracia">fiber_manual_record</i>
+                                            <div ng-switch-default>
+                                                <div ng-switch="credit.vencimiento">
+                                                    <div ng-switch-when="2">
+                                                        <i class="material-icons text-warning" data-toggle="tooltip" data-placement="top" title="Vencido">fiber_manual_record</i>
+                                                    </div>
+                                                    <div ng-switch-when="1">
+                                                        <i class="material-icons" style="color: darkgreen" data-toggle="tooltip" data-placement="top" title="Activo">fiber_manual_record</i>
+                                                    </div>
+                                                    <div ng-switch-when="3">
+                                                        <i class="material-icons" style="color: darkred" data-toggle="tooltip" data-placement="top" title="Fuera de Gracia">fiber_manual_record</i>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </td>
                                     <td class="text-left" ng-if="credit.businessname != null ">{{credit.businessname}}</td>
                                     <td class="text-left" ng-if="credit.businessname == null ">{{credit.name}} {{credit.lastname}}</td>
