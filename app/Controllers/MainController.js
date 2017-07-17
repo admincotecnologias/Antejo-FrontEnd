@@ -61,4 +61,5 @@ antejo.controller('MainCtrl', ['$http', '$filter', '$scope', 'MainFact', '$locat
         console.log(path)
         $location.path(path);
     }
+
 }]);

@@ -24,8 +24,7 @@
                             <form name="application" ng-show="ctrl.menu=='info'">
                                 <div class="col-sm-4 form-group">
                                     <label for="client">Cliente:</label>
-                                    <select name="client" ng-if="ctrl.Application.id==null" class="form-control" ng-model="ctrl.Application.idclient"
-                                            required>
+                                    <select name="client" ng-if="ctrl.Application.id==null" class="form-control" ng-model="ctrl.Application.idclient" required>
                                         <optgroup label="Personas Morales">
                                             <option ng-repeat="client in ctrl.Clients|filter:{type:'Moral'}"
                                                     value="{{client.id}}">
@@ -43,15 +42,12 @@
                                 </div>
                                 <div class="col-sm-4 form-group">
                                     <label for="amountrequest">Monto de Solicitud:</label>
-                                    <input name="amountrequest" class="form-control"
-                                           ng-model="ctrl.Application.amountrequest" format="number" required>
+                                    <input name="amountrequest" class="form-control" ng-model="ctrl.Application.amountrequest" format="number" required>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="dateapplication">Fecha de Solicitud:</label>
                                     <datepicker date-format="yyyy-MM-dd" selector="form-control">
-                                        <input name="dateapplication" class="form-control"
-                                               ng-model="ctrl.Application.applicationdate" type="date" readonly
-                                               required>
+                                        <input name="dateapplication" class="form-control" ng-model="ctrl.Application.applicationdate" type="date" readonly required>
                                     </datepicker>
                                 </div>
                                 <div class="col-sm-3 form-group">
@@ -60,21 +56,17 @@
                                 </div>
                                 <div class="col-sm-3 form-group">
                                     <label for="creditterm">Plazo en Meses:</label>
-                                    <input name="creditterm" class="form-control" ng-model="ctrl.Application.creditterm"
-                                           type="number" required>
+                                    <input name="creditterm" class="form-control" ng-model="ctrl.Application.creditterm" type="number" required>
                                 </div>
                                 <div class="col-sm-6 form-group">
                                     <label for="projectname">Nombre del Proyecto:</label>
-                                    <input name="projectname" class="form-control"
-                                           ng-model="ctrl.Application.projectname" required>
+                                    <input name="projectname" class="form-control" ng-model="ctrl.Application.projectname" required>
                                 </div>
                                 <div class="center-block text-center">
-                                    <button class="btn btn-default" ng-if="ctrl.Application.id==null" ng-click="ctrl.createApplication()"
-                                            ng-disabled="application.$invalid">
+                                    <button class="btn btn-default" ng-if="ctrl.Application.id==null" ng-click="ctrl.createApplication()" ng-disabled="application.$invalid">
                                         Guardar
                                     </button>
-                                    <button class="btn btn-default" ng-if="ctrl.Application.id!=null" ng-click="ctrl.UpdateApplication()"
-                                            ng-disabled="application.$invalid">
+                                    <button class="btn btn-default" ng-if="ctrl.Application.id!=null" ng-click="ctrl.UpdateApplication()" ng-disabled="application.$invalid">
                                         Actualizar
                                     </button>
                                 </div>
@@ -91,8 +83,7 @@
                                 <div ng-if="ctrl.Aval.typeguarantee=='Moral'">
                                     <div class="col-sm-4 form-group">
                                         <label for="client">Aval:</label>
-                                        <select name="client" class="form-control" ng-model="ctrl.Aval.idguarantee"
-                                                required>
+                                        <select name="client" class="form-control" ng-model="ctrl.Aval.idguarantee" required>
                                             <optgroup label="Personas Morales">
                                                 <option ng-repeat="client in ctrl.Clients|filter:{type:'Moral'}"
                                                         value="{{client.id}}">
@@ -123,14 +114,12 @@
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">CURP:</label>
-                                        <input name="input" class="form-control" ng-model="ctrl.Aval.curp"
-                                               format="CURP" required>
+                                        <input name="input" class="form-control" ng-model="ctrl.Aval.curp" format="CURP" required>
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Fecha de Nacimiento:</label>
                                         <datepicker date-format="yyyy-MM-dd" selector="form-control">
-                                            <input name="input" class="form-control" type="date"
-                                                   ng-model="ctrl.Aval.birthday" readonly required>
+                                            <input name="input" class="form-control" type="date" ng-model="ctrl.Aval.birthday" readonly required>
                                         </datepicker>
                                     </div>
                                     <div class="col-sm-3 form-group">
@@ -143,13 +132,11 @@
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Correo Electronico:</label>
-                                        <input name="input" class="form-control" ng-model="ctrl.Aval.email"
-                                               type="email" required>
+                                        <input name="input" class="form-control" ng-model="ctrl.Aval.email" type="email" required>
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">FIEL:</label>
-                                        <input name="input" class="form-control" ng-model="ctrl.Aval.fiel"
-                                               format="clabe" required>
+                                        <input name="input" class="form-control" ng-model="ctrl.Aval.fiel" format="clabe" required>
                                     </div>
                                     <div class="col-sm-6 form-group">
                                         <label for="input">Dirección:</label>
@@ -157,8 +144,7 @@
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Teléfono:</label>
-                                        <input name="input" class="form-control" ng-model="ctrl.Aval.phone"
-                                               format="phone" required>
+                                        <input name="input" class="form-control" ng-model="ctrl.Aval.phone" format="phone" required>
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Status Marital:</label>
@@ -171,8 +157,7 @@
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Regimen Matrimonial:</label>
-                                        <input ng-disabled="ctrl.Aval.maritalstatus!='Casado'" name="input"
-                                               class="form-control" ng-model="ctrl.Aval.regimen">
+                                        <input ng-disabled="ctrl.Aval.maritalstatus!='Casado'" name="input" class="form-control" ng-model="ctrl.Aval.regimen">
                                     </div>
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Relación con Solicitante:</label>
@@ -193,52 +178,44 @@
                                     <div class="col-sm-3 form-group">
                                         <label for="input">Fecha de Ingreso:</label>
                                         <datepicker date-format="yyyy-MM-dd" selector="form-control">
-                                            <input name="input" type="date" class="form-control"
-                                                   ng-model="ctrl.Aval.oldwork" readonly required>
+                                            <input name="input" type="date" class="form-control" ng-model="ctrl.Aval.oldwork" readonly required>
                                         </datepicker>
                                     </div>
                                 </div>
                                 <div class="col-sm-2 btn-group" style="margin-top: 1.5%">
-                                    <button class="btn btn-default" ng-show="ctrl.Aval.id==null" ng-click="ctrl.createAval()"
-                                            ng-disabled="avales.$invalid">
+                                    <button class="btn btn-default" ng-show="ctrl.Aval.id==null" ng-click="ctrl.createAval()" ng-disabled="avales.$invalid">
                                         Guardar
                                     </button>
-                                    <button class="btn btn-default" ng-show="ctrl.Aval.id!=null" ng-click="ctrl.editAval()"
-                                            ng-disabled="avales.$invalid">
+                                    <button class="btn btn-default" ng-show="ctrl.Aval.id!=null" ng-click="ctrl.editAval()" ng-disabled="avales.$invalid">
                                         Actualizar
                                     </button>
                                 </div>
                                 <div class="col-sm-12">
                                     <table class="table table-bordered">
                                         <thead>
-                                        <tr>
-                                            <th>Regimen Fiscal:</th>
-                                            <th>Nombre:</th>
-                                            <th>RFC:</th>
-                                            <th>Opciones:</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Regimen Fiscal:</th>
+                                                <th>Nombre:</th>
+                                                <th>RFC:</th>
+                                                <th>Opciones:</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        <tr ng-repeat="aval in ctrl.avales">
-                                            <td>{{aval.typeguarantee}}</td>
-                                            <td ng-if="aval.typeguarantee=='Moral'">{{aval.businessname}}</td>
-                                            <td ng-if="aval.typeguarantee=='Fisica'">{{aval.name}} {{aval.name}}</td>
-                                            <td ng-if="aval.typeguarantee=='Fisica'">{{aval.rfc}}</td>
-                                            <td ng-if="aval.typeguarantee=='Moral'">{{aval.rfcmoral}}</td>
-                                            <td>
-                                                <a class="btn btn-default" ng-click="ctrl.SelectAval(aval)"
-                                                        ng-if="aval.typeguarantee=='Fisica'">
-                                                    <i class="material-icons">mode_edit</i>
-                                                </a>
-                                                <a class="btn btn-default" target="_blank" href="/Clientes/{{aval.idguarantee}}"
-                                                        ng-if="aval.typeguarantee=='Moral'">
-                                                    <i class="material-icons">mode_edit</i>
-                                                </a>
-                                                <a class="btn btn-default" ng-click="ctrl.DeleteCreditAid(aval.id)">
-                                                    <i class="material-icons">delete</i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                            <tr ng-repeat="aval in ctrl.avales">
+                                                <td>{{aval.typeguarantee}}</td>
+                                                <td ng-if="aval.typeguarantee=='Moral'">{{aval.businessname}}</td>
+                                                <td ng-if="aval.typeguarantee=='Fisica'">{{aval.name}} {{aval.name}}</td>
+                                                <td ng-if="aval.typeguarantee=='Fisica'">{{aval.rfc}}</td>
+                                                <td ng-if="aval.typeguarantee=='Moral'">{{aval.rfcmoral}}</td>
+                                                <td>
+                                                    <a class="btn btn-default" ng-click="ctrl.SelectAval(aval)" ng-if="aval.typeguarantee=='Fisica'">
+                                                        <i class="material-icons">mode_edit</i>
+                                                    </a>
+                                                    <a class="btn btn-default" target="_blank" href="/Clientes/{{aval.idguarantee}}" ng-if="aval.typeguarantee=='Moral'">
+                                                        <i class="material-icons">mode_edit</i>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -299,8 +276,8 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $("ul.nav.nav-pills li").click(function (evt) {
+    $(document).ready(function() {
+        $("ul.nav.nav-pills li").click(function(evt) {
             $("ul.nav.nav-pills li").removeClass('active')
             $(this).addClass('active')
         })
