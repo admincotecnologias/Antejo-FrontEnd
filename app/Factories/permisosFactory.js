@@ -2,7 +2,7 @@ antejo.factory("PermisosFact", ['$http', function($http) {
 
     var DeletePermission = function(id) {
         var json = {};
-        return $http.delete(apiUrl + "/Permisos/delete/" + id, json);
+        return $http.delete(apiUrl + "/Usuarios/delete/" + id + "/Permisos", json);
     }
 
     var UpdatePermission = function(id, show, insert, edit, deletes, report) {
@@ -22,7 +22,7 @@ antejo.factory("PermisosFact", ['$http', function($http) {
         if (report != null) {
             json.report = report;
         }
-        $http.put(apiUrl + "/Permisos/update/" + id, json).then((response) => {
+        $http.put(apiUrl + "/Usuarios/update/" + id + "/Permisos", json).then((response) => {
             if (!response.data.error) {
                 this.id = response.data.id;
             } else {
@@ -42,12 +42,12 @@ antejo.factory("PermisosFact", ['$http', function($http) {
             delete: deletes,
             report: report
         };
-        return $http.post(apiUrl + "Usuarios/add/Permisos", json);
+        return $http.post(apiUrl + "/Usuarios/add/Permisos", json);
     }
 
     var ShowPermission = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "Usuarios/show/" + id + "/Permisos", jsonAuth).then((response) => {
+        $http.get(apiUrl + "/Usuarios/show/" + id + "/Permisos", jsonAuth).then((response) => {
             if (!response.data.error) {
                 this.selectpage = response.data.page;
             } else {
@@ -59,7 +59,7 @@ antejo.factory("PermisosFact", ['$http', function($http) {
 
     var AllPermission = function() {
         var jsonAuth = {};
-        $http.get(apiUrl + "Usuarios/all/Permisos", jsonAuth).then((response) => {
+        $http.get(apiUrl + "/Usuarios/all/Permisos", jsonAuth).then((response) => {
             if (!response.data.error) {
                 this.PermissionsArray = response.data.Permissions;
             } else {
