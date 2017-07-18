@@ -1,5 +1,5 @@
-antejo.controller("EmpleadosCtrl", ['$scope', '$http', 'UserFact', 'EmployeesFact', 'PuestosFact', 'Pagefact', 'SweetAlert', 'UserFact', 'PermisosFact',
-    function($scope, $http, UserFact, EmployeesFact, PuestosFact, Pagefact, SweetAlert, UserFact, PermisosFact) {
+antejo.controller("EmpleadosCtrl", ['$scope', '$location', '$http', 'UserFact', 'EmployeesFact', 'PuestosFact', 'Pagefact', 'SweetAlert', 'UserFact', 'PermisosFact',
+    function($scope, $location, $http, UserFact, EmployeesFact, PuestosFact, Pagefact, SweetAlert, UserFact, PermisosFact) {
         //OBJECTS MODALS
         $scope.modalupuser = {
             id: 0,
@@ -335,28 +335,42 @@ antejo.controller("EmpleadosCtrl", ['$scope', '$http', 'UserFact', 'EmployeesFac
                     SweetAlert.swal("Error", "No se pudo conectar con el servidor", "error");
                 });
         }
-        $scope.deletePermisoUpdate = function(id) {
-                SweetAlert.swal({
-                        title: "Desea eliminar permiso",
-                        text: "Se eliminara un permiso al usuario",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Confirmar",
-                        closeOnConfirm: false
-                    },
-                    function() {
+
+        $scope.deletePermisoUpdate = function(id, index) {
+            SweetAlert.swal({
+                    title: "Aviso",
+                    text: "Seguro que desea eliminar este campo",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Si',
+                    cancelButtonText: "No",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+
                         PermisosFact.deletePermission(id).then(function(response) {
                             if (response.data.error) {
-                                SweetAlert.swal("Error", response.data.message, "error");
+                                SweetAlert.swal("Aviso:", response.data.message, "warning");
                             } else {
-                                $scope.showEmployees($scope.employee.id, false);
-                                SweetAlert.swal("Mensaje", response.data.message, "success");
+                                $scope.modalupuser.permisos.splice(index, 1);
+                                SweetAlert.swal("Aviso:", "Eliminado correctamente.", "success");
                             }
+                        }).catch(function(error) {
+                            SweetAlert.swal("Aviso:", "Error al conectarse con el servidor.", "error");
                         });
-                    });
-            }
-            //DELETE PUESTO
+                    } else {
+                        $scope.showEmployees($scope.employee.id, false);
+                        swal("Cancelado", "Dato no eliminado", "error");
+                    }
+                });
+        }
+
+
+
+        //DELETE PUESTO
         $scope.deletePuesto = function(id) {
                 SweetAlert.swal({
                         title: "Aviso",

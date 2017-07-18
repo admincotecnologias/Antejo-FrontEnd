@@ -33,8 +33,11 @@ antejo.factory("AuthFact", [function() {
         api.get(apiUrl + "/Auth/LogOut", { headers: { token: jsonauth.token } }).then(function(response) {
             if (!response.data.error) {
                 localStorage.removeItem("auth");
+                localStorage.removeItem("permissions");
                 scope.CheckLocal = false;
                 location.path("Login");
+                window.location.reload();
+
             } else {
                 alert(response.data.message);
             }
