@@ -9,13 +9,19 @@ antejo.controller('MainCtrl', ['$http', '$filter', '$scope', 'MainFact', '$locat
         var saveDate = new Date(angular.fromJson(local).date);
         $scope.username = angular.fromJson(local).nombre;
         $scope.occupation = angular.fromJson(local).puesto;
+        var auxPermissions = angular.fromJson(local).permissions;
+        $scope.permissions = {};
+        angular.forEach(auxPermissions,function(permission){
+            $scope.permissions[permission.url] = angular.copy(permission);
+            delete $scope.permissions[permission.url].url;
+        });
+        localStorage.setItem("permissions",JSON.stringify($scope.permissions));
         $scope.CheckLocal = true;
         $location.path("/");
     }
 
     $scope.username = MainFact.username;
     $scope.occupation = MainFact.occupation;
-    $scope.LogIn = AuthFact.LogIn;
     $scope.LogOut = AuthFact.LogOut;
     $scope.CheckRole = AuthFact.CheckRole;
     $scope.http = $http;
@@ -25,6 +31,12 @@ antejo.controller('MainCtrl', ['$http', '$filter', '$scope', 'MainFact', '$locat
     if (local == null) {
         $location.path("Login");
         //location.reload();
+    }
+
+    $scope.LogIn = function(email, password, scope, api, location){
+        AuthFact.LogIn(email,password,scope,api,location,function(response){
+            $scope.permissions = response;
+        });
     }
     $scope.CurrentLocation = function() {
         return $location.path().split('/')[1];

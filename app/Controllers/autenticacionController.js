@@ -1,6 +1,6 @@
 antejo.factory("AuthFact", [function() {
 
-    var LogIn = function(email, password, scope, api, location) {
+    var LogIn = function(email, password, scope, api, location,cb) {
         var logData = {
             email: email,
             password: password
@@ -15,10 +15,14 @@ antejo.factory("AuthFact", [function() {
                 jQuery(document).ready(function() {
                     initializeJS();
                 });
-                //window.location.reload();
-                //setTimeout(function(){
-                //    window.location.reload();
-                //},500);
+            var auxPermissions = response.data.permissions;
+                var permissions = {};
+                angular.forEach(auxPermissions,function(permission){
+                    permissions[permission.url] = angular.copy(permission);
+                    delete permissions[permission.url].url;
+                });
+                localStorage.setItem("permissions",JSON.stringify(permissions));
+                cb(permissions);
             } else {
                 alert(response.data.message);
             }

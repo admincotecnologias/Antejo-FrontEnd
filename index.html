@@ -163,13 +163,13 @@
                 <div id="sidebar" class="nav-collapse ">
                     <!-- sidebar menu start-->
                     <ul class="sidebar-menu">
-                        <li class="">
+                        <li class="sub-menu" ng-if="permissions.Dashboard.show">
                             <a class="" href="index.html">
                                 <i class="material-icons">pie_charts</i>
                                 <span>Inicio</span>
                             </a>
                         </li>
-                        <li class="sub-menu">
+                        <li class="sub-menu" ng-if="permissions.Solicitudes.show">
                             <a href="javascript:;">
                                 <i class="icon_document_alt"></i>
                                 <span>Solicitudes</span>
@@ -180,7 +180,7 @@
                                 <li><a class="" href="Solicitudes/Nuevo">Agregar Solicitud</a></li>
                             </ul>
                         </li>
-                        <li class="sub-menu">
+                        <li class="sub-menu" ng-if="permissions.Creditos.show">
                             <a href="javascript:;">
                                 <i class="icon_document_alt"></i>
                                 <span>Creditos</span>
@@ -191,7 +191,7 @@
                                 <li><a class="" href="Solicitudes/Nuevo">Agregar Solicitud</a></li>
                             </ul>
                         </li>
-                        <li class="sub-menu">
+                        <li class="sub-menu" ng-if="permissions.Fondeadores.show">
                             <a href="javascript:;">
                                 <i class="material-icons">people_outline</i>
                                 <span>Fondeadores</span>
@@ -202,7 +202,7 @@
                                 <li><a class="" href="Fondeadores/Nuevo">Agregar Fondeador</a></li>
                             </ul>
                         </li>
-                        <li class="sub-menu">
+                        <li class="sub-menu" ng-if="permissions['Clientes'].show">
                             <a href="javascript:;">
                                 <i class="material-icons">people</i>
                                 <span>Clientes</span>
@@ -214,7 +214,7 @@
                                 <li><a class="" href="Bancos">Agregar Banco</a></li>
                             </ul>
                         </li>
-                        <li class="sub-menu">
+                        <li class="sub-menu" ng-if="permissions['Usuarios'].show">
                             <a href="javascript:;" ng-click="gotolocation('/Usuarios')">
                                 <i class="material-icons">work</i>
                                 <span>Usuarios</span>

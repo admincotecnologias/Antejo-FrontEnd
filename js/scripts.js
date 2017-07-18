@@ -17,23 +17,40 @@ function initializeJS() {
     //sidebar dropdown menu
     var lastBox = null;
     jQuery('#sidebar .sub-menu > a').click(function() {
+        jQuery('#sidebar .sub-menu > ul:visible').slideUp(200);
+        var arrow = $(this).children("span.menu-arrow")
+        if(arrow.length == 0){
+            jQuery('#sidebar .sub-menu > a').children("span.menu-arrow").removeClass("arrow_carrot-down").addClass("arrow_carrot-right")
+        }
+        if(arrow.hasClass("arrow_carrot-right")){
+            jQuery('#sidebar .sub-menu > a').children("span.menu-arrow").removeClass("arrow_carrot-down").addClass("arrow_carrot-right")
+            arrow.removeClass("arrow_carrot-right").addClass("arrow_carrot-down")
+            $(this).next().slideDown(200)
+        }else{
+            console.log(arrow);
+            //jQuery('#sidebar .sub-menu > a').children("span.menu-arrow").removeClass("arrow_carrot-down").addClass("arrow_carrot-right")
+            arrow.addClass("arrow_carrot-right").removeClass("arrow_carrot-down")
+        }
+        /*
         var last = jQuery('.sub-menu.open', jQuery('#sidebar'));
         jQuery('.menu-arrow').removeClass('arrow_carrot-right');
         jQuery('.sub', last).slideUp(200);
         var sub = jQuery(this).next();
         if (sub.is(":visible")) {
+            console.log(sub);
             jQuery('.menu-arrow').addClass('arrow_carrot-right');
             sub.slideUp(200);
         } else {
+            console.log(sub);
             jQuery('.menu-arrow').addClass('arrow_carrot-down');
             sub.slideDown(200);
             //lastBox = sub;
         }
+
         if(lastBox != null && lastBox!=sub){
-            //jQuery('.menu-arrow').addClass('arrow_carrot-right');
             lastBox.slideUp(200);
         }
-        lastBox = sub;
+        lastBox = sub;*/
         var o = (jQuery(this).offset());
         diff = 200 - o.top;
         if (diff > 0)
