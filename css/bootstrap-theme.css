@@ -4888,6 +4888,19 @@ textarea.input-group-sm>.input-group-btn>.btn {
     border-radius: .25em;
 }
 
+.labelLiq {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 100%;
+    font-weight: bold;
+    line-height: 1;
+    color: #000000;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
 .label[href]:hover,
 .label[href]:focus {
     color: #ffffff;
@@ -4902,6 +4915,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
 .label-default {
     background-color: #d7d7d7;
 }
+
 
 .label-default[href]:hover,
 .label-default[href]:focus {
