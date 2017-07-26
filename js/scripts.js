@@ -19,14 +19,14 @@ function initializeJS() {
     jQuery('#sidebar .sub-menu > a').click(function() {
         jQuery('#sidebar .sub-menu > ul:visible').slideUp(200);
         var arrow = $(this).children("span.menu-arrow")
-        if(arrow.length == 0){
+        if (arrow.length == 0) {
             jQuery('#sidebar .sub-menu > a').children("span.menu-arrow").removeClass("arrow_carrot-down").addClass("arrow_carrot-right")
         }
-        if(arrow.hasClass("arrow_carrot-right")){
+        if (arrow.hasClass("arrow_carrot-right")) {
             jQuery('#sidebar .sub-menu > a').children("span.menu-arrow").removeClass("arrow_carrot-down").addClass("arrow_carrot-right")
             arrow.removeClass("arrow_carrot-right").addClass("arrow_carrot-down")
             $(this).next().slideDown(200)
-        }else{
+        } else {
             console.log(arrow);
             //jQuery('#sidebar .sub-menu > a').children("span.menu-arrow").removeClass("arrow_carrot-down").addClass("arrow_carrot-right")
             arrow.addClass("arrow_carrot-right").removeClass("arrow_carrot-down")
