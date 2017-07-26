@@ -22,6 +22,7 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
     }
     ctrl.dateNow = new Date();
     ctrl.Amortizacion = []
+    ctrl.previewShown = false;
     ctrl.DownloadFile = function (id) {
         ApplicationsFact.DownloadFile(id);
     }
@@ -72,6 +73,7 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
         })
     }
     ctrl.Calcular = function () {
+        if(ctrl.previewShown)return;
         var dateFinal = angular.copy(ctrl.Credit.start_date);
         dateFinal = new Date(angular.copy(ctrl.Credit.start_date).setMonth(dateFinal.getMonth() + ctrl.Credit.term));
         var dias = Math.ceil((dateFinal.getTime() - angular.copy(ctrl.Credit.start_date).getTime()) / 1000 / 60 / 60 / 24);
@@ -112,7 +114,8 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
         objAmortizacion.interes = angular.copy(total.interes);
         objAmortizacion.iva = angular.copy(total.iva);
         objAmortizacion.total = angular.copy(total.total);
-        ctrl.Amortizacion.push(objAmortizacion)
+        ctrl.Amortizacion.push(objAmortizacion);
+        ctrl.previewShown=true;
     }
     ctrl.Imprimir = function () {
         $(document).ready(function () {
