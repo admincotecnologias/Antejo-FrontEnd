@@ -889,6 +889,10 @@ pre code {
     padding-right: 15px;
 }
 
+.margin-top {
+    margin-top: 50px;
+}
+
 .col-xs-1,
 .col-xs-2,
 .col-xs-3,
@@ -3338,6 +3342,12 @@ input[type="button"].btn-block {
     cursor: not-allowed;
 }
 
+.grafic-center {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    float: none !important;
+}
+
 .open>.dropdown-menu {
     display: block;
     opacity: 0.9;
@@ -4915,7 +4925,6 @@ textarea.input-group-sm>.input-group-btn>.btn {
 .label-default {
     background-color: #d7d7d7;
 }
-
 
 .label-default[href]:hover,
 .label-default[href]:focus {
