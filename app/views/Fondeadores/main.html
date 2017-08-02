@@ -13,22 +13,22 @@
                             <thead>
                                 <tr>
                                     <th class="text-left">Nombre</th>
-                                    <th class="text-center">RFC</th>
-                                    <th class="text-center hidden-xs hidden-sm">Telefono</th>
-                                    <th class="text-center hidden-xs hidden-sm">E-Mail</th>
-                                    <th class="text-center hidden-xs hidden-sm">Cartera</th>
-                                    <th class="text-center">Opciones</th>
+                                    <th class="text-left">RFC</th>
+                                    <th class="text-left hidden-xs hidden-sm">Telefono</th>
+                                    <th class="text-left hidden-xs hidden-sm">E-Mail</th>
+                                    <th class="text-left hidden-xs hidden-sm">Cartera ($)</th>
+                                    <th class="text-left">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody ng-if="stock.stockholders!=null" class="nga-fast nga-stagger nga-slide-up">
                                 <tr style="border-bottom: 1px solid #ddd" ng-repeat="stock in stock.stockholders | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
                                     <td class="text-left" ng-if="stock.type=='Moral'">{{stock.businessname}}</td>
                                     <td class="text-left" ng-if="stock.type=='Fisica'">{{stock.name}} {{stock.lastname}}</td>
-                                    <td class="text-center">{{stock.rfc}}</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{stock.phone}}</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{stock.email}}</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{stock.capital|currency}}</td>
-                                    <td class="text-center">
+                                    <td class="text-left">{{stock.rfc}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{stock.phone}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{stock.email}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{stock.capital|currency:""}}</td>
+                                    <td class="text-left">
                                         <div class=" btn-group-sm">
                                             <a href="Fondeadores/{{stock.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
                                             <a href="Fondeadores/{{stock.id}}/Creditos" class="btn btn-default fontSmall"><i class="material-icons">account_balance_wallet</i></a>

@@ -15,12 +15,12 @@
                                 <tr>
                                     <th class="text-center hidden-xs hidden-sm">Status</th>
                                     <th class="text-left">Cliente</th>
-                                    <th class="text-center">Proyecto</th>
-                                    <th class="hidden-xs hidden-sm">Monto Solicitado</th>
-                                    <th class="text-center hidden-xs hidden-sm">Fecha de Solicitud</th>
-                                    <th class="hidden-xs hidden-sm">Cartera</th>
-                                    <th class="hidden-xs hidden-sm">Intereses Aprox.</th>
-                                    <th class="text-center">Opciones</th>
+                                    <th class="text-left">Proyecto</th>
+                                    <th class="text-left">Monto Solicitado ($)</th>
+                                    <th class="text-left">Fecha de Solicitud</th>
+                                    <th class="text-left hidden-xs hidden-sm">Cartera ($)</th>
+                                    <th class="text-left hidden-xs hidden-sm">Interes Aproximado ($)</th>
+                                    <th class="text-left">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody ng-if="credits!=null" class="nga-fast nga-stagger nga-slide-up">
@@ -49,12 +49,12 @@
                                     </td>
                                     <td class="text-left" ng-if="credit.businessname != null ">{{credit.businessname}}</td>
                                     <td class="text-left" ng-if="credit.businessname == null ">{{credit.name}} {{credit.lastname}}</td>
-                                    <td class="text-center">{{credit.projectname}}</td>
-                                    <td class="text-left hidden-xs hidden-sm">{{credit.amount | currency:""}}$</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{credit.start_date|date:'dd/MM/yyyy'}}</td>
-                                    <td class="text-left hidden-xs hidden-sm">{{credit.lastmove | currency:""}}$</td>
-                                    <td class="text-left hidden-xs hidden-sm">{{credit.intereses | currency:""}}$</td>
-                                    <td class="text-center">
+                                    <td class="text-left">{{credit.projectname}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credit.amount | currency:""}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credit.start_date|date:'dd/MM/yyyy'}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credit.lastmove | currency:""}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credit.intereses | currency:""}}</td>
+                                    <td class="text-left">
                                         <div class=" btn-group-sm">
                                             <a ng-if="credit.type==1" href="Creditos/PagoFinal/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
                                             <a ng-if="credit.type==2" href="Creditos/Revolvente/{{credit.id}}" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>

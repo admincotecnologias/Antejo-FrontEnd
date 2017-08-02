@@ -18,40 +18,40 @@
                                     <th class="text-left hidden-xs hidden-sm">Status</th>
                                     <th class="text-left hidden-xs hidden-sm">Cliente</th>
                                     <th class="text-left">Fecha Solicitud</th>
-                                    <th class="text-center">Plazo</th>
-                                    <th class="text-center">Monto Solicitado</th>
-                                    <th class="text-center hidden-xs hidden-sm">No. Avales</th>
-                                    <th class="text-center hidden-xs hidden-sm">No. Archivos</th>
-                                    <th class="text-center">Opciones</th>
+                                    <th class="text-left">Plazo</th>
+                                    <th class="text-left">Monto Solicitado ($)</th>
+                                    <th class="text-left hidden-xs hidden-sm">No. Avales</th>
+                                    <th class="text-left hidden-xs hidden-sm">No. Archivos</th>
+                                    <th class="text-left">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody class="nga-fast nga-stagger nga-slide-up">
                                 <tr style="border-bottom: 1px solid #ddd" ng-repeat="app in ctrl.applications | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
-                                    <td>
+                                    <td class="text-center">
                                         <i ng-if="app.status=='Pendiente'" class="material-icons" style="color: #cfc400;">fiber_manual_record</i>
                                         <i ng-if="app.status=='Pre-Aprobado'" class="material-icons" style="color: #ffb290;">fiber_manual_record</i>
                                         <i ng-if="app.status=='Cancelada'" class="material-icons" style="color: darkred;">fiber_manual_record</i>
                                         <i ng-if="app.status=='Autorizado'" class="material-icons" style="color: darkgreen;">fiber_manual_record</i>
                                     </td>
-                                    <td>
+                                    <td class="text-left">
                                         {{app.clientname}}
                                     </td>
-                                    <td>
+                                    <td class="text-left">
                                         {{app.applicationdate|date:"dd/MM/yyyy"}}
                                     </td>
-                                    <td>
+                                    <td class="text-left">
                                         {{app.creditterm}}
                                     </td>
-                                    <td>
-                                        {{app.amountrequest|currency}}
+                                    <td class="text-left">
+                                        {{app.amountrequest|currency:""}}
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                         {{app.avalesnum}}
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                         {{app.filesnum}}
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-left">
                                         <div class=" btn-group-sm">
                                             <a href="/Solicitudes/{{app.id}}" class="btn btn-default fontSmall"><i
                                                 class="material-icons">mode_edit</i></a>
