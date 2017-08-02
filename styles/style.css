@@ -5031,7 +5031,7 @@ fieldset[disabled] .form-control {
 }
 .table-striped>tbody>tr:nth-of-type(odd).selectRow {
     background-color: #363b69;
-    color: whitesmoke;
+    color: #797979;
 }
 .selectRow {
     background-color: #363b69;

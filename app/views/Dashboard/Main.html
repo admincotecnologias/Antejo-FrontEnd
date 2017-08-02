@@ -5,75 +5,245 @@
                 <div class="panel-heading text-center">
                     Inicio
                 </div>
+
                 <div class="panel-body">
-                    <div class="table-scroll scrollbar1">
-                        <ul class="nav nav-pills nav-justified">
-                            <li role="presentation" ng-class="{'active':ctrl.menu=='Morosidad'}">
-                                <a href="#" ng-click="ctrl.menu='Morosidad'">Morosidad</a>
-                            </li>
-                        </ul>
-                        <br>
-                        <div ng-if="ctrl.menu=='Morosidad'">
-                            <div class="col-sm-6">
-                                <strong class="text-center">Créditos</strong>
-                                <div class="chart-container col-sm-6" style="position: relative">
-                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="ctrl.Morosidad.data" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
-                                </div>
-                                <div class="col-sm-6">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            Activo: {{ctrl.Morosidad.Activo.porcentaje|number:2}}%
-                                            <span class="badge badge-success">
-                                                {{ctrl.Morosidad.Activo.total}}
-                                        </span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            Vencido: {{ctrl.Morosidad.Vencido.porcentaje|number:2}}%
-                                            <span class="badge badge-warning">
-                                                {{ctrl.Morosidad.Vencido.total}}
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            Fuera de Gracia: {{ctrl.Morosidad.Gracia.porcentaje|number:2}}%
-                                            <span class="badge badge-danger">
-                                                {{ctrl.Morosidad.Gracia.total}}
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div class="table-scroll scrollbar1 row">
+                        <div>
+                            <ul class="nav nav-pills nav-justified">
+                                <li>
+                                    <a href="#" ng-click="ctrl.menu='Morosidad'">Morosidad</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="ctrl.menu='Margen Financiero'">Margen Financiero</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="ctrl.menu='Ingreso Neto'">Ingreso Neto</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="ctrl.menu='Cartera'">Cartera Promedio</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="ctrl.menu='Deuda Promedio'">Deuda Promedio</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div ng-if="ctrl.menu=='Morosidad'" class="col-sm-8 col-sm-push-2  margin-top">
+
+                            <div class="chart-container" style="position: relative">
+                                <canvas id="line" class="chart chart-line" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
                             </div>
-                            <div class="col-sm-6">
-                                <strong class="text-center">Cartera</strong>
+                            <div>
+                                <strong class="text-center">Morosidad</strong>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        Activo: {{ctrl.Morosidad.Activo.cartera|number:2}}$
+                                        <span class="badge badge-success">
+                                                {{ctrl.Morosidad.Activo.carteraporcentaje|number:2}}%
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        Vencido: {{ctrl.Morosidad.Vencido.cartera|number:2}}$
+                                        <span class="badge badge-warning">
+                                                {{ctrl.Morosidad.Vencido.carteraporcentaje|number:2}}%
+                                            </span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        Fuera de Gracia: {{ctrl.Morosidad.Gracia.cartera|number:2}}$
+                                        <span class="badge badge-danger">
+                                                {{ctrl.Morosidad.Gracia.carteraporcentaje|number:2}}%
+                                            </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div ng-if="ctrl.menu=='Ingreso Neto'" class="col-sm-8 col-sm-push-2  margin-top">
+
+                            <div class="chart-container" style="position: relative">
+                                <canvas id="bar" class="chart chart-bar" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
+                            </div>
+                            <div>
+                                <strong class="text-center">Ingreso Neto</strong>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+
+                                        <span class="badge badge-success">
+                                       
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+
+                                        <span class="badge badge-warning">
+                                       
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+
+                                        <span class="badge badge-danger">
+                                       
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div ng-if="ctrl.menu=='Margen Financiero' " class="col-sm-8 col-sm-push-2  margin-top">
+
+                            <div class="chart-container" style="position: relative">
+                                <canvas id="line" class="chart chart-line" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
+                            </div>
+                            <div>
+                                <strong class="text-center">Margen Financiero</strong>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+
+                                        <span class="badge badge-success">
+                                       
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+
+                                        <span class="badge badge-warning">
+                                       
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+
+                                        <span class="badge badge-danger">
+                                       
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div ng-if="ctrl.menu=='Cartera'" class="col-sm-8 col-sm-push-2  margin-top">
+
+                            <div class="col-sm-12">
                                 <div class="chart-container col-sm-6" style="position: relative">
                                     <canvas id="doughnut" class="chart chart-doughnut" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
                                 </div>
                                 <div class="col-sm-6">
+                                    <strong class="text-center">Cartera Promedio</strong>
                                     <ul class="list-group">
                                         <li class="list-group-item">
-                                            Activo: {{ctrl.Morosidad.Activo.cartera|number:2}}$
+
                                             <span class="badge badge-success">
-                                                {{ctrl.Morosidad.Activo.carteraporcentaje|number:2}}%
+                                       
                                         </span>
                                         </li>
                                         <li class="list-group-item">
-                                            Vencido: {{ctrl.Morosidad.Vencido.cartera|number:2}}$
+
                                             <span class="badge badge-warning">
-                                                {{ctrl.Morosidad.Vencido.carteraporcentaje|number:2}}%
-                                            </span>
+                                       
+                                        </span>
                                         </li>
                                         <li class="list-group-item">
-                                            Fuera de Gracia: {{ctrl.Morosidad.Gracia.cartera|number:2}}$
+
                                             <span class="badge badge-danger">
-                                                {{ctrl.Morosidad.Gracia.carteraporcentaje|number:2}}%
-                                            </span>
+                                       
+                                        </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="chart-container col-sm-6" style="position: relative">
+                                    <canvas id="bar" class="chart chart-bar" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong class="text-center">Cartera</strong>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-success">
+                                       
+                                        </span>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-warning">
+                                       
+                                        </span>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-danger">
+                                       
+                                        </span>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+
+                        <div ng-if=" ctrl.menu=='Deuda Promedio' " class="col-sm-8 col-sm-push-2  margin-top">
+                            <div class="col-sm-12">
+                                <div class="chart-container col-sm-6" style="position: relative">
+                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong class="text-center">Cartera</strong>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-success">
+                                       
+                                        </span>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-warning">
+                                       
+                                        </span>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-danger">
+                                       
+                                        </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="chart-container col-sm-6" style="position: relative">
+                                    <canvas id="bar" class="chart chart-bar" chart-data="ctrl.Morosidad.datacartera" chart-options="ctrl.Morosidad.options" chart-colors="ctrl.Morosidad.colors" chart-labels="ctrl.Morosidad.labels"></canvas>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong class="text-center">Cartera</strong>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-success">
+                                       
+                                        </span>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-warning">
+                                       
+                                        </span>
+                                        </li>
+                                        <li class="list-group-item">
+
+                                            <span class="badge badge-danger">
+                                       
+                                        </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
