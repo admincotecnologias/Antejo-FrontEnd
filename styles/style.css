@@ -1194,7 +1194,7 @@ ul.dropdown-menu.drp-mnu li {
 /*---Tables Pages---*/
 
 .table-scroll {
-    height: 75%;
+    height: 75vh;
     overflow-y: auto;
 }
 
@@ -3082,7 +3082,7 @@ i.fa.fa-facebook.profile-icon {
 }
 
 .scrollbar {
-    height: 462px;
+    height: 100%;
     background: #fff;
     overflow-y: scroll;
     padding: 2em 1em 0;

@@ -1,11 +1,11 @@
 antejo.factory("AuthFact", [function() {
-
+    var authUrl = 'http://localhost:8081/AdminAuth';
     var LogIn = function(email, password, scope, api, location,cb) {
         var logData = {
             email: email,
             password: password
         };
-        api.post(apiUrl + "/Auth/LogIn", logData).then((response) => {
+        api.post(authUrl + "/LogIn", logData).then((response) => {
             if (!response.data.error) {
                 localStorage.setItem("auth", JSON.stringify(response.data));
                 scope.CheckLocal = true;
@@ -34,7 +34,7 @@ antejo.factory("AuthFact", [function() {
 
     var LogOut = function(scope, api, location) {
         var jsonauth = angular.fromJson(localStorage.getItem("auth"));
-        api.get(apiUrl + "/Auth/LogOut", { headers: { token: jsonauth.token } }).then(function(response) {
+        api.get(authUrl + "/LogOut", { headers: { token: jsonauth.token } }).then(function(response) {
             if (!response.data.error) {
                 localStorage.removeItem("auth");
                 localStorage.removeItem("permissions");
@@ -47,6 +47,9 @@ antejo.factory("AuthFact", [function() {
             }
         });
     }
+    /**
+     * @deprecated forever.
+     */
     var CheckRole = function(api, location) {
         try {
             var jsonauth = angular.fromJson(localStorage.getItem("auth"));
