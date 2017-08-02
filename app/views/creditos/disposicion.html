@@ -8,30 +8,30 @@
             <div class="modal-body">
                 <table class="table table-bordered table-bordered">
                     <tbody>
-                    <tr>
-                        <th>Capital</th>
-                        <td>
-                            <div class="form-group">
-                                <input class="form-control" format="number" ng-model="Disposicion.amount" >
-                            </div>
-                        </td>
-                        <th>Fecha</th>
-                        <td>
-                            <div class="form-group">
-                                <datepicker date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                    <input class="form-control" type="date" ng-model="Disposicion.start_date" readonly>
-                                </datepicker>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Comentario</th>
-                        <td colspan="3">
-                            <div class="form-group">
-                                <textarea class="form-control" ng-model="Disposicion.todo" style="max-width: 400px"></textarea>
-                            </div>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th>Capital</th>
+                            <td>
+                                <div class="form-group">
+                                    <input class="form-control" format="number" ng-model="Disposicion.amount">
+                                </div>
+                            </td>
+                            <th>Fecha</th>
+                            <td>
+                                <div class="form-group">
+                                    <datepicker date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                        <input class="form-control" type="date" ng-model="Disposicion.start_date" readonly>
+                                    </datepicker>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Comentario</th>
+                            <td colspan="3">
+                                <div class="form-group">
+                                    <textarea class="form-control" ng-model="Disposicion.todo" style="max-width: 400px"></textarea>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

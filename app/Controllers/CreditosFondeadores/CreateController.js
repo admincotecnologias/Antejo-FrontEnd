@@ -29,6 +29,7 @@ antejo.controller('FundsCreateCtrl', ['$filter', 'SweetAlert','FoundFact','$rout
     ctrl.dateNow = new Date();
     ctrl.Amortizacion = []
     ctrl.file = null;
+    ctrl.previewShown=false;
 
 
 
@@ -41,11 +42,11 @@ antejo.controller('FundsCreateCtrl', ['$filter', 'SweetAlert','FoundFact','$rout
         ctrl.modalpay.file.push($file);
         console.log(ctrl.filedata);
         SweetAlert.swal("Aviso:","Archivo anexado.","success");
-        console.log("DFSL");
     
 
     }
     ctrl.Calcular = function () {
+        if(ctrl.previewShown)return;
         var dateFinal = new Date(angular.copy(ctrl.Credit.start_date));
         console.log(dateFinal)
         dateFinal = new Date(angular.copy(ctrl.Credit.start_date).setMonth(dateFinal.getMonth() + ctrl.Credit.term));
@@ -88,6 +89,7 @@ antejo.controller('FundsCreateCtrl', ['$filter', 'SweetAlert','FoundFact','$rout
         objAmortizacion.iva = angular.copy(total.iva);
         objAmortizacion.total = angular.copy(total.total);
         ctrl.Amortizacion.push(objAmortizacion)
+        ctrl.previewShown=true;
     }
     ctrl.Aprobar = function () {
         var Form = new FormData();
