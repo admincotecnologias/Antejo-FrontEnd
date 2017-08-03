@@ -1,5 +1,5 @@
 antejo.factory('ApplicationsFact', ['$http', function($http) {
-
+    var storageUrl = 'http://localhost/bantejo/public/storage/';
     var DeleteApplication = function(id) {
         var json = {};
         return $http.delete(apiUrl + "/Solicitudes/delete/" + id, json);
@@ -53,8 +53,8 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
     var DownloadFile = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "Solicitudes/show/" + id + "/FilesApplication/" + id).then(function(response) {
-            var stringPath = apiUrl + '/storage/' + response.data.filepath;
+        $http.get(apiUrl + "/Solicitudes/show/" + id + "/FilesApplication").then(function(response) {
+            var stringPath = storageUrl + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
     }
