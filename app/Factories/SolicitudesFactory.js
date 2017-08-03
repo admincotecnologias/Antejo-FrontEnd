@@ -53,7 +53,7 @@ antejo.factory('ApplicationsFact', ['$http', function($http) {
     }
     var DownloadFile = function(id) {
         var jsonAuth = {};
-        $http.get(apiUrl + "Solicitudes/show/" + id + "/FilesApplication/" + id).then(function(response) {
+        $http.get(apiUrl + "/Solicitudes/show/" + id + "/FilesApplication").then(function(response) {
             var stringPath = apiUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
