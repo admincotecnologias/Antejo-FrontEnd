@@ -57,7 +57,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                 ctrl.Clients = response.data.clients;
             }
         }).catch(function(error) {
-            console.log(error)
             SweetAlert.swal('Error', 'Error al comunicarse con el servidor.', 'error')
         })
     }
@@ -70,7 +69,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                 SweetAlert.swal("Aviso:", "Guardado.", "success");
             }
         }).catch(function(error) {
-            console.log(error);
             SweetAlert.swal("Error:", "Error al conectarse con servidor.", "error");
         })
     }
@@ -82,7 +80,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                 SweetAlert.swal("Aviso:", "Guardado.", "success");
             }
         }).catch(function(error) {
-            console.log(error);
             SweetAlert.swal("Error:", "Error al conectarse con servidor.", "error");
         })
     }
@@ -95,7 +92,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                 SweetAlert.swal("Aviso:", "Guardado.", "success");
             }
         }).catch(function(error) {
-            console.log(error);
             SweetAlert.swal("Error:", "Error al conectarse con servidor.", "error");
         })
     }
@@ -113,7 +109,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                     SweetAlert.swal("Aviso", response.data.message, "success");
                 }
             }).catch(function(error) {
-                console.log(error);
                 SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "warning");
             })
         } else {
@@ -134,7 +129,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                     SweetAlert.swal("Aviso", response.data.message, "success");
                 }
             }).catch(function(error) {
-                console.log(error);
                 SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "warning");
             })
         } else {
@@ -155,7 +149,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                     SweetAlert.swal("Aviso", response.data.message, "success");
                 }
             }).catch(function(error) {
-                console.log(error);
                 SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "error");
             })
         } else {
@@ -234,7 +227,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                 SweetAlert.swal("Aviso:", response.data.message, "success");
             }
         }).catch(function(error) {
-            console.log(error);
             SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "error");
         })
     }
@@ -247,7 +239,6 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
                 ctrl.files = response.data.files;
             }
         }).catch(function(error) {
-            console.log(error);
             SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "error");
         })
     }

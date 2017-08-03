@@ -271,7 +271,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         CreditsFact.showCredit($scope.idCredito, function (callback) {
             console.log("Callback ", callback)
             if (callback.error) {
-                //SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
+                SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
             } else {
                 $scope.credit = angular.copy(callback.credits);
                 $scope.cliente = callback.client;
@@ -290,16 +290,11 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                 $scope.lastMove = callback.lastmove;
                 $scope.credit.shift();
                 $scope.Disposicion = angular.copy($scope.CreditPadre)
-                $scope.diferencia = angular.copy(parseFloat($scope.CreditPadre.amount)) - angular.copy(parseFloat($scope.lastMove.capital_balance))
-                $(document).ready(function () {
-                    $("#condicion_" + $scope.CreditPadre.extends).addClass("selectRow");
-                });
-                console.log($scope.credit)
-                setTimeout(function () {
-                    $(function () {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
-                }, 500);
+                if($scope.moves == null || $scope.moves == undefined){
+                    $scope.diferencia = $scope.CreditPadre.amount
+                }else{
+                    $scope.diferencia = angular.copy(parseFloat($scope.CreditPadre.amount)) - angular.copy(parseFloat($scope.lastMove.capital_balance))
+                }
             }
         })
     }

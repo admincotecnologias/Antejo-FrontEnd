@@ -9,7 +9,6 @@ antejo.controller('StockholderCtrl', ['$filter', 'SweetAlert','FoundFact', 'DTOp
             if(response.data.stockholders.length==0){
                 SweetAlert.swal('Mensaje',"No hay Fondeadores.",'warning');
             }else{
-                console.log(response.data)
                 ctrl.stockholders = response.data.stockholders;
             }
         })

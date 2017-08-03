@@ -1194,7 +1194,7 @@ ul.dropdown-menu.drp-mnu li {
 /*---Tables Pages---*/
 
 .table-scroll {
-    height: 75vh;
+    height: 65vh;
     overflow-y: auto;
 }
 

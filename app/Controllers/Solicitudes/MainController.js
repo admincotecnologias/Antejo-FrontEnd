@@ -12,7 +12,6 @@ antejo.controller('ApplicationMainCtrl', ['$filter', 'SweetAlert','ApplicationsF
                 ctrl.applications = response.data.applications;
             }
         }).catch(function (error) {
-            console.log(error)
             SweetAlert.swal('Error','Error al comunicarse con el servidor.','error')
         })
     }
