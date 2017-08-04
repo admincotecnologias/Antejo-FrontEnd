@@ -43,9 +43,9 @@
                 </div>
                 <div class="pull-right">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-default" ng-click="insertDisposicion()" ng-disabled="diferencia<=Disposicion.amount">
+                    <button type="button" class="btn btn-default" ng-click="insertDisposicion()" ng-disabled="diferencia<Disposicion.amount">
                         Agregar
-                        <span ng-show="diferencia<=Disposicion.amount"
+                        <span ng-show="diferencia<Disposicion.amount"
                               class="label label-danger">Cantidad exedente.</span>
                     </button>
                 </div>

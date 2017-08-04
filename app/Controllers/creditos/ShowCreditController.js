@@ -276,21 +276,22 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             var interes = 0
             var iva = 0
             var pago=0
-            if(auxDate.getTime()>dateFinal.getTime()){
-                var diffDays1 = Math.floor(dateFinal.getTime()/(1000 * 3600 * 24) - new Date(lastMove.period).getTime()/(1000 * 3600 * 24));
-                var diffDays2 = Math.floor(auxDate.getTime()/(1000 * 3600 * 24) - dateFinal.getTime()/(1000 * 3600 * 24));
-                interes = angular.copy(lastMove.capital_balance)*(diffDays1*(parseFloat(angular.copy(lastCredit.interest)/100)/365));
-                interes += (angular.copy(lastMove.capital_balance)+angular.copy(interes))*(diffDays2*(parseFloat(angular.copy(lastCredit.interest_arrear)/100)/365));
-                iva = angular.copy(interes)*.16;
-                pago = interes+iva+angular.copy(parseFloat(lastMove.capital_balance));
-                $scope.liquidarmodal = pago
-            }else{
-                var diffDays1 = Math.floor(auxDate.getTime()/(1000 * 3600 * 24) - new Date(lastMove.period).getTime()/(1000 * 3600 * 24));
-                interes = angular.copy(parseFloat(lastMove.capital_balance))*(diffDays1*(angular.copy(parseFloat(lastCredit.interest)/100)/365));
-                iva = angular.copy(interes)*.16;
-                pago = parseFloat(interes)+parseFloat(iva)+angular.copy(parseFloat(lastMove.capital_balance));
-                $scope.liquidarmodal = pago
-                console.log(interes,iva,pago,diffDays1,parseFloat(lastMove.capital_balance),auxDate.getTime(),dateFinal)
+            if(lastMove.hasOwnProperty("capital_balance")){
+                if(auxDate.getTime()>dateFinal.getTime()){
+                    var diffDays1 = Math.floor(dateFinal.getTime()/(1000 * 3600 * 24) - new Date(lastMove.period).getTime()/(1000 * 3600 * 24));
+                    var diffDays2 = Math.floor(auxDate.getTime()/(1000 * 3600 * 24) - dateFinal.getTime()/(1000 * 3600 * 24));
+                    interes = angular.copy(lastMove.capital_balance)*(diffDays1*(parseFloat(angular.copy(lastCredit.interest)/100)/365));
+                    interes += (angular.copy(lastMove.capital_balance)+angular.copy(interes))*(diffDays2*(parseFloat(angular.copy(lastCredit.interest_arrear)/100)/365));
+                    iva = angular.copy(interes)*.16;
+                    pago = lastMove == 0 ? 0 : interes+iva+angular.copy(parseFloat(lastMove.capital_balance));
+                    $scope.liquidarmodal = pago
+                }else{
+                    var diffDays1 = Math.floor(auxDate.getTime()/(1000 * 3600 * 24) - new Date(lastMove.period).getTime()/(1000 * 3600 * 24));
+                    interes = angular.copy(parseFloat(lastMove.capital_balance))*(diffDays1*(angular.copy(parseFloat(lastCredit.interest)/100)/365));
+                    iva = angular.copy(interes)*.16;
+                    pago = parseFloat(interes)+parseFloat(iva)+angular.copy(parseFloat(lastMove.capital_balance));
+                    $scope.liquidarmodal = pago
+                }
             }
         }catch (exp){
             console.log(exp)
