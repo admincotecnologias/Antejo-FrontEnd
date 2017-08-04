@@ -17,7 +17,6 @@ antejo.controller('MainCtrl', ['$http', '$filter', '$scope', 'MainFact', '$locat
         });
         localStorage.setItem("permissions",JSON.stringify($scope.permissions));
         $scope.CheckLocal = true;
-        $location.path("/");
     }
 
     $scope.username = MainFact.username;

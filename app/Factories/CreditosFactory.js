@@ -40,10 +40,35 @@ antejo.factory('CreditsFact', ['$http', function($http) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param })
         });
     }
+
+    var AddFile = function(obj) {
+        var formdata = obj;
+        return $http.post(apiUrl + '/Creditos/add/FilesApplication', formdata, {
+            headers: { 'Content-Type': undefined },
+            transformRequest: angular.identity
+        });
+    }
+    var DownloadFile = function(id) {
+        var jsonAuth = {};
+        $http.get(apiUrl + "/Creditos/show/" + id + "/FilesApplication").then(function(response) {
+            var stringPath = apiUrl + '/storage/' + response.data.filepath;
+            window.open(stringPath);
+        }, function(error) {});
+    }
+
+
+    var updateCreditFile = function(creditId,fileId){
+        var json = {};
+        return $http.put(apiUrl+ "/Creditos/update/"+creditId+"/ControlCredits/"+fileId,json);
+
+    }
     return {
         GetAll: getCreditsApproved,
         showCredit: showCredit,
         addCondition: addCreditApproved,
-        addCreditPay: addCreditPay
+        addCreditPay: addCreditPay,
+        addFile: AddFile,
+        downloadFile: DownloadFile,
+        updateCreditFile : updateCreditFile
     }
 }]);

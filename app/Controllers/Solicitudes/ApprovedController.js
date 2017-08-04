@@ -42,7 +42,6 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
                 }
             }
         }).catch(function (error) {
-            console.log(error);
             SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "error");
         })
     }
@@ -55,7 +54,6 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
                 SweetAlert.swal("Aviso:", "Guardado.", "success");
             }
         }).catch(function (error) {
-            console.log(error);
             SweetAlert.swal("Error:", "Error al conectarse con servidor.", "error");
         })
     }
@@ -68,7 +66,6 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
                 SweetAlert.swal("Aviso:", "Guardado.", "success");
             }
         }).catch(function (error) {
-            console.log(error);
             SweetAlert.swal("Error:", "Error al conectarse con servidor.", "error");
         })
     }

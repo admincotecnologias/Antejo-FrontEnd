@@ -85,12 +85,10 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
             FoundFact.byIDManager(ctrl.stockholders.id).then(function (responses) {
                 ctrl.managers = responses.data.stockholders;
             }).catch(function (err) {
-                console.log(err)
                 SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
             })
             SweetAlert.swal("Mensaje:","Eliminado.","warning");
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
 
@@ -106,12 +104,10 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
             if(response.data.error){
                 SweetAlert.swal("Error:",response.data.message,"error");
             }else{
-                console.log(response)
                 ctrl.stockholders = response.data.stockholders;
                 SweetAlert.swal("Mensaje:","Guardado.","success");
             }
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
@@ -131,13 +127,11 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
                 FoundFact.byIDManager(ctrl.stockholders.id).then(function (responses) {
                     ctrl.managers = responses.data.stockholders;
                 }).catch(function (err) {
-                    console.log(err)
                     SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
                 })
                 SweetAlert.swal("Mensaje:","Guardado.","success");
             }
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
@@ -165,18 +159,15 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
                         idstockholder:null
                     }
                 }).catch(function (err) {
-                    console.log(err)
                     SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
                 })
             }
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
     ctrl.viewNameBank = function (id) {
         for(var i = 0;i<ctrl.ListBanks.length;i++) {
-            console.log(id,ctrl.ListBanks[i].id)
             if(ctrl.ListBanks[i].id == id){
                 return ctrl.ListBanks[i].name;
                 break;
@@ -188,12 +179,10 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
             FoundFact.byIDAccount(ctrl.stockholders.id).then(function (responses) {
                 ctrl.accounts = responses.data.stockholders
             }).catch(function (err) {
-                console.log(err)
                 SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
             })
             SweetAlert.swal("Mensaje","Eliminado","success");
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
@@ -221,12 +210,10 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
                         SweetAlert.swal("Mensaje","Creado.","success");
                     }
                 }).catch(function (err) {
-                    console.log(err)
                     SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
                 })
             }
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
@@ -242,7 +229,6 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
                         SweetAlert.swal("Mensaje:","Guardado.", "success");
                     }
                 }).catch(function (err) {
-                    console.log(err)
                     SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
                 })
             }else {
@@ -260,7 +246,6 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
                         SweetAlert.swal("Mensaje:","Guardado.", "success");
                     }
                 }).catch(function (err) {
-                    console.log(err)
                     SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
                 })
             }else {
@@ -291,12 +276,10 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
                         SweetAlert.swal("Mensaje","Guardado.","success");
                     }
                 }).catch(function (err) {
-                    console.log(err)
                     SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
                 })
             }
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
@@ -307,22 +290,17 @@ antejo.controller('UpdateStockCtrl', ['$filter', 'SweetAlert','FoundFact','Banco
             ctrl.managers = response.data.managers;
             ctrl.accounts = response.data.accounts;
         }).catch(function (err) {
-            console.log(err)
             SweetAlert.swal("Error:","Ocurrio un ploblema con la conexión.","error");
         })
     }
     ctrl.getBanks = function () {
         BancosFact.AllBanco().then(function (response) {
-            console.log(response);
             ctrl.ListBanks = response.data.banks;
 
         },function(reason){
-            console.log("Error" + reason);
         },1000).catch(function (err) {
-            console.log(err);
             SweetAlert.swal("Error:","Ocurrio un problema con la conexion.","error");
         });
-        console.log("wtf");
     }
     ctrl.getBanks();
     ctrl.getStockholder();

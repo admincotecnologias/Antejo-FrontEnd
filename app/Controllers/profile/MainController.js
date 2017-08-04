@@ -14,18 +14,16 @@ antejo.controller('ProfileMainCtrl', ['$filter', 'SweetAlert', 'EmployeesFact', 
 
     ctrl.GetAll = function() {
         var json = JSON.parse(localStorage.getItem("auth"));
-        console.log(json);
         EmployeesFact.showEmployees(json.id).then(function(response) {
             if (response.data.error === false) {
                 ctrl.profile = response.data;
                 ctrl.employee = angular.copy(response.data);
-                console.log(response.data, ctrl.profile);
             } else {
                 SweetAlert.swal("Error", "No se se encontro usuario", "error");
 
             }
         }).catch(function(error) {
-            console.log(error)
+            SweetAlert.swal("Error", "No se se encontro usuario", "error");
         });
 
     }
@@ -98,7 +96,7 @@ antejo.controller('ProfileMainCtrl', ['$filter', 'SweetAlert', 'EmployeesFact', 
                             SweetAlert.swal("Actualizado", "Perfil actualizado", "success");
                         }
                     }).catch(function(error) {
-                        console.log(error);
+                        SweetAlert.swal("Error", "No se pudo conectar con el servidor", "error");
                     });
                 }
             }

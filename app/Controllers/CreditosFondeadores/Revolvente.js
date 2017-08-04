@@ -152,7 +152,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
             var iva = interes*(parseFloat(ctrl.CreditPadre.iva)/100)
             newMove.interest = angular.copy(interes)
             newMove.iva = angular.copy(iva)
-            ctrl.liquidarmodal = (angular.copy(interes)+angular.copy(iva)+angular.copy(parseFloat(ctrl.lastMove.capital_balance)))
+            ctrl.liquidarmodal = ($filter)((angular.copy(interes)+angular.copy(iva)+angular.copy(parseFloat(ctrl.lastMove.capital_balance))),'$',3);
         }
         if((new Date(dateFinal.setDate((ctrl.addTerm().getDate()+ctrl.CreditPadre.grace_days))).getTime()>=SelectDate.getTime())&&(SelectDate.getTime()>=ctrl.addTerm().getTime())){
             var interes = parseFloat(angular.copy(ctrl.lastMove.interest_balance))+
@@ -160,7 +160,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
             var iva = interes*(parseFloat(ctrl.CreditPadre.iva)/100)
             newMove.interest = angular.copy(interes)
             newMove.iva = angular.copy(iva)
-            ctrl.liquidarmodal = (angular.copy(interes)+angular.copy(iva)+angular.copy(parseFloat(ctrl.lastMove.capital_balance)))
+            ctrl.liquidarmodal = ($filter)((angular.copy(interes)+angular.copy(iva)+angular.copy(parseFloat(ctrl.lastMove.capital_balance))),'$',3);
         }
         if(new Date(ctrl.addTerm().setDate(ctrl.addTerm().getDate()+ctrl.CreditPadre.grace_days)).getTime()<SelectDate.getTime()){
             if(diffDays==0){
@@ -172,7 +172,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
                 newMove.iva = angular.copy(iva)
                 newMove.interest_arrear = angular.copy(interesmoratorio)
                 newMove.iva_arrear = angular.copy(ivaMoratorio)
-                ctrl.liquidarmodal = (angular.copy(interes)+angular.copy(interesmoratorio)+angular.copy(iva)+angular.copy(ivaMoratorio)+angular.copy(parseFloat(ctrl.lastMove.capital_balance)))
+                ctrl.liquidarmodal = ($filter)((angular.copy(interes)+angular.copy(interesmoratorio)+angular.copy(iva)+angular.copy(ivaMoratorio)+angular.copy(parseFloat(ctrl.lastMove.capital_balance))),'$',3);
             }else{
                 var interes = parseFloat(angular.copy(ctrl.lastMove.interest_balance))+
                     (angular.copy(parseFloat(ctrl.lastMove.capital_balance))*((parseFloat(ctrl.CreditPadre.interest)/100/365)*diffDays2));
@@ -183,7 +183,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
                 newMove.iva = angular.copy(iva)
                 newMove.interest_arrear = angular.copy(interesmoratorio)
                 newMove.iva_arrear = angular.copy(ivaMoratorio)
-                ctrl.liquidarmodal = (angular.copy(interes)+angular.copy(interesmoratorio)+angular.copy(iva)+angular.copy(ivaMoratorio)+angular.copy(parseFloat(ctrl.lastMove.capital_balance)))
+                ctrl.liquidarmodal = ($filter)((angular.copy(interes)+angular.copy(interesmoratorio)+angular.copy(iva)+angular.copy(ivaMoratorio)+angular.copy(parseFloat(ctrl.lastMove.capital_balance))),'$',3);
             }
         }
         if(ivaMoratorio!=null){
@@ -249,9 +249,11 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
             }
         }
         ctrl.newMove = newMove;
-        ctrl.calcInterest = $filter('currency')(angular.copy(pagoInteres))
-        ctrl.calcIva = $filter('currency')(angular.copy(pagoIva))
-        ctrl.calcMonto = $filter('currency')(angular.copy(pagoCapital))
+        ctrl.calcInterest = $filter('currency')(angular.copy(pagoInteres),'$',3)
+        ctrl.calcIva = $filter('currency')(angular.copy(pagoIva),'$',3)
+        ctrl.calcMonto = $filter('currency')(angular.copy(pagoCapital),'$',3)
+        console.log(ctrl.modalPay.pay);
+        console.log(ctrl.liquidarmodal);
     }
     ctrl.savePago = function (){
         var Form = new FormData();

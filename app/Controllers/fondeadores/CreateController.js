@@ -84,12 +84,10 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
             FoundFact.byIDManager(ctrl.stockholders.id).then(function(responses) {
                 ctrl.managers = responses.data.stockholders;
             }).catch(function(err) {
-                console.log(err)
                 SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
             })
             SweetAlert.swal("Mensaje:", "Eliminado.", "warning");
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
 
@@ -105,12 +103,10 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
             if (response.data.error) {
                 SweetAlert.swal("Error:", response.data.message, "error");
             } else {
-                console.log(response)
                 ctrl.stockholders = response.data.stockholders;
                 SweetAlert.swal("Mensaje:", "Guardado.", "success");
             }
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
     }
@@ -130,13 +126,11 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                 FoundFact.byIDManager(ctrl.stockholders.id).then(function(responses) {
                     ctrl.managers = responses.data.stockholders;
                 }).catch(function(err) {
-                    console.log(err)
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
                 })
                 SweetAlert.swal("Mensaje:", "Guardado.", "success");
             }
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
     }
@@ -164,18 +158,15 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                         idstockholder: null
                     }
                 }).catch(function(err) {
-                    console.log(err)
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
                 })
             }
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
     }
     ctrl.viewNameBank = function(id) {
         for (var i = 0; i < ctrl.ListBanks.length; i++) {
-            console.log(id, ctrl.ListBanks[i].id)
             if (ctrl.ListBanks[i].id == id) {
                 return ctrl.ListBanks[i].name;
                 break;
@@ -187,12 +178,10 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
             FoundFact.byIDAccount(ctrl.stockholders.id).then(function(responses) {
                 ctrl.accounts = responses.data.stockholders
             }).catch(function(err) {
-                console.log(err)
                 SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
             })
             SweetAlert.swal("Mensaje", "Eliminado", "success");
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
     }
@@ -220,12 +209,10 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                         SweetAlert.swal("Mensaje", "Creado.", "error");
                     }
                 }).catch(function(err) {
-                    console.log(err)
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
                 })
             }
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
     }
@@ -241,7 +228,6 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                         SweetAlert.swal("Mensaje:", "Guardado.", "success");
                     }
                 }).catch(function(err) {
-                    console.log(err)
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
                 })
             } else {
@@ -260,7 +246,6 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                         SweetAlert.swal("Mensaje:", "Guardado.", "success");
                     }
                 }).catch(function(err) {
-                    console.log(err)
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
                 })
             } else {
@@ -291,19 +276,16 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                         SweetAlert.swal("Mensaje", "Guardado.", "error");
                     }
                 }).catch(function(err) {
-                    console.log(err)
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
                 })
             }
         }).catch(function(err) {
-            console.log(err)
             SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");
         })
     }
     ctrl.getBanks = function () {
         BancosFact.AllBanco().then(function (response) {
             ctrl.ListBanks = response.data.banks;
-            console.log(ctrl.ListBanks);
         })
     }
     ctrl.getBanks();

@@ -15,6 +15,16 @@ antejo.directive('format', ['$filter', function($filter) {
                     });
                     break;
                 }
+                case "currency":{
+                    ctrl.$formatters.unshift(function(a) {
+                        return $filter("currency")(ctrl.$modelValue,'$',2);
+                    });
+                    ctrl.$parsers.unshift(function(viewValue) {
+                        var plainNumber = elem.val().replace(/[^\d|\-+|\.+]/g, '');
+                        elem.val($filter(attrs.format)(plainNumber));
+                    });
+                    break;
+                }
                 case "float": {
                     scope.$watch(attrs.ngModel,function (newVal,oldVal) {
                         var Regex = /^\d*(\.)?(\d{1,})?$/;
