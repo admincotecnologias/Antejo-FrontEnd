@@ -121,18 +121,7 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         aux.setMonth(aux.getMonth()+angular.copy($scope.CreditPadre.term));
         return new Date(aux.setHours(0,0,0,0));
     }
-    $scope.calcularPago2 = function(){
-
-/*
-
-        var lastDate = new Date(Date.parse(angular.copy($scope.lastMove.period)))
-        lastDate.setHours(0,0,0,0)
-        var newDate = Date.now();
-        var SelectDate = new Date((new Date(newDate)).setHours(0,0,0,0));//Fecha de hoy
-*/
-
-
-
+    $scope.CalcularPago = function(){
         console.log($scope.modalpay)
         var newMove = angular.copy($scope.lastMove);
         var dateFinal = $scope.addTerm()
@@ -258,125 +247,6 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         $scope.calcMonto = $filter('currency')(angular.copy(pagoCapital),'$',3)
         console.log($scope.modalpay.pay);
         console.log($scope.liquidarmodal);
-    }
-    $scope.CalcularPago = function(){
-                delete $scope.newMove;
-                $scope.newMove = angular.copy($scope.lastMove);
-                var auxDate = new Date($scope.lastCredit.start_date);
-                auxDate = auxDate.setMonth(auxDate.getMonth()+$scope.lastCredit.term);
-                auxDate = new Date(Math.ceil(auxDate+($scope.lastCredit.grace_days*1000 * 3600 * 24)));
-                var diffDays = Math.ceil(new Date(Date.parse($scope.modalpay.date)).getTime()/(1000 * 3600 * 24) - new Date($scope.lastMove.period).getTime()/(1000 * 3600 * 24))-1;
-                var newDate = Date.parse($scope.modalpay.date);
-                if(newDate < auxDate){
-                    if(diffDays>=0){
-                        $scope.newMove.credit = angular.copy($scope.CreditPadreUnedit.id);
-                        $scope.newMove.period = angular.copy(new Date(Date.parse($scope.modalpay.date)));
-                        $scope.newMove.pay = parseFloat(angular.copy($scope.modalpay.pay));
-                        $scope.newMove.currency = angular.copy($scope.modalpay.sel_moneda);
-                        $scope.newMove.type_currency = $scope.modalpay.sel_moneda=="MXN"? 1 : parseFloat(angular.copy($scope.modalpay.currency));
-                        var capital = parseFloat(angular.copy($scope.newMove.capital_balance));
-                        var interes = parseFloat(((angular.copy(capital)*((angular.copy($scope.lastCredit.interest))/100/365))*diffDays))+parseFloat((angular.copy($scope.newMove.interest_balance)));
-                        var iva = parseFloat(angular.copy((angular.copy(interes)*(angular.copy($scope.lastCredit.iva)/100))));
-                        var pay = parseFloat(angular.copy($scope.newMove.pay));
-                        if(pay>(iva+interes)){
-                            $scope.newMove.pay_interest = interes;
-                            $scope.newMove.pay_iva = iva;
-                            $scope.newMove.capital_balance = capital - (pay - (interes+iva));
-                            $scope.newMove.pay_capital = (pay - (interes+iva));
-                            $scope.newMove.capital += angular.copy($scope.newMove.pay_capital);
-                            $scope.newMove.interest = interes;
-                            $scope.newMove.iva = iva;
-                            $scope.calcMonto = $filter('currency')(angular.copy($scope.newMove.pay_capital));
-                            $scope.calcInterest = $filter('currency')(angular.copy($scope.newMove.pay_interest));
-                            $scope.calcIva = $filter('currency')(angular.copy($scope.newMove.pay_iva));
-                        }else{
-                            console.log("segundo if",$scope.newMove.period.toDateString());
-                            $scope.newMove.pay_interest = pay/(1+($scope.lastCredit.iva/100));
-                            $scope.newMove.pay_iva = pay - $scope.newMove.pay_interest;
-                            $scope.newMove.capital_balance = capital;
-                            $scope.newMove.pay_capital = 0;
-                            $scope.newMove.interest_balance -= $scope.newMove.pay_interest;
-                            $scope.newMove.iva_balance -= $scope.newMove.pay_iva;
-                            $scope.newMove.interest = interes;
-                            $scope.newMove.iva = iva;
-                            $scope.calcMonto = $filter('currency')(angular.copy($scope.newMove.pay_capital));
-                            $scope.calcInterest = $filter('currency')(angular.copy($scope.newMove.pay_interest));
-                            $scope.calcIva = $filter('currency')(angular.copy($scope.newMove.pay_iva));
-                        }
-                    }else{
-                        SweetAlert.swal("Error","Fecha fuera de rango, ultimo movimiento: "+$filter("date")($scope.lastMove.period,'dd/MM/yyyy'),'error');
-                    }
-                }else{
-                    var diffDays = Math.ceil(Date.parse($scope.modalpay.date).getTime()/(1000 * 3600 * 24) - auxDate.getTime()/(1000 * 3600 * 24));
-                    var diffDays_2 = Math.ceil(auxDate.getTime()/(1000*3600*24) - new Date($scope.lastMove.period).getTime()/(1000*3600*24));
-                    diffDays_2 = diffDays_2>0?diffDays_2:0;
-                    $scope.newMove.credit = angular.copy($scope.lastCredit.id);
-                    $scope.newMove.period = angular.copy($filter('date')(Date.parse($scope.modalpay.date),'dd/MM/yyyy'));
-                    $scope.newMove.pay = parseFloat(angular.copy($scope.modalpay.pay));
-                    $scope.newMove.type_currency = angular.copy($scope.modalpay.sel_moneda);
-                    $scope.newMove.currency  = $scope.modalpay.sel_moneda=="MXN"? 1 : parseFloat(angular.copy($scope.modalpay.currency));
-                    var capital = parseFloat(angular.copy($scope.newMove.capital_balance));
-                    var interes = parseFloat((angular.copy(capital)*((angular.copy($scope.lastCredit.interest)/100/365)*diffDays_2)))+$scope.lastMove.interest_balance;
-                    var iva = parseFloat(angular.copy($scope.newMove.iva_balance)+(angular.copy(interes))*(angular.copy($scope.lastCredit.iva)/100));
-                    var pay = parseFloat(angular.copy($scope.newMove.pay));
-                    var interestArrear = parseFloat((angular.copy(capital)+angular.copy(interes))*((angular.copy($scope.lastCredit.interest_arrear)/100/365)*diffDays))+parseFloat(angular.copy($scope.lastMove.interest_arrear_balance));
-                    var ivaArrear = angular.copy(interestArrear)*(angular.copy($scope.lastCredit.iva)/100);
-                    $scope.newMove.interest = interes;
-                    $scope.newMove.iva = iva;
-                    $scope.newMove.interest_arrear = interestArrear;
-                    $scope.newMove.iva_arrear = ivaArrear;
-                    if(pay>=(ivaArrear+interestArrear)){
-                        $scope.newMove.interest_arrear = 0;
-                        $scope.newMove.iva_arrear = 0;
-                        $scope.newMove.pay_interest_arrear = interestArrear;
-                        $scope.newMove.pay_iva_arrear = ivaArrear;
-                        pay -= (ivaArrear+interestArrear);
-                        if(pay>0){
-                            if(pay>=(interes+iva)){
-                                $scope.newMove.interest = 0;
-                                $scope.newMove.iva = 0;
-                                $scope.newMove.pay_capital = 0;
-                                $scope.newMove.pay_interest = interes;
-                                $scope.newMove.pay_iva = iva;
-                                pay -= (interes+iva);
-                                if(pay>0){
-                                    $scope.newMove.capital_balance -= pay;
-                                    $scope.newMove.capital += pay;
-                                    $scope.newMove.pay_capital = pay;
-                                }
-                            }else{
-                                $scope.newMove.interest = pay/(1+(angular.copy($scope.lastCredit.iva)/100));
-                                $scope.newMove.iva = pay-angular.copy($scope.newMove.interest);
-                                $scope.newMove.pay_capital = 0;
-                                $scope.newMove.pay_interest = $scope.newMove.interest;
-                                $scope.newMove.pay_iva = $scope.newMove.iva;
-                            }
-                        }else{
-                            $scope.newMove.interest = interes;
-                            $scope.newMove.iva = iva;
-                            $scope.newMove.pay_capital = 0;
-                            $scope.newMove.pay_interest = 0;
-                            $scope.newMove.pay_iva = 0;
-                        }
-                    }else{
-                        $scope.newMove.interest_arrear = pay/(1+(angular.copy($scope.lastCredit.iva)/100));
-                        $scope.newMove.iva_arrear = pay-angular.copy($scope.newMove.interest_arrear);
-                        $scope.newMove.pay_interest_arrear = angular.copy($scope.newMove.interest_arrear);
-                        $scope.newMove.pay_iva_arrear = angular.copy($scope.newMove.iva_arrear);
-                        pay -= (ivaArrear+interestArrear);
-                    }
-                    if($scope.newMove.capital_balance<=0){
-                        $scope.calcMonto = $filter('currency')(angular.copy($scope.newMove.pay_capital));
-                        $scope.calcInterest = $filter('currency')(angular.copy($scope.newMove.pay_interest));
-                        $scope.calcIva = $filter('currency')(angular.copy($scope.newMove.pay_iva));
-                        var condition = $scope.lastCredit;
-                        condition.status = "Liquidado";
-                    }else{
-                        $scope.calcMonto = $filter('currency')(angular.copy($scope.newMove.pay_capital));
-                        $scope.calcInterest = $filter('currency')(angular.copy($scope.newMove.pay_interest));
-                        $scope.calcIva = $filter('currency')(angular.copy($scope.newMove.pay_iva));
-                    }
-                }
     }
     $scope.savePago = function (){
         var Form = new FormData();
