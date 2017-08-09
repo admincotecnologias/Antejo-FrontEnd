@@ -87,11 +87,11 @@
                                     </tr>
                                 </thead>
                                 <tbody ng-if="selectedCondicion!=null" class="nga-fast nga-stagger nga-slide-up">
-                                    <tr style="border-bottom: 1px solid #ddd" ng-repeat="credito in selectedCondicion | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                    <tr style="border-bottom: 1px solid #ddd" ng-repeat="credito in selectedCondicion | filter:$main.txt_filtro" ng-if="credito.typemove=='PAGO'" class="nga-fast nga-stagger nga-slide-up">
                                         <td class="text-left hidden-xs hidden-sm">{{$index+1}}</td>
                                         <td class="text-left hidden-xs hidden-sm">{{credito.capital_balance | currency:""}} {{credito.currency}}</td>
-                                        <td class="text-left hidden-xs hidden-sm">{{credito.interest_balance + credito.interest_arrear_balance | currency:""}} </td>
-                                        <td class="text-left hidden-xs hidden-sm">{{credito.iva_balance + credito.interest_arrear_iva_balance | currency:""}} </td>
+                                        <td class="text-left hidden-xs hidden-sm">{{credito.interest + credito.interest_arrear | currency:""}} </td>
+                                        <td class="text-left hidden-xs hidden-sm">{{credito.iva + credito.iva_arrear | currency:""}} </td>
                                         <td class="text-left hidden-xs hidden-sm">{{credito.period|date:"dd/MM/yyyy"}}</td>
                                         <td class="text-left hidden-xs hidden-sm">{{credito.pay | currency:""}} </td>
                                         <td class="text-left hidden-xs hidden-sm">
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <span class="labelLiq label-default">Pago para liquidar hoy: {{liquidacion|currency}}$</span>
+                    <span class="labelLiq label-default">Pago para liquidar hoy: {{liquidacion}}$</span>
                 </div>
             </div>
         </div>

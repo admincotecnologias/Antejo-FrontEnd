@@ -4,8 +4,8 @@
 
 antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert', 'ClientsFact', 'ApplicationsFact', "Upload", "CreditsFact", '$routeParams', '$filter', function ($scope, $http, $filter, SweetAlert, ClientsFact, ApplicationsFact, Upload, CreditsFact, $routeParams, $filter) {
 
-    const DisposicionType = "Disposicion";
-    const PagoType = "Pago";
+    const DisposicionType = "DISPOSICION";
+    const PagoType = "PAGO";
     $scope.DateNow = new Date().toDateString();
     $scope.DateMin = null;
     $scope.credit = [];
@@ -24,7 +24,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     }
     $scope.fileData = {
         file : null,
-        idstock : null,
+        idapplication : null,
         type : null
     };
     $scope.selectPago = function (credito) {
@@ -36,21 +36,21 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
 
     $scope.AddFilePago = function ($file) {
         if($file){
-            $scope.filedata.file = $file;
-            $scope.filedata.idstock = $routeParams.idStock;
-            $scope.filedata.type = DisposicionType;
+            $scope.fileData.file = $file;
+            $scope.fileData.idapplication = $scope.credit[0].application;
+            $scope.fileData.type = PagoType;
         }
         $scope.modalpay.file = $file;
-        console.log($scope.filedata);
+        console.log($scope.fileData);
         console.log("PFSL");
     }
     $scope.AddFileDisposicion = function ($file) {
         if($file){
-            $scope.filedata.file = $file;
-            $scope.filedata.idstock = $routeParams.idStock;
-            $scope.filedata.type = DisposicionType;
+            $scope.fileData.file = $file;
+            $scope.fileData.idapplication = $scope.credit[0].application;
+            $scope.fileData.type = DisposicionType;
         }
-        console.log($scope.filedata);
+        console.log($scope.fileData);
         console.log("DFSL");
         return;
     }
@@ -68,55 +68,37 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.insertDisposicion = function () {
         console.log($scope.Disposicion);
         var Form = new FormData();
-        Form.append('file',$scope.filedata.file);
-        Form.append('idstock',$scope.filedata.idstock);
-        Form.append('type',$scope.filedata.type);
+        Form.append('file',$scope.fileData.file);
+        Form.append('idapplication',$scope.fileData.idapplication);
+        Form.append('type',$scope.fileData.type);
         var auxDate = new Date(Date.parse(angular.copy($scope.Disposicion.start_date)));
+        var beginningDate = new Date(angular.copy($scope.CreditPadre.start_date));
+        var lastMoveDate;
+        if($scope.lastMove != null) lastMoveDate = new Date($scope.lastMove.period);
+        console.log(lastMoveDate);
+        console.log(beginningDate);
         $scope.Disposicion.start_date = angular.copy(auxDate);
-        if((auxDate.getDate()<$scope.CreditPadre.datelimit)){
+        if((auxDate>beginningDate &&
+            ($scope.lastMove == null || auxDate > lastMoveDate))
+            ){
             if($scope.diferencia>=($scope.Disposicion.amount)){
+                //$scope.modalpay.file = response.data.file.id;
                 $scope.Disposicion.extends = $scope.CreditPadreUnedit.id;
-                CreditsFact.addFile(Form).then(function(response){
-                    if(response.data.error){
+                $scope.Disposicion.typemove = DisposicionType;
+                if($scope.fileData.file != null){
+                    CreditsFact.addFile(Form).then(function(response){
+                        if(response.data.error){
+                            SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+                        }else{
+                            $scope.Disposicion.idref = response.data.file.id;
+                            $scope.addDisposition();
+                        }
 
-                        SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
-                    }else{
+                    });
+                }else{
+                    $scope.addDisposition();
+                }
 
-                        $scope.modalpay.file = response.data.file.id;
-                        CreditsFact.addCreditPay($scope.Disposicion).then(function (response) {
-                            if(response.data.error){
-                                SweetAlert.swal("Error:","No se agrego disposición.","error");
-                            }else{
-                                CreditsFact.updateCreditFile(response.data.credit,$scope.modalpay.file).then(function(response){
-                                    if(response.data.error){
-                                        SweetAlert.swal("Error2:","No se pudo establecer conexion al servidor.","error");
-                                    }else{
-                                        SweetAlert.swal({
-                                                title: "Mensaje:",
-                                                text: "Dispocición Agregada.",
-                                                type: "success",
-                                                type: "success",
-                                                showCancelButton: false,
-                                                confirmButtonColor: "#DD6B55",
-                                                confirmButtonText: "Aceptar.",
-                                                closeOnConfirm: false,
-                                                closeOnCancel: false
-                                            },
-                                            function(isConfirm){
-                                                if (isConfirm) {
-                                                    location.reload(true);
-                                                } else {
-                                                    location.reload(true);
-                                                }
-                                            });
-                                    }
-                                });
-
-                            }
-                        })
-                    }
-
-                });
             }else{
                 SweetAlert.swal("Mensaje","No puedes disponer mas del total del credito restante.","error");
             }
@@ -125,33 +107,31 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             SweetAlert.swal("Mensaje","Fecha fuera de plazo.","error");
         }
     }
-    /*
-    $scope.insertDisposicion = function () {
-        var auxDate = new Date(angular.copy($scope.CreditPadre.start_date));
-        if (($scope.Disposicion.start_date < auxDate.setMonth(auxDate.getMonth() + $scope.CreditPadre.term))) {
-            if ($scope.CreditPadre.amount >= ($scope.lastMove != null ? $scope.lastMove.capital_balance : 0 + parseFloat($scope.Disposicion.amount))) {
-                $scope.Disposicion.extends = $scope.CreditPadreUnedit.id;
-                $scope.Disposicion.typemove = 'Disposicion';
-                CreditsFact.addCondition($scope.Disposicion, function (callback) {
-                    if (callback && callback.error == false) {
-                        $scope.getData();
-                        $("#modalCondicion").modal("hide");
-                        SweetAlert.swal("Mensaje", "Disposición agregada.", "success")
-                    } else {
-                        console.log('response: ', callback)
-                        SweetAlert.swal("Mensaje", "Error al agregar disposición.", "error")
-                    }
-                })
-            } else {
-                SweetAlert.swal("Mensaje", "No puedes disponer mas del total del credito restante.", "error");
+    $scope.addDisposition = function() {
+        CreditsFact.addCondition($scope.Disposicion,function (response) {
+            if(response.error){
+                SweetAlert.swal("Error:","No se agrego disposición.","error");
+            }else{
+                SweetAlert.swal({
+                        title: "Mensaje:",
+                        text: "Dispocición Agregada.",
+                        type: "success",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Aceptar.",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm){
+                        $scope.modalpay.file = null;
+                        location.reload(true);
+                    });
             }
-        }
-        else {
-            SweetAlert.swal("Mensaje", "Fecha fuera de plazo.", "error");
-        }
+        });
     }
-    */
     $scope.CalcularPago = function () {
+
         var newMove = angular.copy($scope.lastMove);
         var dateFinal = $scope.addTerm()
         var pago = parseFloat($scope.modalpay.pay)
@@ -245,6 +225,8 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             newMove.interest_balance = angular.copy(interes) - angular.copy(pago)
             pago = 0
         }
+        console.log(pago);
+        console.log($scope.lastMove.capital_balance);
         if (pago >= $scope.lastMove.capital_balance && pago > 0) {
             pagoCapital = pago
             newMove.capital_balance -= pago
@@ -253,159 +235,67 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             if (pago == 0) {
                 pagoCapital = 0
             } else {
-                pagoCapital = $scope.lastMove.capital_balance
+                pagoCapital = pago
+                newMove.capital_balance -= pagoCapital
+                newMove.pay_capital = pagoCapital
             }
         }
         $scope.newMove = newMove;
+        $scope.newMove.idref = null;
         $scope.calcInterest = $filter('currency')(angular.copy(pagoInteres))
         $scope.calcIva = $filter('currency')(angular.copy(pagoIva))
         $scope.calcMonto = $filter('currency')(angular.copy(pagoCapital))
-        console.log($scope.liquidarmodal,$scope.modalpay.pay)
+        console.log($scope.newMove);
 
     }
-    /*
-    $scope.savePago = function () {
-        console.log($scope.newMove)
-        $scope.newMove.typemove = 'Pago';
-        $scope.newMove.idref = $scope.modalpay.file;
-        if($scope.modalpay.file != null){
-            CreditsFact.addCreditPay($scope.newMove, function (callback) {
-                console.log(callback)
-                if (callback.error == false) {
-                    SweetAlert.swal({
-                            title: "Guardado",
-                            text: "PAGO CREADO",
-                            type: "success",
-                            showCancelButton: false,
-                            confirmButtonColor: "#4bdd86",
-                            confirmButtonText: "Cerrar",
-                            closeOnConfirm: true
-                        },
-                        function (isConfirm) {
-                            if (isConfirm) {
-                                location.reload();
-                            }
-                        });
-                } else if (callback.errors.length > 0) {
-                    var text = "";
-                    for (var i = 0; i < callback.errors.length; i++) {
-                        text += '\n' + callback.errors[i];
-                    }
-                    SweetAlert.swal({
-                            title: callback.message,
-                            text: text,
-                            type: "error",
-                            showCancelButton: false,
-                            confirmButtonColor: "#dd654f",
-                            confirmButtonText: "Cerrar",
-                            closeOnConfirm: true
-                        },
-                        function (isConfirm) {
-                            if (isConfirm) {
-                                //location.reload();
-                            }
-                        });
-                } else {
-                    SweetAlert.swal({
-                            title: "Error",
-                            text: callback.message,
-                            type: "error",
-                            showCancelButton: false,
-                            confirmButtonColor: "#dd654f",
-                            confirmButtonText: "Cerrar",
-                            closeOnConfirm: true
-                        },
-                        function (isConfirm) {
-                            if (isConfirm) {
-                                //location.reload();
-                            }
-                        });
-                }
-            })
-        }else{
-            SweetAlert.swal('Aviso','No hay comprobante.','error');
-        }
-    } */
 
     $scope.savePago = function (){
         var Form = new FormData();
-        Form.append('file',$scope.filedata.file);
-        Form.append('idstock',$scope.filedata.idstock);
-        Form.append('type',$scope.filedata.type);
+        Form.append('file',$scope.fileData.file);
+        Form.append('idapplication',$scope.fileData.idapplication);
+        Form.append('type',$scope.fileData.type);
+        if($scope.fileData.file != null){
+            CreditsFact.addFile(Form).then(function(response){
+                if(response.data.error){
+                    SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+                }else{
+                    $scope.newMove.idref = response.data.file.id;
+                    $scope.newMove.typemove = PagoType;
+                    $scope.addPay();
+                }
 
-        CreditsFact.addFile(Form).then(function(response){
-            if(response.data.error){
-                SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
-            }else{
-                $scope.modalpay.file = response.data.file.id;
-                CreditsFact.addCreditPay($scope.newMove).then(function (response) {
-                    callback = response.data;
-                    if(callback.error==false){
-                        CreditsFact.updateCreditFile(response.data.credit,$scope.modalpay.file).then(function(response){
-                            if(response.data.error){
-                                SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
-                            }else{
-                                SweetAlert.swal({
-                                        title: "Guardado",
-                                        text: "PAGO CREADO",
-                                        type: "success",
-                                        showCancelButton: false,
-                                        confirmButtonColor: "#4bdd86",
-                                        confirmButtonText: "Cerrar",
-                                        closeOnConfirm: true
-                                    },
-                                    function(isConfirm){
-                                        if (isConfirm) {
-                                            location.reload();
-                                        }
-                                    });
-                            }
-                        });
+            });
+        }else{
+            $scope.addPay();
+        }
 
-                    }else if(callback.errors.length>0){
-                        var text = "";
-                        for(let i = 0;i<callback.errors.length;i++){
-                            text+= '\n' + callback.errors[i];
-                        }
-                        SweetAlert.swal({
-                                title: callback.message,
-                                text: text,
-                                type: "error",
-                                showCancelButton: false,
-                                confirmButtonColor: "#dd654f",
-                                confirmButtonText: "Cerrar",
-                                closeOnConfirm: true
-                            },
-                            function(isConfirm){
-                                if (isConfirm) {
-                                    //location.reload();
-                                }
-                            });
-                    }else{
-                        SweetAlert.swal({
-                                title: "Error",
-                                text: callback.message,
-                                type: "error",
-                                showCancelButton: false,
-                                confirmButtonColor: "#dd654f",
-                                confirmButtonText: "Cerrar",
-                                closeOnConfirm: true
-                            },
-                            function(isConfirm){
-                                if (isConfirm) {
-                                    //location.reload();
-                                }
-                            });
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                    SweetAlert.swal("Error:","No se puede establecer conexión con el servidor.","error")
-                })
-            }
-
-        });
 
     }
+    $scope.addPay = function() {
+        CreditsFact.addCreditPay($scope.newMove,function (response) {
+            if(response.error){
+                SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+            }else{
+                SweetAlert.swal({
+                        title: "Guardado",
+                        text: "PAGO CREADO",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#4bdd86",
+                        confirmButtonText: "Cerrar",
+                        closeOnConfirm: true
+                    },
+                    function(isConfirm){
+                        $scope.modalpay.file = null;
+                        if (isConfirm) {
+                            location.reload();
+                        }
+                    }
+                );
+            }
+        });
+    }
+
     $scope.addTerm = function () {
         var aux = new Date(angular.copy($scope.CreditPadre.start_date));
         aux.setMonth(aux.getMonth() + angular.copy($scope.CreditPadre.term));
@@ -446,7 +336,6 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                 }else{
                     $scope.diferencia = angular.copy(parseFloat($scope.CreditPadre.amount)) - angular.copy(parseFloat($scope.lastMove.capital_balance))
                 }
-                console.log($scope.Disposicion.amount,$scope.diferencia);
             }
         })
     }

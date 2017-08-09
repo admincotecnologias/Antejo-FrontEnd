@@ -45,8 +45,8 @@
                         </td>
                         <th>Fecha</th>
                         <td>
-                            <datepicker date-format="fullDate" date-min-limit="{{lastCredit.start_date}}" date-max-limit="{{DateNow}}" class="form-group">
-                                <input class="form-control" ng-model="CreditPadre.start_date">
+                            <datepicker date-format="yyyy-MM-dd" date-min-limit="{{lastCredit.start_date}}" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                <input type="date" class="form-control" ng-model="CreditPadre.start_date" readonly>
                             </datepicker>
                         </td>
                     </tr>

@@ -37,7 +37,7 @@ antejo.controller('ShowCreditFundsCtrl', ['$filter', 'SweetAlert', 'FoundFact', 
         if($file){
             ctrl.filedata.file = $file;
             ctrl.filedata.idstock = $routeParams.idStock;
-            ctrl.filedata.type = DisposicionType;
+            ctrl.filedata.type = PagoType;
         }
         ctrl.modalpay.file = $file;
         console.log(ctrl.filedata);

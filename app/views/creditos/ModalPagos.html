@@ -12,7 +12,7 @@
                             <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago</th>
                             <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                                 <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                    <input class="form-control" ng-model="modalpay.pay" type="number" ng-change="CalcularPago()" ng-disabled="modalpay.date==''">
+                                    <input class="form-control" ng-model="modalpay.pay" type="number" ng-change="calcularPago2()" ng-disabled="modalpay.date==''">
                                 </div>
                             </td>
                             <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
@@ -84,7 +84,7 @@
                     <tfoot>
                         <tr>
                             <td colspan="4">
-                                Pago para liquidar a la fecha seleccionada: <span class="label-default">{{liquidarmodal|currency}}</span>
+                                Pago para liquidar a la fecha seleccionada: <span class="label-default">{{liquidarmodal|currency:"$":3}}</span>
                             </td>
                         </tr>
                     </tfoot>
@@ -92,9 +92,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button ng-if="CreditPadre.type==1" type="button" class="btn btn-default" ng-click="savePago()" ng-disabled="newMove.pay_capital>CreditPadre.amount">
+                <button ng-if="CreditPadre.type==1" type="button" class="btn btn-default" ng-click="savePago()" ng-disabled="modalpay.pay>liquidarmodal">
                     Agregar
-                    <span ng-show="newMove.pay_capital>CreditPadre.amount"
+                    <span ng-show="modalpay.pay>liquidarmodal"
                           class="label label-danger">Pago exedente.</span>
                 </button>
                 <button ng-if="CreditPadre.type==2" type="button" class="btn btn-default" ng-click="savePago()" ng-disabled="modalpay.pay>liquidarmodal">
