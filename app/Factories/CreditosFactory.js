@@ -24,6 +24,18 @@ antejo.factory('CreditsFact', ['$http', function($http) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
         });
     }
+
+    var liquidateCredit = function(appId, callback) {
+        var json = {}
+        return $http.put(apiUrl + "/Creditos/update/" + appId+"/Liquidar", json);
+
+    }
+
+    var deleteLastMove = function(creditId, callback) {
+        var json = {}
+        return $http.delete(apiUrl + "/Creditos/delete/" + creditId+"/LastMove", json);
+
+    }
     var addCreditApproved = function(obj, callback) {
         var json = obj;
         $http.post(apiUrl + "/Creditos/add", json).then(function(response) {
@@ -69,6 +81,8 @@ antejo.factory('CreditsFact', ['$http', function($http) {
         addCreditPay: addCreditPay,
         addFile: AddFile,
         downloadFile: DownloadFile,
-        updateCreditFile : updateCreditFile
+        updateCreditFile : updateCreditFile,
+        liquidateCredit : liquidateCredit,
+        deleteLastMove : deleteLastMove
     }
 }]);

@@ -10,11 +10,11 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.DateMin = null;
     $scope.credit = [];
     $scope.cliente = '';
-    $scope.lastMove = {}
+    $scope.lastMove = null;
     $scope.proyecto = '';
     $scope.moves = '';
     $scope.idCredito = $routeParams.idCredito;
-    $scope.CreditPadre = '';
+    $scope.CreditPadre = null;
     $scope.modalpay = {
         pay: '',
         sel_moneda: '',
@@ -64,7 +64,113 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             $('#dropzone img').remove();
         }
     }
+    $scope.eliminarMovimiento = function(){
+        var lastMoveDate = new Date(Date.parse($scope.lastMove.created_at));
+        var now = Date.now();
+        var hoursPassed = Math.abs(now - lastMoveDate) / 36e5;
+        console.log(hoursPassed);
+        if(hoursPassed < 24){
+            SweetAlert.swal({
+                    title: "Mensaje:",
+                    text: "Deseas eliminar el ultimo movimiento realizado?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Aceptar.",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm){
+                    if(isConfirm){
+                        CreditsFact.deleteLastMove($scope.lastMove.credit).then(function(response){
+                            SweetAlert.swal({
+                                    title: "Mensaje:",
+                                    text: "Ultimo movimiento eliminado.",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Aceptar.",
+                                    closeOnConfirm: false,
+                                    closeOnCancel: false
+                                },
+                                function(isConfirm){
+                                    location.reload(true);
+                                });
+                        }).catch(function(e) {
+                            SweetAlert.swal({
+                                    title: "Mensaje:",
+                                    text: "No se puede eliminar este movimiento.",
+                                    type: "error",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Aceptar.",
+                                    closeOnConfirm: false,
+                                    closeOnCancel: false
+                                },
+                                function(isConfirm){
+                                    location.reload(true);
+                                });
+                        });
+                    }
 
+                });
+        }else{
+            SweetAlert.swal("Mensaje","No puedes eliminar un movimiento efectuado hace mas de 24 horas.","error");
+        }
+
+    }
+    $scope.liquidarCredito = function(){
+        if($scope.lastMove == null && $scope.CreditPadre == null || $scope.lastMove.capital_balance <= 1){
+            CreditsFact.liquidateCredit($scope.credit[0].application).then(function(response){
+                if(response.data.error){
+                    SweetAlert.swal({
+                            title: "Mensaje:",
+                            text: "Error al conectarse con el servidor.",
+                            type: "error",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Aceptar.",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            $scope.modalpay.file = null;
+                            location.reload(true);
+                        });
+                }else{
+                    SweetAlert.swal({
+                            title: "Mensaje:",
+                            text: "Credito Liquidado.",
+                            type: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Aceptar.",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            location.reload(true);
+                        });
+                }
+            });
+        }else{
+            SweetAlert.swal({
+                    title: "Mensaje:",
+                    text: "El balance del credito debe ser menor a 1 peso ($1 MXN) para poder ser liquidado.",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Aceptar.",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm){
+                    $scope.modalpay.file = null;
+                    location.reload(true);
+                });
+        }
+
+    }
     $scope.insertDisposicion = function () {
         console.log($scope.Disposicion);
         var Form = new FormData();

@@ -345,7 +345,7 @@ function ($scope, $http, $filter, SweetAlert, ClientsFact, ApplicationsFact, Upl
             currency: $scope.sel_currency_up,
             todo: $scope.todo_up,
             extends: null,
-            status: 'Activo'
+            status: 'ACTIVO'
         }
         ApplicationsFact.addCreditApproved(json).then(function (response) {
             if (response.error == true) {

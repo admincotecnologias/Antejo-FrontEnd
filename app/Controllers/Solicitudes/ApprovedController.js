@@ -17,7 +17,7 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
         grace_days: null,
         currency: null,
         todo: null,
-        status: 'Activo',
+        status: 'ACTIVO',
         extends: null
     }
     ctrl.dateNow = new Date();

@@ -73,6 +73,63 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         }
     }
 
+
+    $scope.eliminarMovimiento = function(){
+        var lastMoveDate = new Date(Date.parse($scope.lastMove.created_at));
+        var now = Date.now();
+        var hoursPassed = Math.abs(now - lastMoveDate) / 36e5;
+        console.log(hoursPassed);
+        if(hoursPassed < 24){
+            SweetAlert.swal({
+                    title: "Mensaje:",
+                    text: "Deseas eliminar el ultimo movimiento realizado?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Aceptar.",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                function(isConfirm){
+                    if(isConfirm){
+                        CreditsFact.deleteLastMove($scope.lastMove.credit).then(function(response){
+                            SweetAlert.swal({
+                                    title: "Mensaje:",
+                                    text: "Ultimo movimiento eliminado.",
+                                    type: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Aceptar.",
+                                    closeOnConfirm: false,
+                                    closeOnCancel: false
+                                },
+                                function(isConfirm){
+                                    location.reload(true);
+                                });
+                        }).catch(function(e) {
+                            SweetAlert.swal({
+                                    title: "Mensaje:",
+                                    text: "No se puede eliminar este movimiento.",
+                                    type: "error",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Aceptar.",
+                                    closeOnConfirm: false,
+                                    closeOnCancel: false
+                                },
+                                function(isConfirm){
+                                    location.reload(true);
+                                });
+                        });
+                    }
+
+                });
+        }else{
+            SweetAlert.swal("Mensaje","No puedes eliminar un movimiento efectuado hace mas de 24 horas.","error");
+        }
+
+    }
+
     $scope.insertCondition = function () {
         console.log($scope.CreditPadre);
         $scope.CreditPadre.start_date = new Date(Date.parse($scope.CreditPadre.start_date));
