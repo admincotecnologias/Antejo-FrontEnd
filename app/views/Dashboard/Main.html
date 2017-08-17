@@ -31,37 +31,46 @@
                         <div ng-if="menu=='Morosidad'" class="col-sm-8 col-sm-push-2  margin-top">
 
                             <div class="chart-container" style="position: relative">
-                                <canvas id="doughnut" class="chart chart-doughnut" chart-data="Morosidad.datacartera" chart-options="Morosidad.options" chart-colors="Morosidad.colors" chart-labels="Morosidad.labels"></canvas>
-                            </div>
-                            <div>
-                                <strong class="text-center">Morosidad</strong>
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        Activo: {{Morosidad.Activo.cartera|number:2}}$
-                                        <span class="badge badge-success">
+                                <canvas id="morosidad-barra" style="height:100%" class="chart chart-doughnut"
+                                    chart-data="Morosidad.doughnutData" chart-options="Morosidad.options"
+                                    chart-colors="Morosidad.colors" chart-labels="Morosidad.labels">
+                                </canvas>
+                                <div>
+                                    <strong class="text-center">Morosidad</strong>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            Activo: {{Morosidad.Activo.cartera|number:2}}$
+                                            <span class="badge badge-success">
                                                 {{Morosidad.Activo.carteraporcentaje|number:2}}%
                                         </span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        Vencido: {{Morosidad.Vencido.cartera|number:2}}$
-                                        <span class="badge badge-warning">
+                                        </li>
+                                        <li class="list-group-item">
+                                            Vencido: {{Morosidad.Vencido.cartera|number:2}}$
+                                            <span class="badge badge-warning">
                                                 {{Morosidad.Vencido.carteraporcentaje|number:2}}%
                                             </span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        Fuera de Gracia: {{Morosidad.Gracia.cartera|number:2}}$
-                                        <span class="badge badge-danger">
+                                        </li>
+                                        <li class="list-group-item">
+                                            Fuera de Gracia: {{Morosidad.Gracia.cartera|number:2}}$
+                                            <span class="badge badge-danger">
                                                 {{Morosidad.Gracia.carteraporcentaje|number:2}}%
                                             </span>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <canvas id="morosidad-line" style="height:100%" class="chart chart-line"
+                                        chart-data="Morosidad.lineData" chart-options="Morosidad.options"
+                                        chart-colors="Morosidad.lineColors" chart-labels="Morosidad.lineLabels">
+                                </canvas>
+
                             </div>
+
                         </div>
 
                         <div ng-if="menu=='Ingreso Neto'" class="col-sm-8 col-sm-push-2  margin-top">
 
                             <div class="chart-container" style="position: relative">
-                                <canvas id="bar" class="chart chart-bar" chart-data="Morosidad.datacartera" chart-options="Morosidad.options" chart-colors="Morosidad.colors" chart-labels="Morosidad.labels"></canvas>
+                                <canvas id="bar" class="chart chart-bar" chart-data="Intereses.datacartera" chart-options="Intereses.options" chart-colors="Intereses.colors" chart-labels="Intereses.labels"></canvas>
                             </div>
                             <div>
                                 <strong class="text-center">Ingreso Neto</strong>
