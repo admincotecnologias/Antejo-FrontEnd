@@ -37,7 +37,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.AddFilePago = function ($file) {
         if($file){
             $scope.fileData.file = $file;
-            $scope.fileData.idapplication = $scope.credit[0].application;
+            $scope.fileData.idapplication = $scope.appID;
             $scope.fileData.type = PagoType;
         }
         $scope.modalpay.file = $file;
@@ -47,7 +47,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.AddFileDisposicion = function ($file) {
         if($file){
             $scope.fileData.file = $file;
-            $scope.fileData.idapplication = $scope.credit[0].application;
+            $scope.fileData.idapplication = $scope.appID;
             $scope.fileData.type = DisposicionType;
         }
         console.log($scope.fileData);
@@ -420,6 +420,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                 SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
             } else {
                 $scope.credit = angular.copy(callback.credits);
+                console.log($scope.credit);
                 $scope.cliente = callback.client;
                 $scope.proyecto = callback.project;
                 $scope.moves = callback.moves;
@@ -437,6 +438,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                 $scope.credit.shift();
                 $scope.Disposicion = angular.copy($scope.CreditPadre)
                 $scope.Disposicion.amount = Math.round($scope.Disposicion.amount);
+                $scope.appID = callback.applicationID;
                 if($scope.lastMove == null || $scope.lastMove == undefined){
                     $scope.diferencia = Math.round($scope.CreditPadre.amount);
                 }else{

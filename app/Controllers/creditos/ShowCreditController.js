@@ -35,7 +35,7 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.AddFilePago = function ($file) {
         if($file){
             $scope.fileData.file = $file;
-            $scope.fileData.idapplication = $scope.credit[0].application;
+            $scope.fileData.idapplication = $scope.appID;
             $scope.fileData.type = PagoType;
         }
         $scope.modalpay.file = $file;
@@ -45,7 +45,7 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.AddFileDisposicion = function ($file) {
         if($file){
             $scope.fileData.file = $file;
-            $scope.fileData.idapplication = $scope.credit[0].application;
+            $scope.fileData.idapplication = $scope.appID;
             $scope.fileData.type = CondicionType;
         }
         console.log($scope.fileData);
@@ -453,6 +453,7 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.getData = function () {
         CreditsFact.showCredit($scope.idCredito,function (callback) {
             if(callback.error){
+                console.log(callback);
                 SweetAlert.swal('Mensaje',"No hay Creditos","warning");
             }else {
                 console.log( angular.copy(callback));
@@ -462,16 +463,22 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                 $scope.moves = callback.moves;
                 $scope.selectedCondicion = callback.moves[$scope.idCredito];
                 $scope.CreditPadre = angular.copy(callback.lastCondition);
+                console.log($scope.CreditPadre);
                 delete $scope.CreditPadre.updated_at;
                 delete $scope.CreditPadre.deleted_at;
                 delete $scope.CreditPadre.created_at;
                 $scope.lastCredit=angular.copy(callback.credits.pop());
                 $scope.CreditPadreUnedit = angular.copy($scope.CreditPadre);
                 delete $scope.CreditPadre.id;
+                $scope.appID = callback.applicationID;
                 $scope.CreditPadre.start_date = new Date($scope.CreditPadre.start_date);
-                $scope.DateMin = new Date(callback.lastmove.period).toDateString();
-                $scope.lastMove = callback.lastmove;
-                //console.log($scope.lastCredit);
+                $scope.DateMin = new Date(callback.lastMove.period).toDateString();
+                $scope.lastMove = callback.lastMove;
+                $scope.expirationDate = new Date(Date.parse(callback.lastCondition.start_date));
+                $scope.expirationDate.setMonth($scope.expirationDate.getMonth()+callback.lastCondition.term);
+                $scope.expirationDate.setHours($scope.expirationDate.getHours()+callback.lastCondition.grace_days*24);
+                $scope.expirationDate = $scope.expirationDate.getTime();
+                $scope.today = Date.now();
                 $(document).ready(function () {
                     $("#condicion_"+$scope.CreditPadre.extends).addClass("selectRow");
                 });
