@@ -171,20 +171,23 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         }
 
     }
+
     $scope.insertDisposicion = function () {
         console.log($scope.Disposicion);
         var Form = new FormData();
         Form.append('file',$scope.fileData.file);
         Form.append('idapplication',$scope.fileData.idapplication);
         Form.append('type',$scope.fileData.type);
-        var auxDate = new Date(Date.parse(angular.copy($scope.Disposicion.start_date)));
+        var auxDate = new Date((angular.copy($scope.Disposicion.start_date)));
         var beginningDate = new Date(angular.copy($scope.CreditPadre.start_date));
+        beginningDate.setHours(0,0,0,0);
         var lastMoveDate;
         if($scope.lastMove != null) lastMoveDate = new Date($scope.lastMove.period);
         console.log(lastMoveDate);
-        console.log(beginningDate);
+        console.log("beginning date",beginningDate);
+        console.log("auxDate",auxDate);
         $scope.Disposicion.start_date = angular.copy(auxDate);
-        if((auxDate>beginningDate &&
+        if((auxDate>=beginningDate &&
             ($scope.lastMove == null || auxDate > lastMoveDate))
             ){
             if($scope.diferencia>=($scope.Disposicion.amount)){
@@ -420,7 +423,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
                 SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
             } else {
                 $scope.credit = angular.copy(callback.credits);
-                console.log($scope.credit);
+                console.log($scope.credit[0]);
                 $scope.cliente = callback.client;
                 $scope.proyecto = callback.project;
                 $scope.moves = callback.moves;

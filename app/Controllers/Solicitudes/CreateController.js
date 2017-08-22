@@ -115,6 +115,46 @@ antejo.controller('ApplicationCreateCtrl', ['$filter', 'SweetAlert', 'Applicatio
             SweetAlert.swal("Aviso", "Archivo invalido.", "warning");
         }
     }
+    ctrl.SubirRFC = function($file) {
+        if (!angular.equals(null, $file)) {
+            var Form = new FormData();
+            Form.append('file', $file);
+            Form.append('idapplication', ctrl.Application.id);
+            Form.append('type', 'RFC');
+            ApplicationsFact.AddFile(Form).then(function(response) {
+                if (response.data.error) {
+                    SweetAlert.swal("Aviso", "Error: \n" + response.data.message, "error");
+                } else {
+                    ctrl.GetApplication();
+                    SweetAlert.swal("Aviso", response.data.message, "success");
+                }
+            }).catch(function(error) {
+                SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "warning");
+            })
+        } else {
+            SweetAlert.swal("Aviso", "Archivo invalido.", "warning");
+        }
+    }
+    ctrl.SubirContrato = function($file) {
+        if (!angular.equals(null, $file)) {
+            var Form = new FormData();
+            Form.append('file', $file);
+            Form.append('idapplication', ctrl.Application.id);
+            Form.append('type', 'Contrato');
+            ApplicationsFact.AddFile(Form).then(function(response) {
+                if (response.data.error) {
+                    SweetAlert.swal("Aviso", "Error: \n" + response.data.message, "error");
+                } else {
+                    ctrl.GetApplication();
+                    SweetAlert.swal("Aviso", response.data.message, "success");
+                }
+            }).catch(function(error) {
+                SweetAlert.swal("Aviso", "No se pudo conectar con el servidor.", "warning");
+            })
+        } else {
+            SweetAlert.swal("Aviso", "Archivo invalido.", "warning");
+        }
+    }
     ctrl.SubirCuentas = function($file) {
         if (!angular.equals(null, $file)) {
             var Form = new FormData();

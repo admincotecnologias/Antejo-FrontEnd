@@ -267,6 +267,52 @@
                                         </td>
                                     </tr>
                                 </table>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td colspan="2">
+                                            <h4>RFC:</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="form-group">
+                                                <label for="input">Subir Archivo:</label>
+                                                <input name="input" class="form-control" type="file" ngf-select="ctrl.SubirRFC($file)"></input>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="file in ctrl.files|filter:{type:'RFC'}">
+                                        <td>{{file.name}}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-default" ng-click="ctrl.DownloadFile(file.id)">
+                                                <i class="material-icons">file_download</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td colspan="2">
+                                            <h4>Contrado:</h4>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="form-group">
+                                                <label for="input">Subir Archivo:</label>
+                                                <input name="input" class="form-control" type="file" ngf-select="ctrl.SubirContrato($file)"></input>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="file in ctrl.files|filter:{type:'Contrato'}">
+                                        <td>{{file.name}}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-default" ng-click="ctrl.DownloadFile(file.id)">
+                                                <i class="material-icons">file_download</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
                             </form>
                         </div>
                     </div>

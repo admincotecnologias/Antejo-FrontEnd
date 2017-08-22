@@ -3,6 +3,7 @@
  */
 antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'ApplicationsFact', '$routeParams', function ($filter, SweetAlert, ApplicationsFact, $routeParams) {
     var ctrl = this;
+    ctrl.submitted = false;
     ctrl.menu = 'info';
     ctrl.Credit = {
         id: null,
@@ -59,8 +60,10 @@ antejo.controller('ApplicationApprovedCtrl', ['$filter', 'SweetAlert', 'Applicat
     }
     ctrl.Aprobar = function () {
         ctrl.Credit.type = parseInt(ctrl.Credit.type);
+        ctrl.submitted = true;
         ApplicationsFact.addCreditApproved(ctrl.Credit).then(function (response) {
             if (response.data.error) {
+                ctrl.submitted = false;
                 SweetAlert.swal("Aviso:", response.data.message, "warning");
             } else {
                 SweetAlert.swal("Aviso:", "Guardado.", "success");
