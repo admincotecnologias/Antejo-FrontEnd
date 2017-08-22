@@ -206,7 +206,7 @@ antejo.controller('CreateStockCtrl', ['$filter', 'SweetAlert', 'FoundFact', 'Ban
                             idstock: null,
                             idbank: null
                         }
-                        SweetAlert.swal("Mensaje", "Creado.", "error");
+                        SweetAlert.swal("Mensaje", "Creado.", "success");
                     }
                 }).catch(function(err) {
                     SweetAlert.swal("Error:", "Ocurrio un ploblema con la conexión.", "error");

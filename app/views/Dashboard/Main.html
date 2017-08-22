@@ -27,26 +27,29 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="form-group col-sm-5">
-                            <label for="startDate">
-                                Fecha Inicial
-                            </label>
-                            <datepicker id="startDate" date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" type="date" ng-model="Disposicion.start_date" readonly>
-                            </datepicker>
+                        <div>
+                            <div class="form-group col-sm-5">
+                                <label for="startDate">
+                                    Fecha Inicial
+                                </label>
+                                <datepicker id="startDate" date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                    <input class="form-control" type="date" ng-model="startDate" readonly>
+                                </datepicker>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="endDate">
+                                    Fecha Final
+                                </label>
+                                <datepicker id="endDate" date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                    <input class="form-control" type="date" ng-model="endDate" readonly>
+                                </datepicker>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <a class="btn btn-default fontSmall" style="height:auto" ng-click="doIt()"><i
+                                        class="material-icons">search</i></a>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-5">
-                            <label for="endDate">
-                                Fecha Final
-                            </label>
-                            <datepicker id="endDate" date-format="yyyy-MM-dd" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" type="date" ng-model="Disposicion.start_date" readonly>
-                            </datepicker>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <a class="btn btn-default fontSmall"><i
-                                    class="material-icons">search</i></a>
-                        </div>
+
                         <div ng-if="menu=='Morosidad'" class="margin-top">
                             <div class="col-sm-6">
                                 <div class="chart-container col-sm-6">
@@ -105,33 +108,33 @@
 
                             <div class="col-sm-6">
                                 <div class="chart-container" style="">
-                                    <canvas id="wallet"  class="chart chart-bar" chart-data="CarteraPromedio.data"
-                                            chart-options="CarteraPromedio.options" chart-colors="CarteraPromedio.colors"
-                                            chart-labels="CarteraPromedio.labels"></canvas>
+                                    <canvas id="wallet"  class="chart chart-bar" chart-data="Cartera.data"
+                                            chart-options="Cartera.options" chart-colors="Cartera.colors"
+                                            chart-labels="Cartera.labels"></canvas>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="chart-container" style="">
-                                    <canvas id="walletDoughnut" class="chart chart-doughnut" chart-data="CarteraPromedio.doughnutData"
-                                            chart-options="CarteraPromedio.options" chart-colors="CarteraPromedio.colors"
-                                            chart-labels="CarteraPromedio.doughnutLabels"></canvas>
+                                    <canvas id="walletDoughnut" class="chart chart-doughnut" chart-data="Cartera.doughnutData"
+                                            chart-options="Cartera.options" chart-colors="Cartera.colors"
+                                            chart-labels="Cartera.doughnutLabels"></canvas>
                                 </div>
                             </div>
                         </div>
                         <div ng-if="menu=='Deuda Promedio'" class="col-sm-12 margin-top">
                             <div class="col-sm-6">
                                 <div class="chart-container" style="position: relative">
-                                    <canvas id="borrow" class="chart chart-bar" chart-data="DeudaPromedio.data"
-                                            chart-options="DeudaPromedio.options" chart-colors="DeudaPromedio.colors"
-                                            chart-labels="DeudaPromedio.labels"></canvas>
+                                    <canvas id="borrow" class="chart chart-bar" chart-data="Deuda.data"
+                                            chart-options="Deuda.options" chart-colors="Deuda.colors"
+                                            chart-labels="Deuda.labels"></canvas>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="chart-container" style="position: relative">
-                                    <canvas id="borrowDoughnut" class="chart chart-doughnut" chart-data="DeudaPromedio.data"
-                                            chart-options="DeudaPromedio.options" chart-colors="DeudaPromedio.colors"
-                                            chart-labels="DeudaPromedio.labels"></canvas>
+                                    <canvas id="borrowDoughnut" class="chart chart-doughnut" chart-data="Deuda.data"
+                                            chart-options="Deuda.options" chart-colors="Deuda.colors"
+                                            chart-labels="Deuda.labels"></canvas>
                                 </div>
                             </div>
 
@@ -139,9 +142,9 @@
                         <div ng-if="menu=='Margen Financiero'" class="col-sm-8 col-sm-push-2  margin-top">
 
                             <div class="chart-container" style="position: relative">
-                                <canvas id="margin" class="chart chart-line" chart-data="MargenFinanciero.data"
-                                        chart-options="MargenFinanciero.options" chart-colors="MargenFinanciero.colors"
-                                        chart-labels="MargenFinanciero.labels" chart-series="MargenFinanciero.series">
+                                <canvas id="margin" class="chart chart-line" chart-data="Margen.data"
+                                        chart-options="Margen.options" chart-colors="Margen.colors"
+                                        chart-labels="Margen.labels" chart-series="Margen.series">
                                 </canvas>
                             </div>
                         </div>

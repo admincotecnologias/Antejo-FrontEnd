@@ -3,11 +3,17 @@
  */
 antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$scope', function ($filter, SweetAlert, DashboardFact, $scope) {
 
-
     $scope.menu = 'Morosidad';
-    $scope.MorosidadTotal = function () {
-
-        DashboardFact.MorosidadTotal().then(function (response) {
+    $scope.MorosidadTotal = function (dates = null) {
+        console.log(dates);
+        DashboardFact.MorosidadTotal(dates).then(function (response) {
+            if(response.data.error){
+                if(dates){
+                    SweetAlert.swal("Advertencia","No se encontraron muestras en el rango de fechas seleccionado.","warning");
+                    return;
+                }
+            }
+            $scope.oldResponse = response;
             $scope.Morosidad = {};
             $scope.Morosidad.labels = ['Activo', 'Vencido', 'Fuera de Gracia'];
             $scope.Morosidad.lineLabels = [];
@@ -91,8 +97,15 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
         })
 
     }
-    $scope.InteresNeto = function () {
-        DashboardFact.InteresNeto().then(function (response) {
+    $scope.InteresNeto = function (dates = null) {
+
+        DashboardFact.InteresNeto(dates).then(function (response) {
+            if(response.data.error){
+                if(dates){
+                    SweetAlert.swal("Advertencia","No se encontraron muestras en el rango de fechas seleccionado.","warning");
+                    return;
+                }
+            }
             $scope.Intereses = {};
             $scope.Intereses.labels = [];
             $scope.Intereses.series = ['Ingresos Neto'];
@@ -125,19 +138,25 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
             console.log(error);
         })
     };
+    $scope.CarteraPromedio = function (dates = null) {
 
-    $scope.CarteraPromedio = function () {
-        DashboardFact.CarteraPromedio().then(function (response) {
-            $scope.CarteraPromedio = {};
-            $scope.CarteraPromedio.labels = [];
-            $scope.CarteraPromedio.series = ['Cartera Promedio'];
-            $scope.CarteraPromedio.colors = ['#87CEFA'];
-            $scope.CarteraPromedio.data = [
+        DashboardFact.CarteraPromedio(dates).then(function (response) {
+            if(response.data.error){
+                if(dates){
+                    SweetAlert.swal("Advertencia","No se encontraron muestras en el rango de fechas seleccionado.","warning");
+                    return;
+                }
+            }
+            $scope.Cartera = {};
+            $scope.Cartera.labels = [];
+            $scope.Cartera.series = ['Cartera Promedio'];
+            $scope.Cartera.colors = ['#87CEFA'];
+            $scope.Cartera.data = [
                 []//ingresos neto
             ];
-            $scope.CarteraPromedio.options = {};
-            $scope.CarteraPromedio.doughnutData = [];
-            $scope.CarteraPromedio.doughnutLabels = [];
+            $scope.Cartera.options = {};
+            $scope.Cartera.doughnutData = [];
+            $scope.Cartera.doughnutLabels = [];
             samples = response.data.samples;
             tempDict = {};
             totalMoneyLoaned = 0;
@@ -149,13 +168,15 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
 
                 //hacemos este ciclo para obtener la fecha de muestra; solo la ocupamos una vez
                 for(var entryKey in sample){
-                    $scope.CarteraPromedio.labels.push(sample[entryKey].created_at.substring(0,11));
+                    $scope.Cartera.labels.push(sample[entryKey].created_at.substring(0,11));
                     break;
                 }
+                moneyPerSample = 0;
                 //Iteramos cada entrada en la muestra, y agregamos a las sumatorias de dinero correspondientes.
                 for(var entryKey in sample){
                     //Metemos la fecha en su formato YYYY/MM/DD
                     moneyLoaned = sample[entryKey].money_loaned;
+                    moneyPerSample+=moneyLoaned
                     totalMoneyLoaned+=moneyLoaned;
                     if(!tempDict[sample[entryKey].idclient]){
                         tempDict[sample[entryKey].idclient] = {
@@ -165,31 +186,38 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
                     }
                     tempDict[sample[entryKey].idclient].moneyLoaned+=moneyLoaned;
                 }
-                $scope.CarteraPromedio.data[0].push(totalMoneyLoaned);
+                $scope.Cartera.data[0].push(moneyPerSample);
             }
             //Transformamos el objeto de valores a arreglo (para poder usarlo en la grafica)
             for(var entryKey in tempDict){
-                $scope.CarteraPromedio.doughnutData.push(tempDict[entryKey].moneyLoaned);
-                $scope.CarteraPromedio.doughnutLabels.push(tempDict[entryKey].name+" : "+$filter('number')(tempDict[entryKey].moneyLoaned/totalMoneyLoaned*100,2) + '% ');
+                $scope.Cartera.doughnutData.push(tempDict[entryKey].moneyLoaned);
+                $scope.Cartera.doughnutLabels.push(tempDict[entryKey].name+" : "+$filter('number')(tempDict[entryKey].moneyLoaned/totalMoneyLoaned*100,2) + '% ');
             }
-            console.log($scope.CarteraPromedio.doughnutData);
-            console.log($scope.CarteraPromedio.doughnutLabels);
+            console.log($scope.Cartera.doughnutData);
+            console.log($scope.Cartera.doughnutLabels);
         }).catch(function (error) {
             console.log(error);
         })
     };
-    $scope.DeudaPromedio = function () {
-        DashboardFact.DeudaPromedio().then(function (response) {
-            $scope.DeudaPromedio = {};
-            $scope.DeudaPromedio.labels = [];
-            $scope.DeudaPromedio.series = ['Cartera Promedio'];
-            $scope.DeudaPromedio.colors = ['#87CEFA'];
-            $scope.DeudaPromedio.data = [
+    $scope.DeudaPromedio = function (dates = null) {
+
+        DashboardFact.DeudaPromedio(dates).then(function (response) {
+            if(response.data.error){
+                if(dates){
+                    SweetAlert.swal("Advertencia","No se encontraron muestras en el rango de fechas seleccionado.","warning");
+                    return;
+                }
+            }
+            $scope.Deuda = {};
+            $scope.Deuda.labels = [];
+            $scope.Deuda.series = ['Cartera Promedio'];
+            $scope.Deuda.colors = ['#87CEFA'];
+            $scope.Deuda.data = [
                 []//ingresos neto
             ];
-            $scope.DeudaPromedio.options = {};
-            $scope.DeudaPromedio.doughnutData = [];
-            $scope.DeudaPromedio.doughnutLabels = [];
+            $scope.Deuda.options = {};
+            $scope.Deuda.doughnutData = [];
+            $scope.Deuda.doughnutLabels = [];
             samples = response.data.samples;
             tempDict = {};
             totalMoneyBorrowed = 0;
@@ -201,13 +229,15 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
 
                 //hacemos este ciclo para obtener la fecha de muestra; solo la ocupamos una vez
                 for(var entryKey in sample){
-                    $scope.DeudaPromedio.labels.push(sample[entryKey].created_at.substring(0,11));
+                    $scope.Deuda.labels.push(sample[entryKey].created_at.substring(0,11));
                     break;
                 }
                 //Iteramos cada entrada en la muestra, y agregamos a las sumatorias de dinero correspondientes.
+                moneyPerSample = 0;
                 for(var entryKey in sample){
                     //Metemos la fecha en su formato YYYY/MM/DD
-                    moneyBorrowed = sample[entryKey].money_loaned;
+                    moneyBorrowed = sample[entryKey].money_borrowed;
+                    moneyPerSample+=moneyBorrowed;
                     totalMoneyBorrowed+=moneyBorrowed;
                     if(!tempDict[sample[entryKey].idclient]){
                         tempDict[sample[entryKey].idclient] = {
@@ -217,39 +247,85 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
                     }
                     tempDict[sample[entryKey].idclient].moneyBorrowed+=moneyBorrowed;
                 }
-                $scope.DeudaPromedio.data[0].push(totalMoneyBorrowed);
+                $scope.Deuda.data[0].push(moneyPerSample);
             }
             //Transformamos el objeto de valores a arreglo (para poder usarlo en la grafica)
             for(var entryKey in tempDict){
-                $scope.DeudaPromedio.doughnutData.push(tempDict[entryKey].moneyBorrowed);
-                $scope.DeudaPromedio.doughnutLabels.push(tempDict[entryKey].name+" : "+$filter('number')(tempDict[entryKey].moneyBorrowed/totalMoneyBorrowed*100,2) + '% ');
+                $scope.Deuda.doughnutData.push(tempDict[entryKey].moneyBorrowed);
+                $scope.Deuda.doughnutLabels.push(tempDict[entryKey].name+" : "+$filter('number')(tempDict[entryKey].moneyBorrowed/totalMoneyBorrowed*100,2) + '% ');
             }
-            console.log($scope.DeudaPromedio.doughnutData);
-            console.log($scope.DeudaPromedio.doughnutLabels);
+            console.log($scope.Deuda.doughnutData);
+            console.log($scope.Deuda.doughnutLabels);
         }).catch(function (error) {
             console.log(error);
         })
     };
-    $scope.MargenFinanciero = function () {
-        DashboardFact.MargenFinanciero().then(function (response) {
+    $scope.MargenFinanciero = function (dates = null) {
+
+        DashboardFact.MargenFinanciero(dates).then(function (response) {
             console.log(response);
-            $scope.MargenFinanciero = {};
-            $scope.MargenFinanciero.labels = [];
-            $scope.MargenFinanciero.series = ['Margen Financiero'];
-            $scope.MargenFinanciero.colors = ['#8bc34a'];
-            $scope.MargenFinanciero.data = [
+            if(response.data.error){
+                if(dates){
+                    SweetAlert.swal("Advertencia","No se encontraron muestras en el rango de fechas seleccionado.","warning");
+                    return;
+                }
+            }
+            $scope.Margen = {};
+            $scope.Margen.labels = [];
+            $scope.Margen.series = ['Margen Financiero'];
+            $scope.Margen.colors = ['#8bc34a'];
+            $scope.Margen.data = [
                 []//margen financiero
             ];
-            $scope.MargenFinanciero.options = {};
+            $scope.Margen.options = {};
             samples = response.data.samples;
             for(var sample in samples){
-                $scope.MargenFinanciero.labels.push(samples[sample].created_at.substring(0,11));
-                $scope.MargenFinanciero.data[0].push(samples[sample].financial_margin);
+                $scope.Margen.labels.push(samples[sample].created_at.substring(0,11));
+                $scope.Margen.data[0].push(samples[sample].financial_margin);
             }
-            console.log($scope.MargenFinanciero);
+            console.log($scope.Margen);
         }).catch(function (error) {
             console.log(error);
         })
+    }
+
+    $scope.doIt = function(){
+        if(!$scope.startDate){
+            SweetAlert.swal("Advertencia","Introduzca una fecha inicial.","warning");
+            return;
+        }
+        if(!$scope.endDate){
+            SweetAlert.swal("Advertencia","Introduzca una fecha final.","warning");
+            return;
+        }
+        if($scope.startDate > $scope.endDate){
+            SweetAlert.swal("Advertencia","Rango de fechas no valido.","warning");
+            return;
+        }
+        startDate = $filter('date')($scope.startDate,"yyyy-MM-dd HH:mm:ss");
+        endDate = $filter('date')($scope.endDate,"yyyy-MM-dd HH:mm:ss");
+        var dates = {
+            startDate :startDate,
+            endDate : endDate
+        }
+        console.log(dates);
+        switch($scope.menu){
+            case "Morosidad":
+                $scope.MorosidadTotal(dates);
+                break;
+            case "Margen Financiero":
+                $scope.MargenFinanciero(dates);
+                break;
+            case "Ingreso Neto":
+                $scope.InteresNeto(dates);
+                break;
+            case "Cartera Promedio":
+                $scope.CarteraPromedio(dates);
+                break;
+            case "Deuda Promedio":
+                $scope.DeudaPromedio(dates);
+                break;
+        }
     }
 
     $scope.MorosidadTotal();
@@ -257,4 +333,7 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
     $scope.MargenFinanciero();
     $scope.CarteraPromedio();
     $scope.DeudaPromedio();
+
+
+
 }]);
