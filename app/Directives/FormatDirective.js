@@ -41,7 +41,7 @@ antejo.directive('format', ['$filter', function($filter) {
                 }
                 case "RFC": {
                     scope.$watch(attrs.ngModel,function (newVal,oldVal) {
-                        newVal = newVal.toString().toUpperCase().trim();
+                        newVal = !newVal?'':newVal.toString().toUpperCase().trim();
                         elem.val(newVal);
                         var Regex = /^[A-Z,Ñ,&]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[A-Z|\d]{3}$/;
                         if (!Regex.test(newVal)) {
@@ -95,6 +95,30 @@ antejo.directive('format', ['$filter', function($filter) {
                         } else {
                             elem.parent('div').removeClass('has-error');
                             ctrl.$setValidity("Tel. Incorrecto",true)
+                        }
+                        return newVal;
+                    });
+                    break;
+                }
+                case "accountnumber":{
+
+                    scope.$watch(attrs.ngModel,function (newVal,oldVal) {
+                        newVal = newVal!=null?newVal.toString():'';
+                        console.log(newVal);
+                        elem.val(newVal);
+                        Regex = /^[0-9]{10}[0-9]?$/;
+                        if (!Regex.test(newVal)) {
+                            console.log("not valid");
+                            if(newVal != ""){
+                                elem.parent('div').addClass('has-error');
+                            }else{
+                                elem.parent('div').removeClass('has-error');
+                            }
+                            ctrl.$setValidity("Numero Incorrecto",false)
+                        } else {
+                            console.log("valid");
+                            elem.parent('div').removeClass('has-error');
+                            ctrl.$setValidity("Numero Incorrecto",true)
                         }
                         return newVal;
                     });

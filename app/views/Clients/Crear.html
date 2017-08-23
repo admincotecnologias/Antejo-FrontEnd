@@ -424,8 +424,11 @@
                                         <input class="form-control" ng-model="ctrl.Account.accounttype" required>
                                     </td>
                                     <td>
-                                        <input class="form-control" ng-model="ctrl.Account.accountnumber" type="number"
-                                               required>
+                                        <div class="form-group">
+                                            <input class="form-control" ng-model="ctrl.Account.accountnumber"
+                                                   format="accountnumber" required>
+                                        </div>
+
                                     </td>
                                     <td>
                                         <div class="form-group">
