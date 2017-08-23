@@ -1,5 +1,5 @@
 antejo.factory("AuthFact", [function() {
-    var authUrl = 'api2.antejo.com/AdminAuth';
+    var authUrl = 'http://api2.antejo.com/AdminAuth';
     var LogIn = function(email, password, scope, api, location,cb) {
         var logData = {
             email: email,
