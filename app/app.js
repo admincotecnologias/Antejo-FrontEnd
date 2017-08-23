@@ -96,10 +96,18 @@ antejo.config(
                 templateUrl: '/app/views/creditos/ShowCredit.html',
                 controller: 'ShowCreditCtrl'
             }).when('/Creditos/Revolvente/:idCredito', {
+            name: "Creditos",
+            url: "Creditos",
+            templateUrl: '/app/views/creditos/Revolvente.html',
+            controller: 'RevolventeCtrl'
+
+            }).when('/Creditos/AnalisisFinanciero/:idCredito', {
                 name: "Creditos",
                 url: "Creditos",
-                templateUrl: '/app/views/creditos/Revolvente.html',
-                controller: 'RevolventeCtrl'
+                templateUrl: '/app/views/creditos/AnalisisFinanciero.html',
+                controller: 'AnalisisCtrl',
+                controllerAs: "ctrl"
+
             }).when('/Fondeadores', {
                 name: "Fondeadores",
                 url: "Fondeadores",
