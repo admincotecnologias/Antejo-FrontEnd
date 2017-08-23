@@ -2,6 +2,7 @@
  * Created by Enrique on 09/05/2017.
  */
 antejo.factory("FoundFact", ["$http", function($http) {
+    var fileUrl = 'http://api2.antejo.com';
     var allStockholders = function() {
         var json = { }
         return $http.get(apiUrl + "/Fondeadores/all", json);
@@ -85,7 +86,7 @@ antejo.factory("FoundFact", ["$http", function($http) {
     var DownloadFile = function(id) {
         var jsonAuth = {};
         $http.get(apiUrl + "/Fondeadores/show/" + id + "/Files_Stock").then(function(response) {
-            var stringPath = apiUrl + '/storage/' + response.data.filepath;
+            var stringPath = fileUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
     }

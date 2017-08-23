@@ -1,6 +1,7 @@
 antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
 
     //CRUD
+    var fileUrl = 'http://api2.antejo.com';
     var DeleteClients = function(id) {
         var json = {};
         return $http.delete(apiUrl + "/Clientes/delete/" + id, json);
@@ -64,7 +65,7 @@ antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
     var DownloadFile = function(id) {
         var jsonAuth = {};
         $http.get(apiUrl + "/Clientes/show/" + id + "/FilesClient").then(function(response) {
-            var stringPath = apiUrl + '/storage/' + response.data.filepath;
+            var stringPath = fileUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
     }

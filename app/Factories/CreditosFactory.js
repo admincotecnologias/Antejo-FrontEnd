@@ -3,6 +3,7 @@
  */
 antejo.factory('CreditsFact', ['$http', function($http) {
 
+    var fileUrl = 'http://api2.antejo.com';
     var getCreditsApproved = function(callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/all", json).then(function(response) {
@@ -63,7 +64,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     var DownloadFile = function(id) {
         var jsonAuth = {};
         $http.get(apiUrl + "/Creditos/show/" + id + "/FilesApplication").then(function(response) {
-            var stringPath = apiUrl + '/storage/' + response.data.filepath;
+            var stringPath = fileUrl + '/storage/' + response.data.filepath;
             window.open(stringPath);
         }, function(error) {});
     }
