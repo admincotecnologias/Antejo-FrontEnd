@@ -42,14 +42,19 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
             };
             sampleCount = 0;
             samples = response.data.samples;
+            latestSample = response.data.latestSample;
+            totalMoney = 0;
+            totalExpired = 0;
+            totalGrace = 0;
+            totalActive = 0;
             //Iteramos cada muestra, la asignamos a una variable, y aumentamos el numero de muestras
             for (var sampleId in samples) {
                 var sample = samples[sampleId];
                 sampleCount++;
                 //Inicializamos sumatorias de dinero
-                totalActive = 0;
-                totalGrace = 0;
-                totalExpired = 0;
+                activeMoney = 0;
+                graceMoney = 0;
+                expiredMoney = 0;
                 //hacemos este ciclo para obtener la fecha de muestra; solo la ocupamos una vez
                 for(var entryKey in sample){
                     $scope.Morosidad.lineLabels.push(sample[entryKey].created_at.substring(0,11));
@@ -57,39 +62,78 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
                 }
                 //Iteramos cada entrada en la muestra, y agregamos a las sumatorias de dinero correspondientes.
                 for(var entryKey in sample){
-                    //Metemos la fecha en su formato YYYY/MM/DD
 
-                    totalActive += sample[entryKey].active_money;
-                    totalExpired += sample[entryKey].expired_money;
-                    totalGrace += sample[entryKey].grace_money;
+                    activeMoney += sample[entryKey].active_money;
+                    expiredMoney += sample[entryKey].expired_money;
+                    graceMoney += sample[entryKey].grace_money;
                 }
-                $scope.Morosidad.lineData[0].push(totalActive);
-                $scope.Morosidad.lineData[1].push(totalExpired);
-                $scope.Morosidad.lineData[2].push(totalGrace);
+                $scope.Morosidad.lineData[0].push(activeMoney);
+                $scope.Morosidad.lineData[1].push(expiredMoney);
+                $scope.Morosidad.lineData[2].push(graceMoney);
+                totalMoney+=activeMoney+expiredMoney+graceMoney;
+                totalActive+=activeMoney;
+                totalGrace+=graceMoney;
+                totalExpired+=expiredMoney;
+
 
 
             }
             console.log($scope.Morosidad.lineData);
-            //Sumamos la cantidad total de dinero
-            grandTotal = totalActive + totalGrace + totalExpired;
+            var doughnutGrace;
+            var doughnutActive;
+            var doughnutExpired;
+            var doughnutTotal;
+            if(dates){
+                //Agarramos el total de las muestras entre las fechas
+                doughnutGrace = totalGrace;
+                doughnutActive = totalActive;
+                doughnutExpired = totalExpired;
+                doughnutTotal = totalGrace+totalActive+totalExpired;
+
+            }else{
+                //Sumamos la cantidad total de dinero de la muestra mas reciente
+                lastSampleActiveMoney = 0;
+                lastSampleExpiredMoney = 0;
+                lastSampleGraceMoney = 0;
+                lastSample = samples[latestSample];
+                for(var entryKey in lastSample){
+
+                    lastSampleActiveMoney += lastSample[entryKey].active_money;
+                    lastSampleExpiredMoney += lastSample[entryKey].expired_money;
+                    lastSampleGraceMoney += lastSample[entryKey].grace_money;
+                }
+                doughnutGrace = lastSampleGraceMoney;
+                doughnutActive = lastSampleActiveMoney;
+                doughnutExpired = lastSampleExpiredMoney;
+                doughnutTotal = lastSampleGraceMoney+lastSampleActiveMoney+lastSampleExpiredMoney;
+                sampleCount=1;//hacemos sampleCount = 1 ya que este caso solo mete una muestra a la grafica dona
+            }
+
+
             //A cada uno de los estados de dinero, agregamos el total y su cantidad porcentual
             $scope.Morosidad.Vencido = {
-                cartera: totalExpired,
-                carteraporcentaje: totalExpired/grandTotal*100
+                cartera: doughnutExpired,
+                carteraporcentaje: doughnutExpired/doughnutTotal*100
             }
             $scope.Morosidad.Activo = {
-                cartera: totalActive,
-                carteraporcentaje: totalActive/grandTotal*100
+                cartera: doughnutActive,
+                carteraporcentaje: doughnutActive/doughnutTotal*100
             }
             $scope.Morosidad.Gracia = {
-                cartera: totalGrace,
-                carteraporcentaje: totalGrace/grandTotal*100
+                cartera: doughnutGrace,
+                carteraporcentaje: doughnutGrace/doughnutTotal*100
             }
-            //Empujamos los datos a la grafica
+            //Empujamos los datos a la grafica (El orden importa)
+            $scope.Morosidad.doughnutData.push(doughnutActive/sampleCount);
+            $scope.Morosidad.doughnutData.push(doughnutGrace/sampleCount);
+            $scope.Morosidad.doughnutData.push(doughnutExpired/sampleCount);
+            console.log($scope.Morosidad.doughnutData);
+
+            /*
             $scope.Morosidad.doughnutData.push(totalActive/sampleCount);
             $scope.Morosidad.doughnutData.push(totalGrace/sampleCount);
             $scope.Morosidad.doughnutData.push(totalExpired/sampleCount);
-
+            */
 
             //Empujamos los datos a la grafica
         }).catch(function (error) {
@@ -188,11 +232,30 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
                 }
                 $scope.Cartera.data[0].push(moneyPerSample);
             }
-            //Transformamos el objeto de valores a arreglo (para poder usarlo en la grafica)
+            if(!dates){//Si no hay rango de fechas, solo metemos la ultima muestra a la dona
+                tempDict = {};
+                totalMoneyLoaned=0;
+                latestSample = response.data.latestSample;
+                lastSample = samples[latestSample];
+                console.log(lastSample);
+                for(var entryKey in lastSample){
+                    //Metemos la fecha en su formato YYYY/MM/DD
+                    moneyLoaned = sample[entryKey].money_loaned;
+                    totalMoneyLoaned+=moneyLoaned;
+                    if(!tempDict[sample[entryKey].idclient]){
+                        tempDict[sample[entryKey].idclient] = {
+                            moneyLoaned : 0,
+                            name : sample[entryKey].name
+                        };
+                    }
+                    tempDict[sample[entryKey].idclient].moneyLoaned=moneyLoaned;
+                }
+            }
             for(var entryKey in tempDict){
                 $scope.Cartera.doughnutData.push(tempDict[entryKey].moneyLoaned);
                 $scope.Cartera.doughnutLabels.push(tempDict[entryKey].name+" : "+$filter('number')(tempDict[entryKey].moneyLoaned/totalMoneyLoaned*100,2) + '% ');
             }
+            console.log("total money: ",totalMoneyLoaned);
             console.log($scope.Cartera.doughnutData);
             console.log($scope.Cartera.doughnutLabels);
         }).catch(function (error) {
@@ -208,6 +271,7 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
                     return;
                 }
             }
+            console.log(response.data);
             $scope.Deuda = {};
             $scope.Deuda.labels = [];
             $scope.Deuda.series = ['Cartera Promedio'];
@@ -239,17 +303,37 @@ antejo.controller('DashboardCtrl', ['$filter', 'SweetAlert', 'DashboardFact', '$
                     moneyBorrowed = sample[entryKey].money_borrowed;
                     moneyPerSample+=moneyBorrowed;
                     totalMoneyBorrowed+=moneyBorrowed;
-                    if(!tempDict[sample[entryKey].idclient]){
-                        tempDict[sample[entryKey].idclient] = {
+                    if(!tempDict[sample[entryKey].idstockholder]){
+                        tempDict[sample[entryKey].idstockholder] = {
                             moneyBorrowed : 0,
                             name : sample[entryKey].name
                         };
                     }
-                    tempDict[sample[entryKey].idclient].moneyBorrowed+=moneyBorrowed;
+                    tempDict[sample[entryKey].idstockholder].moneyBorrowed+=moneyBorrowed;
                 }
                 $scope.Deuda.data[0].push(moneyPerSample);
             }
-            //Transformamos el objeto de valores a arreglo (para poder usarlo en la grafica)
+            console.log(tempDict);
+            if(!dates){//Si no hay rango de fechas, solo metemos la ultima muestra a la dona
+                tempDict = {};
+                totalMoneyBorrowed=0;
+                latestSample = response.data.latestSample;
+                lastSample = samples[latestSample];
+                console.log(lastSample);
+                for(var entryKey in lastSample){
+                    //Metemos la fecha en su formato YYYY/MM/DD
+                    moneyBorrowed = sample[entryKey].money_borrowed;
+                    totalMoneyBorrowed+=moneyBorrowed;
+                    if(!tempDict[sample[entryKey].idstockholder]){
+                        tempDict[sample[entryKey].idstockholder] = {
+                            moneyBorrowed : 0,
+                            name : sample[entryKey].name
+                        };
+                    }
+                    tempDict[sample[entryKey].idstockholder].moneyBorrowed=moneyBorrowed;
+                }
+            }
+
             for(var entryKey in tempDict){
                 $scope.Deuda.doughnutData.push(tempDict[entryKey].moneyBorrowed);
                 $scope.Deuda.doughnutLabels.push(tempDict[entryKey].name+" : "+$filter('number')(tempDict[entryKey].moneyBorrowed/totalMoneyBorrowed*100,2) + '% ');

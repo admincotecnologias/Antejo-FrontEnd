@@ -3,7 +3,7 @@
  */
 antejo.factory('CreditsFact', ['$http', function($http) {
 
-    var fileUrl = 'http://api2.antejo.com';
+    var fileUrl = 'http://localhost/bantejo/public';
     var getCreditsApproved = function(callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/all", json).then(function(response) {
@@ -25,7 +25,14 @@ antejo.factory('CreditsFact', ['$http', function($http) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
         });
     }
-
+    var agregarAnalisis = function(body,callback){
+        var json = body;
+        $http.post(apiUrl+"/Creditos/add/Analysis",json).then(function(response){
+            callback(response.data);
+        }).catch(function(param){
+            callback({error:true,message:"Error al conectarse con el servidor",exc:param});
+        })
+    }
     var liquidateCredit = function(appId, callback) {
         var json = {}
         return $http.put(apiUrl + "/Creditos/update/" + appId+"/Liquidar", json);
@@ -75,6 +82,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
         return $http.put(apiUrl+ "/Creditos/update/"+creditId+"/ControlCredits/"+fileId,json);
 
     }
+
     return {
         GetAll: getCreditsApproved,
         showCredit: showCredit,
@@ -84,6 +92,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
         downloadFile: DownloadFile,
         updateCreditFile : updateCreditFile,
         liquidateCredit : liquidateCredit,
-        deleteLastMove : deleteLastMove
+        deleteLastMove : deleteLastMove,
+        agregarAnalisis : agregarAnalisis
     }
 }]);

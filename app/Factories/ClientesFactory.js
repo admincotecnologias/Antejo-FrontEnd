@@ -1,7 +1,7 @@
 antejo.factory('ClientsFact', ['$http','$filter', function($http,$filter) {
 
     //CRUD
-    var fileUrl = 'http://api2.antejo.com';
+    var fileUrl = 'http://localhost/bantejo/public';
     var DeleteClients = function(id) {
         var json = {};
         return $http.delete(apiUrl + "/Clientes/delete/" + id, json);

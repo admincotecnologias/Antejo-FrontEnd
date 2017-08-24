@@ -1,3 +1,86 @@
-<div>
-    "Hola mundo"
+<div class="main-page">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-md-12">
+            <div class="panel panel-default widget-shadow">
+                <div class="panel-heading text-center">
+                    <p >Nueva Solicitud</p>
+                </div>
+                <div class="panel-body">
+                    <div class="table-scroll scrollbar1">
+                        <ul class="nav nav-pills nav-justified">
+                            <li role="presentation" class="active">
+                                <a href="#" ng-click="menu='show'">Historial Analisis</a>
+                            </li>
+                            <li role="presentation">
+                                <a href="#" ng-click="menu='create'">Nuevo Analisis</a>
+                            </li>
+                        </ul>
+                        <br>
+                        <div class="col-sm-12">
+                            <div name="application" ng-show="menu=='show'">
+                                <header>Historial de analisis</header>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Fecha</th>
+                                            <th>Observacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>1</th>
+                                            <th>01/01/2001</th>
+                                            <th>Esta chido we</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <form name="files" ng-show="menu=='create'">
+                                <div>
+                                    Observaciones
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" ng-model="observacion">
+                                </div>
+                                <table class="table table-bordered">
+                                    <tr style="padding: 0;margin: 0">
+                                        <td colspan="4" class="text-center" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                            Arrastra el archivo(s) o haz click.
+                                            <div id="dropzone" style="height: 100px">
+                                                <div>
+                                                    <br>
+                                                    <i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>
+                                                </div>
+                                                <input type="file" ngf-select="addFile($file)" style="width: 100%" />
+                                            </div>
+                                            <div class="row">
+                                                <h4 class="label label-default" ng-repeat="obj in files"
+                                                    style="color:black; margin: 5px;float: left;">{{obj.file.name}}
+                                                    <button type="button" class="close" aria-label="Close" style="margin-left: 5px;:" ng-click="deleteFile($index)">
+                                                        <span aria-hidden="true">&times; </span>
+                                                    </button>
+                                                </h4>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div >
+                                    <button class="btn btn-lg bottom-right" ng-disabled="observacion==''" ng-click="agregarAnalisis()">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $("ul.nav.nav-pills li").click(function(evt) {
+            $("ul.nav.nav-pills li").removeClass('active')
+            $(this).addClass('active')
+        })
+    });
+</script>

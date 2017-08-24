@@ -1,13 +1,20 @@
 
-antejo.controller('AnalisisCtrl', ['$filter', 'SweetAlert', 'CreditsFact', 'ClientsFact', '$routeParams', 'DTOptionsBuilder', function($filter, SweetAlert, CreditsFact, ClientsFact, $routeParams, DTOptionsBuilder) {
-    $ctrl.credits = [];
-    $ctrl.GetAll = function () {
-        CreditsFact.GetAll(function (callback) {
+antejo.controller('AnalisisCtrl', ['$filter','$scope','SweetAlert', 'CreditsFact','$routeParams', function($filter,$scope, SweetAlert, CreditsFact, $routeParams) {
+    $scope.credits = [];
+    $scope.menu = 'show';
+    $scope.AnalisisType = "ANALISIS";
+    $scope.files;
+    $scope.applicationid=null;
+    $scope.observacion='';
+    $scope.numFiles=0;
+    $scope.getCredit = function () {
+        CreditsFact.showCredit($routeParams.idCredito,function (callback) {
             console.log(callback)
             if(callback.error){
-                SweetAlert.swal('Mensaje',"No hay Creditos","warning");
+                SweetAlert.swal('Mensaje',"Credito no existe","warning");
             }else {
-                $scope.credits = callback.credits;
+                console.log(callback);
+                $scope.applicationid=callback.applicationID;
                 setTimeout(function () {
                     $(function () {
                         $('[data-toggle="tooltip"]').tooltip()
@@ -16,34 +23,61 @@ antejo.controller('AnalisisCtrl', ['$filter', 'SweetAlert', 'CreditsFact', 'Clie
             }
         })
     }
+    $scope.addFile = function($file){
+        if($file){
 
-    $scope.dtOptions = DTOptionsBuilder.fromSource()
-        .withLanguage({
-            "sEmptyTable":     "Vacio",
-            "sInfo":           "Viendo _START_ de _END_",
-            "sInfoEmpty":      "Viendo 0 de 0 de un total de 0",
-            "sInfoFiltered":   "(Filtrado de un total de _MAX_)",
-            "sInfoPostFix":    "",
-            "sInfoThousands":  ",",
-            "sLengthMenu":     "Número Por Página _MENU_",
-            "sLoadingRecords": "Cargando...",
-            "sProcessing":     "Procesando...",
-            "sSearch":         "Buscar:",
-            "sZeroRecords":    "No se encontraron coincidencias.",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Ultimo",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": activate to sort column ascending",
-                "sSortDescending": ": activate to sort column descending"
+            if($scope.numFiles==0)
+                $scope.files = new Array();
+            $scope.files.push({
+                file:$file,
+                idapplication:$scope.analisis.applicationid,
+                type:$scope.AnalisisType
+            })
+
+            SweetAlert.swal("Aviso","Archivo numero "+ ++$scope.numFiles+" agregado.","success");
+            console.log($scope.files);
+        }
+
+    }
+
+    $scope.deleteFile = function (index) {
+        $scope.files.splice(index,1);
+        if ($scope.files.length < 1) {
+            $("#dropzone").removeClass("dropped");
+            $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
+        } else {
+            $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
+            $('#dropzone img').remove();
+        }
+    }
+    $scope.agregarAnalisis = function(){
+        if($scope.observacion==null || $scope.observacion==''){
+            SweetAlert.swal('Aviso','Tiene que agregar una observacion','warning');
+            return;
+        }
+        var body = {
+            analisis:{
+                observacion:$scope.observacion,
+                applicationid:$scope.applicationid,
             }
-        });
+        }
+        if($scope.files.length>0){
+            body.files=$scope.files;
+        }
 
+        CreditsFact.agregarAnalisis(body,function(callback){
+            if(callback.error){
+                SweetAlert.swal('Error','No se hizo carnal','error');
+                console.log(callback.error);
+            }else{
+                SweetAlert.swal('Aviso','Si se hizo carnal','success');
+                window.location.reload();
+            }
+        })
+
+    }
 
     // Inicializacion
-    $ctrl.GetAll();
+    $scope.getCredit();
 
 }]);

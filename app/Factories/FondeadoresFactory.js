@@ -2,7 +2,7 @@
  * Created by Enrique on 09/05/2017.
  */
 antejo.factory("FoundFact", ["$http", function($http) {
-    var fileUrl = 'http://api2.antejo.com';
+    var fileUrl = 'http://localhost/bantejo/public';
     var allStockholders = function() {
         var json = { }
         return $http.get(apiUrl + "/Fondeadores/all", json);
