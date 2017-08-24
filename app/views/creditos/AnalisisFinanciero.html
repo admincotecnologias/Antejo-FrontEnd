@@ -43,7 +43,7 @@
                                 <div class="form-group">
                                     <input class="form-control" ng-model="observacion">
                                 </div>
-                                <table class="table table-bordered">
+                                <table ng-show="analisisid != null" class="table table-bordered">
                                     <tr style="padding: 0;margin: 0">
                                         <td colspan="4" class="text-center" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                                             Arrastra el archivo(s) o haz click.
@@ -66,7 +66,7 @@
                                     </tr>
                                 </table>
                                 <div >
-                                    <button class="btn btn-lg bottom-right" ng-disabled="observacion==''" ng-click="agregarAnalisis()">Agregar</button>
+                                    <button class="btn btn-lg bottom-right" ng-show="analisisid==null" ng-disabled="observacion==''" ng-click="agregarAnalisis()">Agregar</button>
                                 </div>
                             </form>
                         </div>
