@@ -32,19 +32,30 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
                 SweetAlert.swal('Mensaje', "Credito no existe", "warning");
             } else {
                 $scope.applicationid = callback.applicationID;
-                setTimeout(function() {
-                    $(function() {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
-                }, 500);
+
+
+                CreditsFact.mostrarAnalisis($scope.applicationid, function(callback) {
+                    if (callback.error) {
+                        SweetAlert.swal('Mensaje', "Analisis no encontrados", "warning");
+                    } else {
+                        $scope.response = callback.analisis;
+                        console.log($scope.response);
+                        setTimeout(function() {
+                            $(function() {
+                                $('[data-toggle="tooltip"]').tooltip()
+                            })
+                        }, 500);
+                    }
+                })
             }
         })
-    }
+    };
     $scope.addFile = function($file) {
         if ($file) {
 
             var Form = new FormData();
             Form.append('file', $file);
+            console.log($file);
             Form.append('idapplication', $scope.applicationid);
             Form.append('type', $scope.AnalisisType);
             CreditsFact.agregarArchivoAnalisis(Form, $scope.analisisid, function(callback) {
@@ -54,11 +65,13 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
                     if ($scope.numFiles == 0) {
                         $scope.files = new Array();
                     }
+
                     $scope.files.push({
                         'file': $file,
                         'idapplication': $scope.applicationid,
                         'type': $scope.AnalisisType
                     });
+                    console.log($scope.files);
                     SweetAlert.swal("Aviso", "Archivo numero " + ++$scope.numFiles + " agregado.", "success");
                 }
             })
@@ -87,6 +100,59 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
         })
 
     }
+    $scope.prepararAnalisis = function(){
+        $scope.files = null;
+        $scope.analisisid = null;
+        $scope.observacion = '';
+        $scope.numFiles = 0;
+        $scope.menu = "create";
+
+    }
+    $scope.cargarAnalisis = function(analysisid){
+        $('#createtab').click();
+        //$('document').
+        $scope.prepararAnalisis();
+        analisis = $scope.response[analysisid];
+        $scope.menu = "create";
+        $scope.analisisid = analysisid;
+        files = analisis.files;
+        $scope.observacion = analisis.observacion;
+        $scope.files = Array();
+        $scope.numFiles=0;
+        for(fileid in files){
+            $scope.numFiles++;
+            $scope.files.push({
+                'file': files[fileid],
+                'idapplication': $scope.applicationid,
+                'type': $scope.AnalisisType
+            });
+        }
+        console.log($scope.files);
+
+
+
+    }
+    $scope.actualizarAnalisis = function() {
+        if(!$scope.analisisid){
+            SweetAlert.swal('Aviso','Tiene que agregar un analisis','warning');
+        }
+        if ($scope.observacion == null || $scope.observacion == '') {
+            SweetAlert.swal('Aviso', 'Tiene que agregar una observacion', 'warning');
+            return;
+        }
+        var body = {
+            observation : $scope.observacion
+        }
+        CreditsFact.actualizarAnalisis(body,$scope.analisisid, function(callback) {
+            if (callback.error) {
+                SweetAlert.swal('Error', 'Error al establecer conexion con el servidor.', 'error');
+            } else {
+                SweetAlert.swal('Aviso', 'Analisis actualizado', 'success');
+
+            }
+        })
+
+    }
     $scope.agregarAnalisis = function() {
         if ($scope.observacion == null || $scope.observacion == '') {
             SweetAlert.swal('Aviso', 'Tiene que agregar una observacion', 'warning');
@@ -100,7 +166,7 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
         }
         CreditsFact.agregarAnalisis(body, function(callback) {
             if (callback.error) {
-                SweetAlert.swal('Error', 'No se hizo carnal', 'error');
+                SweetAlert.swal('Error', 'Error al establecer conexion con el servidor', 'error');
             } else {
                 $scope.analisisid = callback.analisisid;
                 SweetAlert.swal('Aviso', 'Analisis agregado', 'success');
@@ -127,7 +193,7 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
  formData.append('type',files[0].type);
  CreditsFact.agregarArchivoAnalisis(formData,callback.analisis.id,function(callback){
  if(callback.error){
- SweetAlert.swal('Error','No se hizo carnal','error');
+ SweetAlert.swal('Error','Error al establecer conexion con el servidor','error');
  console.log(callback.error);
  }else {
  SweetAlert.swal({

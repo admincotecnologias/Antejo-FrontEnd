@@ -8,11 +8,11 @@
                 <div class="panel-body">
                     <div class="table-scroll scrollbar1">
                         <ul class="nav nav-pills nav-justified">
-                            <li role="presentation" class="active">
+                            <li id ='showtab' role="presentation" class="active">
                                 <a href="#" ng-click="menu='show'">Historial Analisis</a>
                             </li>
-                            <li role="presentation">
-                                <a href="#" ng-click="menu='create'">Nuevo Analisis</a>
+                            <li id ='createtab' role="presentation">
+                                <a id ='createbutton' href="#" ng-click="prepararAnalisis()">Nuevo Analisis</a>
                             </li>
                         </ul>
                         <br>
@@ -25,23 +25,30 @@
                                             <th class="text-center hidden-xs hidden-sm">#</th>
                                             <th class="text-center hidden-xs hidden-sm">Observaciones</th>
                                             <th class="text-center hidden-xs hidden-sm">Archivos</th>
+                                            <th class="text-center hidden-xs hidden-sm">Editar</th>
 
                                             <th></th>
 
                                             <tbody>
-                                                <tr ng-repeat="data in response.analisis">
+                                                <tr ng-repeat="data in response track by $index">
                                                     <th class="text-center hidden-xs hidden-sm">{{data.analysisid}}</th>
                                                     <th class="text-center hidden-xs hidden-sm">{{data.observacion}}</th>
                                                     <th class="text-center hidden-xs hidden-sm">
                                                         <div id="menu">
                                                             <div class="panel list-group">
-                                                                <a href="#" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">Archivos</a>
-                                                                <div id="sm" class="sublinks collapse" ng-repeat="files in response.analisis">
-                                                                    <a class="list-group-item small"> {{files.files.id.name}}</a>
-                                                                    <a class="list-group-item small"> </a>
+                                                                <a href="#" id="toggle" class="list-group-item" data-toggle="collapse" data-target="#sm{{$index}}" data-parent="#menu">Archivos</a>
+                                                                <div id="sm{{$parent.$index}}" class="sublinks collapse" ng-repeat="files in data track by $index">
+                                                                    <div ng-repeat="file in files track by $index">
+                                                                        <a class="list-group-item small"> {{file.name}}</a>
+
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </th>
+                                                    <th>
+                                                        <a ng-click="cargarAnalisis(data.analysisid)" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
                                                     </th>
                                                 </tr>
                                             </tbody>
@@ -51,8 +58,10 @@
                                 <div>
                                     Observaciones
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" ng-model="observacion">
+                                <div class="form-group col-sm-12">
+                                    <input class=" col-md-10" ng-model="observacion">
+                                    <a ng-click="actualizarAnalisis()" ng-show="analisisid" class=" btn btn-default fontSmall col-sm-1"><i class="material-icons">mode_edit</i></a>
+
                                 </div>
                                 <table ng-show="analisisid != null" class="table table-bordered">
                                     <tr style="padding: 0;margin: 0">

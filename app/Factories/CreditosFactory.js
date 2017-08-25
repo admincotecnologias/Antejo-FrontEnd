@@ -18,6 +18,20 @@ antejo.factory('CreditsFact', ['$http', function($http) {
         });
     }
 
+    var mostrarAnalisis = function(applicationid,callback) {
+        var json = {}
+        $http.get(apiUrl + "/Creditos/show/"+applicationid+"/Analysis", json).then(function(response) {
+            console.log(response)
+            if (!response.data.error) {
+                callback(response.data);
+            } else {
+                callback(response.data);
+            }
+        }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
+        });
+    }
+
     var showCredit = function(id, callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/show/" + id, json).then(function(response) {
@@ -29,6 +43,14 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     var agregarAnalisis = function(body, callback) {
         var json = body;
         $http.post(apiUrl + "/Creditos/add/Analysis", json).then(function(response) {
+            callback(response.data);
+        }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
+        })
+    }
+    var actualizarAnalisis = function(body,analisisid, callback) {
+        var json = body;
+        $http.put(apiUrl + "/Creditos/update/"+analisisid+"/Analysis", json).then(function(response) {
             callback(response.data);
         }).catch(function(param) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
@@ -118,6 +140,8 @@ antejo.factory('CreditsFact', ['$http', function($http) {
         deleteLastMove: deleteLastMove,
         agregarAnalisis: agregarAnalisis,
         agregarArchivoAnalisis: agregarArchivoAnalisis,
-        eliminarArchivoAnalisis: eliminarArchivoAnalisis
+        eliminarArchivoAnalisis: eliminarArchivoAnalisis,
+        mostrarAnalisis: mostrarAnalisis,
+        actualizarAnalisis:actualizarAnalisis
     }
 }]);
