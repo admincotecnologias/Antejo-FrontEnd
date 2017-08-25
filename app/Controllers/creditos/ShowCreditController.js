@@ -141,6 +141,10 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
 
                 $scope.CreditPadre.typemove = CondicionType;
                 if($scope.fileData.file != null){
+                    var Form = new FormData();
+                    Form.append('file',$scope.fileData.file);
+                    Form.append('idapplication',$scope.fileData.idapplication);
+                    Form.append('type',$scope.fileData.type);
                     CreditsFact.addFile(Form).then(function(response){
                         if(response.data.error){
                             SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");

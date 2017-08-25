@@ -20,23 +20,31 @@
                             <div name="application" ng-show="menu=='show'">
                                 <header>Historial de analisis</header>
                                 <table class="table">
-                                    <tbody>
-                                        <tr ng-repeat="data in response.analisis">
-                                            <th>{{data.id}}</th>
-                                            <th>{{data.obs}}</th>
-                                            <th>
-                                                <div id="menu">
-                                                    <div class="panel list-group">
-                                                        <a href="#" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">Archivos</a>
-                                                        <div id="sm" class="sublinks collapse">
-                                                            <a class="list-group-item small"> File 1</a>
-                                                            <a class="list-group-item small"> File 2</a>
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center hidden-xs hidden-sm">#</th>
+                                            <th class="text-center hidden-xs hidden-sm">Observaciones</th>
+                                            <th class="text-center hidden-xs hidden-sm">Archivos</th>
+
+                                            <th></th>
+
+                                            <tbody>
+                                                <tr ng-repeat="data in response.analisis">
+                                                    <th class="text-center hidden-xs hidden-sm">{{data.analysisid}}</th>
+                                                    <th class="text-center hidden-xs hidden-sm">{{data.observacion}}</th>
+                                                    <th class="text-center hidden-xs hidden-sm">
+                                                        <div id="menu">
+                                                            <div class="panel list-group">
+                                                                <a href="#" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">Archivos</a>
+                                                                <div id="sm" class="sublinks collapse" ng-repeat="files in response.analisis">
+                                                                    <a class="list-group-item small"> {{files.files.id.name}}</a>
+                                                                    <a class="list-group-item small"> </a>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </tbody>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
                                 </table>
                             </div>
                             <form name="files" ng-show="menu=='create'">
@@ -46,7 +54,7 @@
                                 <div class="form-group">
                                     <input class="form-control" ng-model="observacion">
                                 </div>
-                                <table class="table table-bordered">
+                                <table ng-show="analisisid != null" class="table table-bordered">
                                     <tr style="padding: 0;margin: 0">
                                         <td colspan="4" class="text-center" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                                             Arrastra el archivo(s) o haz click.
@@ -68,7 +76,7 @@
                                     </tr>
                                 </table>
                                 <div>
-                                    <button class="btn btn-lg bottom-right" ng-disabled="observacion==''" ng-click="agregarAnalisis()">Agregar</button>
+                                    <button class="btn btn-lg bottom-right" ng-show="analisisid==null" ng-disabled="observacion==''" ng-click="agregarAnalisis()">Agregar</button>
                                 </div>
                             </form>
                         </div>

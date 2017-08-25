@@ -17,6 +17,7 @@ antejo.factory('CreditsFact', ['$http', function($http) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
         });
     }
+
     var showCredit = function(id, callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/show/" + id, json).then(function(response) {
@@ -25,23 +26,43 @@ antejo.factory('CreditsFact', ['$http', function($http) {
             callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
         });
     }
-    var agregarAnalisis = function(body,callback){
+    var agregarAnalisis = function(body, callback) {
         var json = body;
-        $http.post(apiUrl+"/Creditos/add/Analysis",json).then(function(response){
+        $http.post(apiUrl + "/Creditos/add/Analysis", json).then(function(response) {
             callback(response.data);
-        }).catch(function(param){
-            callback({error:true,message:"Error al conectarse con el servidor",exc:param});
+        }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
+        })
+    }
+    var agregarArchivoAnalisis = function(body, analisisid, callback) {
+        var json = body;
+        $http.post(apiUrl + "/Creditos/add/" + analisisid + "/AnalysisFiles", json, {
+            headers: { 'Content-Type': undefined }
+        }).then(function(response) {
+            callback(response.data);
+        }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
+        })
+    }
+
+
+    var eliminarArchivoAnalisis = function(analisisid, callback) {
+        var json = {};
+        $http.delete(apiUrl + "/Creditos/delete/" + analisisid + "/AnalysisFiles", json).then(function(response) {
+            callback(response.data);
+        }).catch(function(param) {
+            callback({ error: true, message: "Error al conectarse con el servidor", exc: param });
         })
     }
     var liquidateCredit = function(appId, callback) {
         var json = {}
-        return $http.put(apiUrl + "/Creditos/update/" + appId+"/Liquidar", json);
+        return $http.put(apiUrl + "/Creditos/update/" + appId + "/Liquidar", json);
 
     }
 
     var deleteLastMove = function(creditId, callback) {
         var json = {}
-        return $http.delete(apiUrl + "/Creditos/delete/" + creditId+"/LastMove", json);
+        return $http.delete(apiUrl + "/Creditos/delete/" + creditId + "/LastMove", json);
 
     }
     var addCreditApproved = function(obj, callback) {
@@ -77,9 +98,11 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     }
 
 
-    var updateCreditFile = function(creditId,fileId){
+
+
+    var updateCreditFile = function(creditId, fileId) {
         var json = {};
-        return $http.put(apiUrl+ "/Creditos/update/"+creditId+"/ControlCredits/"+fileId,json);
+        return $http.put(apiUrl + "/Creditos/update/" + creditId + "/ControlCredits/" + fileId, json);
 
     }
 
@@ -90,9 +113,11 @@ antejo.factory('CreditsFact', ['$http', function($http) {
         addCreditPay: addCreditPay,
         addFile: AddFile,
         downloadFile: DownloadFile,
-        updateCreditFile : updateCreditFile,
-        liquidateCredit : liquidateCredit,
-        deleteLastMove : deleteLastMove,
-        agregarAnalisis : agregarAnalisis
+        updateCreditFile: updateCreditFile,
+        liquidateCredit: liquidateCredit,
+        deleteLastMove: deleteLastMove,
+        agregarAnalisis: agregarAnalisis,
+        agregarArchivoAnalisis: agregarArchivoAnalisis,
+        eliminarArchivoAnalisis: eliminarArchivoAnalisis
     }
 }]);

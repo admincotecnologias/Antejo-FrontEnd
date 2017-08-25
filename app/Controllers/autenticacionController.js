@@ -1,6 +1,6 @@
 antejo.factory("AuthFact", [function() {
     var authUrl = 'http://localhost/bantejo/public/AdminAuth';
-    var LogIn = function(email, password, scope, api, location,cb) {
+    var LogIn = function(email, password, scope, api, location, cb) {
         var logData = {
             email: email,
             password: password
@@ -15,13 +15,13 @@ antejo.factory("AuthFact", [function() {
                 jQuery(document).ready(function() {
                     initializeJS();
                 });
-            var auxPermissions = response.data.permissions;
+                var auxPermissions = response.data.permissions;
                 var permissions = {};
-                angular.forEach(auxPermissions,function(permission){
+                angular.forEach(auxPermissions, function(permission) {
                     permissions[permission.url] = angular.copy(permission);
                     delete permissions[permission.url].url;
                 });
-                localStorage.setItem("permissions",JSON.stringify(permissions));
+                localStorage.setItem("permissions", JSON.stringify(permissions));
                 cb(permissions);
             } else {
                 alert(response.data.message);
@@ -33,23 +33,22 @@ antejo.factory("AuthFact", [function() {
     }
 
     var LogOut = function(scope, api, location) {
-        var jsonauth = angular.fromJson(localStorage.getItem("auth"));
-        api.get(authUrl + "/LogOut", { headers: { token: jsonauth.token } }).then(function(response) {
-            if (!response.data.error) {
-                localStorage.removeItem("auth");
-                localStorage.removeItem("permissions");
-                scope.CheckLocal = false;
-                location.path("Login");
-                window.location.reload();
-
-            } else {
-                alert(response.data.message);
-            }
-        });
-    }
-    /**
-     * @deprecated forever.
-     */
+            var jsonauth = angular.fromJson(localStorage.getItem("auth"));
+            api.get(authUrl + "/LogOut", { headers: { token: jsonauth.token } }).then(function(response) {
+                if (!response.data.error) {
+                    localStorage.removeItem("auth");
+                    localStorage.removeItem("permissions");
+                    scope.CheckLocal = false;
+                    location.path("Login");
+                    window.location.reload();
+                } else {
+                    alert(response.data.message);
+                }
+            });
+        }
+        /**
+         * @deprecated forever.
+         */
     var CheckRole = function(api, location) {
         try {
             var jsonauth = angular.fromJson(localStorage.getItem("auth"));

@@ -191,7 +191,6 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             ($scope.lastMove == null || auxDate > lastMoveDate))
             ){
             if($scope.diferencia>=($scope.Disposicion.amount)){
-                //$scope.modalpay.file = response.data.file.id;
                 $scope.Disposicion.extends = $scope.CreditPadreUnedit.id;
                 $scope.Disposicion.typemove = DisposicionType;
                 if($scope.fileData.file != null){
