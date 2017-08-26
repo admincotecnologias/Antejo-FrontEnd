@@ -1,4 +1,4 @@
-antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFact', '$routeParams', function($filter, $scope, SweetAlert, CreditsFact, $routeParams) {
+antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFact' ,'ApplicationsFact','$routeParams', function($filter, $scope, SweetAlert, CreditsFact, ApplicationsFact, $routeParams) {
     $scope.credits = [];
     $scope.menu = 'show';
     $scope.AnalisisType = "ANALISIS";
@@ -7,6 +7,8 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
     $scope.analisisid = null;
     $scope.observacion = '';
     $scope.numFiles = 0;
+    $scope.clientname;
+    $scope.projectname;
 
 
     $scope.response = {
@@ -28,28 +30,31 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
 
     $scope.getCredit = function() {
         CreditsFact.showCredit($routeParams.idCredito, function(callback) {
+            console.log(callback);
+            $scope.clientname = callback.client;
+            $scope.projectname = callback.project;
             if (callback.error) {
                 SweetAlert.swal('Mensaje', "Credito no existe", "warning");
             } else {
                 $scope.applicationid = callback.applicationID;
-
-
-                CreditsFact.mostrarAnalisis($scope.applicationid, function(callback) {
-                    if (callback.error) {
-                        SweetAlert.swal('Mensaje', "Analisis no encontrados", "warning");
-                    } else {
-                        $scope.response = callback.analisis;
-                        console.log($scope.response);
-                        setTimeout(function() {
-                            $(function() {
-                                $('[data-toggle="tooltip"]').tooltip()
-                            })
-                        }, 500);
-                    }
-                })
+                $scope.mostrarAnalisis($scope.applicationid);
             }
         })
     };
+    $scope.mostrarAnalisis = function(applicationid){
+        CreditsFact.mostrarAnalisis($scope.applicationid, function(callback) {
+            if (callback.error) {
+                SweetAlert.swal('Mensaje', "Analisis no encontrados", "warning");
+            } else {
+                $scope.response = callback.analisis;
+                setTimeout(function() {
+                    $(function() {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                }, 500);
+            }
+        })
+    }
     $scope.addFile = function($file) {
         if ($file) {
 
@@ -71,7 +76,7 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
                         'idapplication': $scope.applicationid,
                         'type': $scope.AnalisisType
                     });
-                    console.log($scope.files);
+                    $scope.mostrarAnalisis($scope.applicationid);
                     SweetAlert.swal("Aviso", "Archivo numero " + ++$scope.numFiles + " agregado.", "success");
                 }
             })
@@ -95,11 +100,14 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
                     $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
                     $('#dropzone img').remove();
                 }
+                $scope.mostrarAnalisis($scope.applicationid);
                 SweetAlert.swal("Aviso", "Archivo eliminado correctamente", "success");
             }
         })
 
     }
+
+
     $scope.prepararAnalisis = function(){
         $scope.files = null;
         $scope.analisisid = null;
@@ -147,11 +155,15 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
             if (callback.error) {
                 SweetAlert.swal('Error', 'Error al establecer conexion con el servidor.', 'error');
             } else {
+                $scope.mostrarAnalisis($scope.applicationid);
                 SweetAlert.swal('Aviso', 'Analisis actualizado', 'success');
 
             }
         })
 
+    }
+    $scope.DownloadFile = function (id) {
+        ApplicationsFact.DownloadFile(id);
     }
     $scope.agregarAnalisis = function() {
         if ($scope.observacion == null || $scope.observacion == '') {

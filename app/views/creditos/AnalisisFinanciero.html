@@ -2,8 +2,17 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-md-12">
             <div class="panel panel-default widget-shadow">
-                <div class="panel-heading text-center">
-                    <p>Nueva Solicitud</p>
+                <div class="panel-heading text-center" style="overflow:hidden">
+                    <h3>
+                        <p align="left" style="float:left">
+                            Cliente: {{clientname}}
+                        </p>
+                    </h3>
+                    <h3>
+                        <p align="right" style="float:right">
+                            Proyecto: {{projectname}}
+                        </p>
+                    </h3>
                 </div>
                 <div class="panel-body">
                     <div class="table-scroll scrollbar1">
@@ -38,9 +47,13 @@
                                                             <div class="panel list-group">
                                                                 <a href="#" id="toggle" class="list-group-item" data-toggle="collapse" data-target="#sm{{$index}}" data-parent="#menu">Archivos</a>
                                                                 <div id="sm{{$parent.$index}}" class="sublinks collapse" ng-repeat="files in data track by $index">
-                                                                    <div ng-repeat="file in files track by $index">
-                                                                        <a class="list-group-item small"> {{file.name}}</a>
-
+                                                                    <div ng-repeat="file in files track by $index" class="col-sm-10">
+                                                                        <a class="list-group-item small pull-left col-sm-8"> {{file.name}}</a>
+                                                                        <a  class="btn btn-default fontSmall pull-right">
+                                                                            <i class="material-icons" ng-click="DownloadFile(file.id)">
+                                                                                file_download
+                                                                            </i>
+                                                                        </a>
                                                                     </div>
 
                                                                 </div>
@@ -48,7 +61,8 @@
                                                         </div>
                                                     </th>
                                                     <th>
-                                                        <a ng-click="cargarAnalisis(data.analysisid)" class="btn btn-default fontSmall"><i class="material-icons">mode_edit</i></a>
+                                                        <a ng-click="cargarAnalisis(data.analysisid)">
+                                                            <i class="material-icons btn btn-default pull-right">mode_edit</i></a>
                                                     </th>
                                                 </tr>
                                             </tbody>
@@ -58,9 +72,27 @@
                                 <div>
                                     Observaciones
                                 </div>
-                                <div class="form-group col-sm-12">
-                                    <input class=" col-md-10" ng-model="observacion">
-                                    <a ng-click="actualizarAnalisis()" ng-show="analisisid" class=" btn btn-default fontSmall col-sm-1"><i class="material-icons">mode_edit</i></a>
+                                <div class="12"ng-show="analisisid==null">
+                                    <div class="input-group">
+                                        <textarea type="text"  style="height:150px;width:100%;resize:none" class="form-control" ng-model="observacion" placeholder="Agregar Observacion..."></textarea>
+                                        <span class="input-group-btn">
+                                            <button style="height:150px"class="btn btn-secondary"
+                                                    ng-disabled="observacion==''" ng-click="agregarAnalisis()"
+                                                    type="button">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" ng-show="analisisid">
+                                    <div class="input-group">
+                                        <textarea type="text" style="height:150px;width:100%;resize:none" class="form-control" ng-model="observacion" placeholder="Agregar Observacion..."></textarea>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-secondary"
+                                                    ng-disabled="observacion==''" ng-click="actualizarAnalisis()"
+                                                    style="height:150px" type="button">Go!</button>
+                                        </span>
+                                    </div>
+                                </div>
 
                                 </div>
                                 <table ng-show="analisisid != null" class="table table-bordered">
@@ -84,9 +116,8 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <div>
-                                    <button class="btn btn-lg bottom-right" ng-show="analisisid==null" ng-disabled="observacion==''" ng-click="agregarAnalisis()">Agregar</button>
-                                </div>
+
+
                             </form>
                         </div>
                     </div>

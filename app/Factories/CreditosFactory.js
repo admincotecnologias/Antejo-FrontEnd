@@ -21,7 +21,6 @@ antejo.factory('CreditsFact', ['$http', function($http) {
     var mostrarAnalisis = function(applicationid,callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/show/"+applicationid+"/Analysis", json).then(function(response) {
-            console.log(response)
             if (!response.data.error) {
                 callback(response.data);
             } else {
