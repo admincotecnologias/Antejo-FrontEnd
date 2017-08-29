@@ -9,8 +9,7 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
     $scope.numFiles = 0;
     $scope.clientname;
     $scope.projectname;
-
-
+    $scope.DateNow = Date.now();
     $scope.response = {
         error: 'false',
         analisis: [{
@@ -41,12 +40,26 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
             }
         })
     };
+    $scope.selectList = function(data) {
+        $(document).ready(function () {
+            $(data).click();
+        })
+    }
     $scope.mostrarAnalisis = function(applicationid){
         CreditsFact.mostrarAnalisis($scope.applicationid, function(callback) {
             if (callback.error) {
                 SweetAlert.swal('Mensaje', "Analisis no encontrados", "warning");
             } else {
                 $scope.response = callback.analisis;
+                for (analisisKey in $scope.response){
+                    console.log(analisisKey);
+                    console.log($scope.response[analisisKey]);
+                    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    $scope.response[analisisKey].show_date = $scope.dateToSpanish(
+                        new Date(Date.parse($scope.response[analisisKey].start_date)));
+                    console.log($scope.response[analisisKey].show_date);
+                    //$scope.response[analisisKey].show_date = $scope.response[analisisKey].show_date.toDateString();
+                }
                 setTimeout(function() {
                     $(function() {
                         $('[data-toggle="tooltip"]').tooltip()
@@ -54,6 +67,11 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
                 }, 500);
             }
         })
+    }
+    $scope.dateToSpanish = function(d){
+            var weekday=["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+            var monthname=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+            return weekday[d.getDay()]+" "+d.getDate()+" de "+monthname[d.getMonth()]+" de "+d.getFullYear()
     }
     $scope.addFile = function($file) {
         if ($file) {
@@ -97,6 +115,7 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
                     $("#dropzone").removeClass("dropped");
                     $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
                 } else {
+
                     $("#dropzone div").html('<br><i class="material-icons rotate-180" style="font-size: 50px">system_update_alt</i>');
                     $('#dropzone img').remove();
                 }
@@ -125,6 +144,7 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
         $scope.analisisid = analysisid;
         files = analisis.files;
         $scope.observacion = analisis.observacion;
+        $scope.startDate = new Date(analisis.start_date);
         $scope.files = Array();
         $scope.numFiles=0;
         for(fileid in files){
@@ -148,8 +168,13 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
             SweetAlert.swal('Aviso', 'Tiene que agregar una observacion', 'warning');
             return;
         }
+        if(!$scope.startDate){
+            SweetAlert.swal('Aviso', 'Tiene que seleccionar una fecha valida', 'warning');
+            return;
+        }
         var body = {
-            observation : $scope.observacion
+            observation : $scope.observacion,
+            start_date : $scope.startDate
         }
         CreditsFact.actualizarAnalisis(body,$scope.analisisid, function(callback) {
             if (callback.error) {
@@ -166,15 +191,15 @@ antejo.controller('AnalisisCtrl', ['$filter', '$scope', 'SweetAlert', 'CreditsFa
         ApplicationsFact.DownloadFile(id);
     }
     $scope.agregarAnalisis = function() {
-        if ($scope.observacion == null || $scope.observacion == '') {
+        console.log($scope.startDate);
+        if ($scope.observacion == null || $scope.observacion == '' || $scope.startDate == null) {
             SweetAlert.swal('Aviso', 'Tiene que agregar una observacion', 'warning');
             return;
         }
         var body = {
-            analisis: {
-                observation: $scope.observacion,
-                applicationid: $scope.applicationid,
-            }
+            observation: $scope.observacion,
+            applicationid: $scope.applicationid,
+            start_date: $scope.startDate
         }
         CreditsFact.agregarAnalisis(body, function(callback) {
             if (callback.error) {

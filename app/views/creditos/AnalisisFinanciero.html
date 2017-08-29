@@ -28,57 +28,64 @@
                         <div class="col-sm-12">
                             <div name="application" ng-show="menu=='show'">
                                 <header>Historial de analisis</header>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center hidden-xs hidden-sm">#</th>
-                                            <th class="text-center hidden-xs hidden-sm">Observaciones</th>
-                                            <th class="text-center hidden-xs hidden-sm">Archivos</th>
-                                            <th class="text-center hidden-xs hidden-sm">Editar</th>
+                                <div class="panel-group" id="accordion" class="visible-scrollbar">
+                                    <div class="panel panel-default" ng-repeat="data in response track by $index">
+                                        <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{$index}}" aria-expanded="true" aria-controls="collapse{{$index}}">
+                                                <a id="list{{$index}}" class="text-left" data-toggle="collapse" data-parent="#accordion" href='#collapse{{$index}}' onclick="return false;">{{data.show_date}}</a>
+                                            <div class="col-sm-6 text-right pull-right">
+                                                <a class="btn btn-default" ng-click="cargarAnalisis(data.analysisid)">
+                                                    <i class="material-icons">mode_edit</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div id="collapse{{$index}}" class="panel-collapse panel-body collapse">
+                                            <div class="col-sm-12">
+                                                <div class="col-sm-6" >
+                                                    <textarea type="text"  style="height:150px;width:100%;resize:none" class="form-control">{{data.observacion}}</textarea>
+                                                </div>
+                                                <!--
+                                                <div class="col-sm-6" ng-if="data.files.length > 4">
+                                                    <textarea type="text"  style="width:100%;resize:auto" class="form-control">{{data.observacion}}</textarea>
+                                                </div>
+                                                !-->
+                                                <div class="col-sm-6">
+                                                    <div ng-if="data.files.length == 0">
+                                                        No hay archivos.
+                                                    </div>
+                                                        <ul class="list-group">
+                                                            <li style="cursor: pointer" ng-repeat="file in data.files track by $index" ng-click="DownloadFile(file.id)" class="list-group-item">
+                                                                <a>{{file.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <th></th>
-
-                                            <tbody>
-                                                <tr ng-repeat="data in response track by $index">
-                                                    <th class="text-center hidden-xs hidden-sm">{{data.analysisid}}</th>
-                                                    <th class="text-center hidden-xs hidden-sm">{{data.observacion}}</th>
-                                                    <th class="text-center hidden-xs hidden-sm">
-                                                        <div id="menu">
-                                                            <div class="panel list-group">
-                                                                <a href="#" id="toggle" class="list-group-item" data-toggle="collapse" data-target="#sm{{$index}}" data-parent="#menu">Archivos</a>
-                                                                <div id="sm{{$parent.$index}}" class="sublinks collapse" ng-repeat="files in data track by $index">
-                                                                    <div ng-repeat="file in files track by $index" class="col-sm-10">
-                                                                        <a class="list-group-item small pull-left col-sm-8"> {{file.name}}</a>
-                                                                        <a  class="btn btn-default fontSmall pull-right">
-                                                                            <i class="material-icons" ng-click="DownloadFile(file.id)">
-                                                                                file_download
-                                                                            </i>
-                                                                        </a>
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </th>
-                                                    <th>
-                                                        <a ng-click="cargarAnalisis(data.analysisid)">
-                                                            <i class="material-icons btn btn-default pull-right">mode_edit</i></a>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <form name="files" ng-show="menu=='create'">
+
+                                <div class="form-group col-lg-6">
+                                    <label for="startDate">
+                                        Fecha Inicial
+                                    </label>
+                                    <datepicker id="startDate" date-format="yyyy-MM-dd" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                        <input class="form-control" type="date" ng-model="startDate" readonly>
+                                    </datepicker>
+                                </div>
                                 <div>
                                     Observaciones
                                 </div>
-                                <div class="12"ng-show="analisisid==null">
+                                <div class="col-lg-6" ng-show="analisisid==null">
                                     <div class="input-group">
                                         <textarea type="text"  style="height:150px;width:100%;resize:none" class="form-control" ng-model="observacion" placeholder="Agregar Observacion..."></textarea>
+
                                         <span class="input-group-btn">
                                             <button style="height:150px"class="btn btn-secondary"
-                                                    ng-disabled="observacion==''" ng-click="agregarAnalisis()"
-                                                    type="button">Go!</button>
+                                                    ng-disabled="observacion=='' || startDate==null" ng-click="agregarAnalisis()"
+                                                    type="button">Agregar</button>
                                         </span>
                                     </div>
                                 </div>
@@ -89,11 +96,9 @@
                                         <span class="input-group-btn">
                                             <button class="btn btn-secondary"
                                                     ng-disabled="observacion==''" ng-click="actualizarAnalisis()"
-                                                    style="height:150px" type="button">Go!</button>
+                                                    style="height:150px" type="button">Actualizar</button>
                                         </span>
                                     </div>
-                                </div>
-
                                 </div>
                                 <table ng-show="analisisid != null" class="table table-bordered">
                                     <tr style="padding: 0;margin: 0">
@@ -116,8 +121,6 @@
                                         </td>
                                     </tr>
                                 </table>
-
-
                             </form>
                         </div>
                     </div>
