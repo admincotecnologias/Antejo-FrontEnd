@@ -1,5 +1,5 @@
 antejo = angular.module("Antejo", ['ngRoute', 'oitozero.ngSweetAlert', 'ngAnimate', 'base64', 'ngFileUpload', 'htmlToPdfSave', 'angularScreenfull', '720kb.datepicker', 'ngLocale', 'datatables', 'chart.js']);
-apiUrl = 'http://api2.antejo.com/Admin';
+apiUrl = 'http://192.168.1.191:81/Admin';
 antejo.config(
     function($routeProvider, $httpProvider, $locationProvider, $provide, $filterProvider) {
         $routeProvider
@@ -100,6 +100,11 @@ antejo.config(
                 url: "Creditos",
                 templateUrl: '/app/views/creditos/Revolvente.html',
                 controller: 'RevolventeCtrl'
+            }).when('/Creditos/PagosIguales/:idCredito', {
+                name: "Creditos",
+                url: "Creditos",
+                templateUrl: '/app/views/creditos/EqualPay.html',
+                controller: 'ShowCreditCtrl'
             }).when('/Fondeadores', {
                 name: "Fondeadores",
                 url: "Fondeadores",

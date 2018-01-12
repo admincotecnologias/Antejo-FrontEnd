@@ -133,7 +133,7 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
     $scope.insertCondition = function () {
         console.log($scope.CreditPadre);
         $scope.CreditPadre.start_date = new Date(Date.parse($scope.CreditPadre.start_date));
-        let lastcredit = new Date($scope.lastCredit.start_date);
+        var lastcredit = new Date($scope.lastCredit.start_date);
         var auxDate = new Date(angular.copy($scope.CreditPadre.start_date));
         if(($scope.CreditPadre.start_date<auxDate.setMonth(auxDate.getMonth()+$scope.CreditPadre.term)) && ($scope.CreditPadre.start_date>lastcredit)){
             if($scope.CreditPadreUnedit!=$scope.CreditPadre && $scope.credit.length>0){
@@ -287,7 +287,7 @@ antejo.controller('ShowCreditCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
             newMove.interest_balance -= angular.copy(pago)
             pago=0
         }
-        if(pago=>$scope.lastMove.capital_balance && pago>0){
+        if(pago>=$scope.lastMove.capital_balance && pago>0){
             pagoCapital=pago
             newMove.capital_balance -= pago
             newMove.pay_capital = pagoCapital
