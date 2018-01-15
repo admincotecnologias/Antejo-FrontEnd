@@ -195,7 +195,7 @@ antejo.controller('ClientesCtrl', ['$scope', '$http', 'SweetAlert', 'BancosFact'
         });
     }
 
-    //AddParticipation
+    //AddParticipsation
 
     $scope.AddParticipation = function() {
         $scope.ModalNuevoCliente.shareholder.push($scope.shareholder);
