@@ -1,11 +1,15 @@
 antejo.factory("AuthFact", [function() {
-    var authUrl = 'http://192.168.1.191:81/AdminAuth';
+    var authUrl = 'http://localhost:8081/AdminAuth';
     var LogIn = function(email, password, scope, api, location,cb) {
         var logData = {
             email: email,
             password: password
         };
+
+
+
         api.post(authUrl + "/LogIn", logData).then((response) => {
+
             if (!response.data.error) {
                 localStorage.setItem("auth", JSON.stringify(response.data));
                 scope.CheckLocal = true;
@@ -23,7 +27,7 @@ antejo.factory("AuthFact", [function() {
                 });
                 localStorage.setItem("permissions",JSON.stringify(permissions));
                 cb(permissions);
-            } else {
+            }else {
                 alert(response.data.message);
             }
         }).catch(function(e) {
