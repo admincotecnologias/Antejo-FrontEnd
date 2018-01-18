@@ -3,7 +3,7 @@
  */
 antejo.factory('CreditsFact', ['$http', function($http) {
 
-    var fileUrl = 'http://192.168.1.191:81';
+    var fileUrl = 'http://localhost:8081';
     var getCreditsApproved = function(callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/all", json).then(function(response) {
