@@ -3,7 +3,7 @@
  */
 antejo.factory('CreditsFact', ['$http', function($http) {
 
-    var fileUrl = 'http://c0b2fa98.ngrok.io';
+    var fileUrl = 'http://localhost:8081';
     var getCreditsApproved = function(callback) {
         var json = {}
         $http.get(apiUrl + "/Creditos/all", json).then(function(response) {
