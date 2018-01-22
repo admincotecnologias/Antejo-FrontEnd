@@ -33,9 +33,17 @@
                                 <th>
                                     DISPOSICION DE CREDITO
                                 </th>
-                                <th class="text-right">Agregar Pago: </th>
+                                <th class="text-right">Pago Mensual: </th>
                                 <th>
                                     <a class="btn btn-default" data-toggle="modal" data-target="#modalPagosIguales"><i class="material-icons">add</i></a>
+                                </th>
+                                <th class="text-right">Agregar Abono: </th>
+                                <th>
+                                    <a class="btn btn-default" data-toggle="modal" data-target="#modalPagosIgualesA"><i class="material-icons">add</i></a>
+                                </th>
+                                <th class="text-right">Liquidar Credito: </th>
+                                <th>
+                                    <a class="btn btn-default" data-toggle="modal" data-target="#modalPagosIgualesL"><i class="material-icons">add</i></a>
                                 </th>
                             </tr>
                             </thead>
@@ -58,7 +66,7 @@
                                 <tr style="border-bottom: 1px solid #ddd" ng-repeat="credito in selectedCondicion | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
                                     <td class="text-left hidden-xs hidden-sm">{{$index+1}}</td>
                                     <td class="text-center hidden-xs hidden-sm">{{credito.capital_balance | currency:""}}$ {{credito.currency}}</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{monthlypay- (credito.interest_balance + credito.iva_balance) | currency:""}}$</td>
+                                    <td class="text-center hidden-xs hidden-sm">{{monthlypay - (credito.interest_balance + credito.iva_balance) | currency:""}}$</td>
                                     <td class="text-center hidden-xs hidden-sm">{{credito.interest_balance + credito.interest_arrear_balance | currency:""}}$ </td>
                                     <td class="text-center hidden-xs hidden-sm">{{credito.iva_balance + credito.interest_arrear_iva_balance | currency:""}}$ </td>
                                     <td class="text-center hidden-xs hidden-sm">{{monthlypay | currency:""}}$ </td>
@@ -98,27 +106,29 @@
                         <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th class="text-center hidden-xs hidden-sm">Mes</th>
-                                <th class="text-center hidden-xs hidden-sm">Fecha</th>
-                                <th class="text-center hidden-xs hidden-sm">Saldo inicial</th>
-                                <th class="text-center hidden-xs hidden-sm">Amort Capital</th>
-                                <th class="text-center hidden-xs hidden-sm">IVA Intereses</th>
+                                <th class="text-left hidden-xs hidden-sm">Mes</th>
+                                <th class="text-left hidden-xs hidden-sm">Fecha</th>
+                                <th class="text-center hidden-xs hidden-sm">Pago</th>
                                 <th class="text-center hidden-xs hidden-sm">Intereses</th>
-                                <th class="text-center hidden-xs hidden-sm">Pago mensual</th>
+                                <th class="text-left hidden-xs hidden-sm">IVA Intereses</th>
                             </tr>
                             </thead>
                         </table>
                         <div class="table-scroll scrollbar1" style="height: 42.2vh">
                             <table class="table table-striped table-condensed">
                                 <tbody ng-if="credit!=null" class="nga-fast nga-stagger nga-slide-up">
-                                <tr id="condicion_{{credito.id}}" style="border-bottom: 1px solid #ddd" ng-repeat="credito in credit | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
+                                <tr id="condicion_{{credito.id}}" style="border-bottom: 1px solid #ddd" ng-repeat="credito in pays | filter:$main.txt_filtro" class="nga-fast nga-stagger nga-slide-up">
                                     <td class="text-left hidden-xs hidden-sm">{{$index+1}}</td>
-                                    <td class="text-left hidden-xs hidden-sm">{{credito.start_date|date:"dd/MM/yyyy"}}</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{credito.amount | currency:""}}$ {{credito.currency}}</td>
-                                    <td class="text-center hidden-xs hidden-sm">{{credito.interest_arrear}} % </td>
-                                    <td class="text-center hidden-xs hidden-sm">{{credito.iva}} % </td>
-                                    <td class="text-center hidden-xs hidden-sm">{{credito.interest}} % </td>
-                                    <td class="text-center hidden-xs hidden-sm">{{credito.term}} </td>
+                                    <td class="text-center hidden-xs hidden-sm">{{credito.period|date:"dd/MM/yyyy"}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credito.pay | currency:""}}$ {{credito.currency}}</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credito.interest_balance | currency:""}}$</td>
+                                    <td class="text-left hidden-xs hidden-sm">{{credito.iva_balance | currency:""}}$</td>
+                                    <td class="text-center hidden-xs hidden-sm">
+                                        <a class="btn btn-default" data-toggle="modal"
+                                           data-target="#modalPagoDet" ng-click="selectPago(credito)" >
+                                            <i class="material-icons">assignment</i>
+                                        </a>
+                                    </td>
                                 </tr>
                                 </tbody>
                                 <tbody ng-if="credit.length<1">
@@ -138,6 +148,8 @@
 </div>
 
 <div ng-include="'app/views/creditos/ModalPagosIguales.html'"></div>
+<div ng-include="'app/views/creditos/ModalPagosIgualesA.html'"></div>
+<div ng-include="'app/views/creditos/ModalPagosIgualesL.html'"></div>
 <div ng-include="'app/views/creditos/disposicion.html'"></div>
 <div ng-include="'app/views/creditos/edit_revolvente.html'"></div>
 <div ng-include="'app/views/creditos/ModalDetallePago.html'"></div>

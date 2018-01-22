@@ -17,6 +17,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
     $scope.idCredito = $routeParams.idCredito;
     $scope.CreditPadre = null;
     $scope.addperiod = '';
+    $scope.pays = [];
     $scope.modalpay = {
         pay: '',
         sel_moneda: '',
@@ -277,7 +278,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
             interest_arrear:0,
             iva:0,
             iva_arrear:0,
-            pay:0,
+            pay: $scope.payreal,
             pay_capital:0,
             pay_interest:0,
             pay_iva:0,
@@ -323,12 +324,27 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
     $scope.SelectCondition = function (credito) {
         $scope.ModalDetalleCondicion = credito
     }
+    $scope.SelectPay = function () {
+        CreditsFact.showCredit($scope.idCredito, function(callback){
+           if (callback.error){
+               SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
+           } else {
+               $scope.moves = callback.moves[$scope.idCredito];
+               angular.forEach($scope.moves,function (value, key ) {
+                   if(value.typemove == PagoType) {
+                       this.push(value);
+                   }
+               }, $scope.pays);
+           }
+        });
+    }
     $scope.getData = function () {
         CreditsFact.showCredit($scope.idCredito, function (callback) {
             console.log("Callback ", callback)
             if (callback.error) {
                 SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
             } else {
+                console.log(callback);
                 $scope.credit = angular.copy(callback.credits);
                 console.log("scope credit[0]",$scope.credit[0]);
                 $scope.cliente = callback.client;
@@ -352,9 +368,11 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
                 $scope.appID = callback.applicationID;
                 $scope.payreal = $scope.monthlypay - ($scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
                 $scope.capitalb = $scope.lastMove.capital_balance;
+                $scope.payLiq = $scope.capitalb + ($scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
                 $scope.TA = $scope.CreditPadre.interest/100;
-                $scope.newinterest_balance = (($scope.capitalb-$scope.payreal)*$scope.TA)/12;
+                $scope.newinterest_balance = ($scope.payreal*$scope.TA)/12;
                 $scope.newiva_balance = $scope.newinterest_balance*($scope.CreditPadre.iva/100);
+                $scope.SelectPay();
                 if($scope.lastMove == null || $scope.lastMove == undefined){
                     $scope.diferencia = Math.round($scope.CreditPadre.amount);
                 }else{
@@ -367,4 +385,5 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
 
     // Inicializacion
     $scope.getData();
+
 }]);

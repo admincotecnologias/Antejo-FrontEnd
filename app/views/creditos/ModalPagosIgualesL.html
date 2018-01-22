@@ -1,18 +1,18 @@
-<div id="modalPagosIguales" class="modal fade" tabindex="-1" role="dialog">
+<div id="modalPagosIgualesL" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Agregar Pago Mensual</h4>
+                <h4 class="modal-title">Liquidar Pago</h4>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered">
                     <tbody>
                     <tr style="padding: 0;margin: 0">
-                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago de Capital</th>
+                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" ng-model='payreal|currency:"":2' ng-disabled="true">
+                                <input class="form-control" ng-model="payLiq" type="number" ng-change="savePago()" ng-disabled>
                             </div>
                         </td>
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
@@ -22,20 +22,6 @@
                             </datepicker>
                         </td>
                     </tr>
-                    <tr>
-                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Intereses a pagar</th>
-                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                            <div class="form-group" style="margin: 0">
-                                <input class="form-control" ng-model='newinterest_balance|currency:"":2' ng-disabled="true">
-                            </div>
-                        </td>
-                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Interes IVA a pagar</th>
-                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                            <div class="form-group" style="margin: 0">
-                                <input class="form-control" ng-model='newiva_balance|currency:"":2' ng-disabled="true">
-                            </div>
-                        </td>
-                    </tr>
                     <tr style="padding: 0;margin: 0">
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Moneda</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
@@ -43,12 +29,6 @@
                                 <option value="MXN" selected>Pesos MXN</option>
                                 <option value="USD">Dolares USD</option>
                             </select>
-                        </td>
-                        <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Total a Pagar este Mes</th>
-                        <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                            <div class="form-group" style="margin: 0">
-                                <input class="form-control" ng-model='monthlypay|currency:"":2' ng-disabled="true">
-                            </div>
                         </td>
                     </tr>
                     <tr style="padding: 0;margin: 0">
