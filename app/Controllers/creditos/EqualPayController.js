@@ -16,6 +16,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
     $scope.moves = '';
     $scope.idCredito = $routeParams.idCredito;
     $scope.CreditPadre = null;
+    $scope.addperiod = '';
     $scope.modalpay = {
         pay: '',
         sel_moneda: '',
@@ -262,7 +263,31 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
 
 
     }
+
     $scope.addPay = function() {
+        $scope.newMove ={
+            credit: $scope.CreditPadre.id,
+        	capital_balance: $scope.capitalb - $scope.payreal,
+        	interest_balance: $scope.newinterest_balance,
+            iva_balance: $scope.newiva_balance,
+            interest_arrear_balance:0,
+            interest_arrear_iva_balance:0,
+            capital: 0,
+            interest:0,
+            interest_arrear:0,
+            iva:0,
+            iva_arrear:0,
+            pay:0,
+            pay_capital:0,
+            pay_interest:0,
+            pay_iva:0,
+            pay_interest_arrear:0,
+            pay_iva_arrear:0,
+            type_currency: $scope.lastMove.type_currency,
+            currency:$scope.lastMove.currency,
+            typemove: PagoType,
+            period: new Date()
+        };
         CreditsFact.addCreditPay($scope.newMove,function (response) {
             if(response.error){
                 SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
@@ -325,6 +350,11 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
                 $scope.Disposicion = angular.copy($scope.CreditPadre)
                 $scope.Disposicion.amount = Math.round($scope.Disposicion.amount);
                 $scope.appID = callback.applicationID;
+                $scope.payreal = $scope.monthlypay - ($scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
+                $scope.capitalb = $scope.lastMove.capital_balance;
+                $scope.TA = $scope.CreditPadre.interest/100;
+                $scope.newinterest_balance = (($scope.capitalb-$scope.payreal)*$scope.TA)/12;
+                $scope.newiva_balance = $scope.newinterest_balance*($scope.CreditPadre.iva/100);
                 if($scope.lastMove == null || $scope.lastMove == undefined){
                     $scope.diferencia = Math.round($scope.CreditPadre.amount);
                 }else{

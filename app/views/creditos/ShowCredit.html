@@ -111,7 +111,7 @@
                                         <td class="text-left">{{lastMove.capital_balance| currency:""}} $ {{lastMove.currency}}</td>
                                         <td class="text-left">{{lastMove.interest_balance + lastMove.interest_arrear_balance | currency:""}} $</td>
                                         <td class="text-left">{{lastMove.iva_balance + lastMove.interest_arrear_iva_balance | currency:""}} $</td>
-                                        <td class="text-left">{{lastMove.period | date:"dd/MM/yyyy"}}</td>
+                                        <td class="text-left">{{lastMove.period.date.substring(0,10)  | date:"dd/MM/yyyy"}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
