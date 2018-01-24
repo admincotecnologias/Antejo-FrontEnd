@@ -12,13 +12,13 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago de Capital</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" ng-model='payreal|currency:"":2' ng-disabled="true">
+                                <input class="form-control" ng-model='newpayreal|currency:"":2' ng-disabled="true">
                             </div>
                         </td>
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                            <datepicker date-format="yyyy-MM-dd" date-min-limit="{{DateMin}}" date-max-limit="{{DateNow}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input type="date" class="form-control" ng-model="modalpay.date" readonly>
+                            <datepicker date-format="yyyy-MM-dd" date-min-limit="{{DateMin}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
+                                <input type="date" class="form-control" ng-model="modalpay.date" readonly required>
                             </datepicker>
                         </td>
                     </tr>
@@ -82,7 +82,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-default" ng-click="savePago()" data-dismiss="modal">Guardar</button>
+                <button type="button" class="btn btn-default" ng-click="savePago(newpayreal)" data-dismiss="modal" ng-disabled="!modalpay.date">Guardar</button>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 antejo = angular.module("Antejo", ['ngRoute', 'oitozero.ngSweetAlert', 'ngAnimate', 'base64', 'ngFileUpload', 'htmlToPdfSave', 'angularScreenfull', '720kb.datepicker', 'ngLocale', 'datatables', 'chart.js']);
-apiUrl = 'http://192.168.1.110:8081/Admin';
+apiUrl = 'http://192.168.1.107:8081/Admin';
 antejo.config(
     function($routeProvider, $httpProvider, $locationProvider, $provide, $filterProvider) {
         $routeProvider

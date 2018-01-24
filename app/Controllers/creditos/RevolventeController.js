@@ -358,7 +358,7 @@ antejo.controller('RevolventeCtrl', ['$scope', '$http', '$filter', 'SweetAlert',
         }catch(err){
             console.log("catch calcular pago",err);
         }
-    }
+    };
 
     $scope.savePago = function (){
         var Form = new FormData();
