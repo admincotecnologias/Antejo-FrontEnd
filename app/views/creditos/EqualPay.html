@@ -19,7 +19,7 @@
                                 <th>Fecha Inicial</th>
                                 <td class="text-center hidden-xs hidden-sm">{{CreditPadre.start_date|date:"dd/MM/yyyy"}}</td>
                                 <th>Fecha de Terminacion</th>
-                                <td class="text-center hidden-xs hidden-sm">{{addTerm()|date:"dd/MM/yyyy"}}</td>
+                                <td ng-if="CreditPadre" class="text-center hidden-xs hidden-sm">{{addTerm()|date:"dd/MM/yyyy"}}</td>
                                 <td>
                                     <a class="btn btn-default" data-toggle="modal" data-target="#modalEditRevolvente"><i class="material-icons">mode_edit</i></a>
                                 </td>

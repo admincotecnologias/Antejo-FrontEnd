@@ -25,7 +25,11 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
         sel_moneda: '',
         currency: '',
         date: null,
-        file: null
+        file: null,
+        interest_balance : 0,
+        iva_balance: 0,
+        total_pay : 0
+
     }
     $scope.Disposicion = {};
     $scope.lastCredit = {};
@@ -310,6 +314,16 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
             }
         });
     };
+
+    $scope.monthPaid = function () {
+        if($scope.lastMove.typemove == 'DISPOSICION' ||
+            ($scope.lastMove.typemove == 'PAGO' && $scope.lastMove.pay < $scope.monthlypay )){
+            return false;
+
+        }else{
+            return true;
+        }
+    }
     $scope.addDeposit = function () {
         var Form = new FormData();
         Form.append('file',$scope.fileData.file);
@@ -332,9 +346,9 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
     $scope.addPayDep = function() {
         $scope.newMove ={
             credit: $scope.CreditPadre.id,
-            capital_balance:  $scope.capitalb,
-            interest_balance: $scope.newinterest_balance,
-            iva_balance: $scope.newiva_balance,
+            capital_balance:  $scope.capitalb - $scope.modalpay.total_pay,
+            interest_balance: $scope.modalpay.interest_balance,
+            iva_balance: $scope.modalpay.iva_balance,
             interest_arrear_balance:0,
             interest_arrear_iva_balance:0,
             capital: 0,
@@ -342,7 +356,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
             interest_arrear:0,
             iva:0,
             iva_arrear:0,
-            pay: $scope.modalpay.deposit,
+            pay: $scope.modalpay.total_pay,
             pay_capital:0,
             pay_interest:0,
             pay_iva:0,
@@ -353,7 +367,6 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
             typemove: 'ABONO',
             period: $scope.modalpay.date
         };
-        console.log($scope.newMove);
 
         CreditsFact.addCreditDeposit($scope.CreditPadre.id, $scope.newMove,function (response) {
             if(response.error){
@@ -407,137 +420,37 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
         return (($scope.modalpay.deposit > $scope.capitalb) || !$scope.modalpay.date) || $scope.modalpay.deposit === 0;
     };
 
-    $scope.CalcularPago = function () {
-        try {
-            var newMove = angular.copy($scope.lastMove);
-            var dateFinal = $scope.addTerm()
-            var pago = parseFloat($scope.modalpay.pay)
-            var lastDate = new Date($scope.lastMove.period)
-            var SelectDate = new Date($scope.modalpay.date)
-            var diffDays = Math.floor((SelectDate.getTime() - lastDate.getTime()) / 1000 / 60 / 60 / 24) //Diferencia de dias con la fecha seleccionada y la del ultimo movimiento
-            var diffDays2 = Math.floor((dateFinal.getTime() - lastDate.getTime()) / 1000 / 60 / 60 / 24) //Diferencia de dias con la fecha final y la ultima
-            var diffDays3 = Math.floor((SelectDate.getTime() - new Date($scope.addTerm().setDate($scope.addTerm().getDate() + $scope.CreditPadre.grace_days)).getTime()) / 1000 / 60 / 60 / 24) //Diferecia si se pasa el
-            newMove.period = angular.copy(SelectDate)
-            newMove.pay = angular.copy(pago)
-            var pagoInteres = 0;
-            if (dateFinal.getTime() >= SelectDate.getTime()) {
-                var interes = parseFloat(angular.copy($scope.lastMove.interest_balance)) +
-                    (angular.copy(parseFloat($scope.lastMove.capital_balance)) * ((parseFloat($scope.CreditPadre.interest) / 100 / 365) * diffDays));
-                var iva = interes * (parseFloat($scope.CreditPadre.iva) / 100)
-                newMove.interest = angular.copy(interes)
-                newMove.iva = angular.copy(iva)
-                $scope.liquidarmodal = Math.round((angular.copy(interes) + angular.copy(iva) + angular.copy(parseFloat($scope.lastMove.capital_balance))));
-            }
-            if ((new Date(dateFinal.setDate(($scope.addTerm().getDate() + $scope.CreditPadre.grace_days))).getTime() >= SelectDate.getTime()) && (SelectDate.getTime() >= $scope.addTerm().getTime())) {
-                var interes = parseFloat(angular.copy($scope.lastMove.interest_balance)) +
-                    (angular.copy(parseFloat($scope.lastMove.capital_balance)) * ((parseFloat($scope.CreditPadre.interest) / 100 / 365) * diffDays2));
-                var iva = interes * (parseFloat($scope.CreditPadre.iva) / 100)
-                newMove.interest = angular.copy(interes)
-                newMove.iva = angular.copy(iva)
-                $scope.liquidarmodal = Math.round((angular.copy(interes) + angular.copy(iva) + angular.copy(parseFloat($scope.lastMove.capital_balance))));
-            }
-            if (new Date($scope.addTerm().setDate($scope.addTerm().getDate() + $scope.CreditPadre.grace_days)).getTime() < SelectDate.getTime()) {
-                var interes = parseFloat(angular.copy($scope.lastMove.interest_balance)) +
-                    (angular.copy(parseFloat($scope.lastMove.capital_balance)) * ((parseFloat($scope.CreditPadre.interest) / 100 / 365) * diffDays2));
-                var iva = interes * (parseFloat($scope.CreditPadre.iva) / 100)
-                var interesmoratorio = angular.copy(parseFloat($scope.lastMove.interest_arrear_balance)) + ((angular.copy(parseFloat($scope.lastMove.capital_balance)) + angular.copy(parseFloat(interes)) + angular.copy(parseFloat($scope.lastMove.interest_arrear_balance))) * (angular.copy((parseFloat($scope.CreditPadre.interest_arrear)) / 100 / 365) * diffDays3));
-                var ivaMoratorio = interesmoratorio * ($scope.CreditPadre.iva / 100)
-                newMove.interest = angular.copy(interes)
-                newMove.iva = angular.copy(iva)
-                newMove.interest_arrear = angular.copy(interesmoratorio)
-                newMove.iva_arrear = angular.copy(ivaMoratorio)
-                $scope.liquidarmodal = Math.round((angular.copy(interes) + angular.copy(interesmoratorio) + angular.copy(iva) + angular.copy(ivaMoratorio) + angular.copy(parseFloat($scope.lastMove.capital_balance))));
-            }
-            if (ivaMoratorio != null) {
-                if (pago >= ivaMoratorio) {
-                    pago -= ivaMoratorio
-                    newMove.pay_iva_arrear = angular.copy(ivaMoratorio)
-                    newMove.interest_arrear_iva_balance = 0
-                    pagoIvaMoratorio = ivaMoratorio
-                } else {
-                    pagoIvaMoratorio = pago
-                    newMove.pay_iva_arrear = angular.copy(pago)
-                    newMove.interest_arrear_iva_balance -= angular.copy(pago)
-                    pago = 0
-                }
-            } else {
-                newMove.pay_iva_arrear = 0
-                newMove.interest_arrear_iva_balance = 0
-            }
-            if (interesmoratorio != null) {
-                if (pago >= interesmoratorio) {
-                    pago -= interesmoratorio
-                    newMove.pay_interest_arrear = angular.copy(interesmoratorio)
-                    newMove.interest_arrear_balance = 0
-                    pagoInteres+=interesmoratorio
-                } else {
-                    pagoInteres = pago
-                    newMove.pay_interest_arrear = angular.copy(pago)
-                    newMove.interest_arrear_balance = angular.copy(interesmoratorio) - angular.copy(pago)
-                    pago = 0
-                }
-            } else {
-                newMove.pay_interest_arrear = 0
-                newMove.interest_arrear_balance -= 0
-            }
-            if (pago >= iva) {
-                pago -= iva
-                newMove.pay_iva = angular.copy(iva)
-                newMove.iva_balance = 0
-                pagoIva = iva
-            } else {
-                pagoIva = pago
-                newMove.pay_iva = angular.copy(pago)
-                newMove.iva_balance -= angular.copy(pago)
-                pago = 0
-            }
-            if (pago >= interes) {
-                pago -= interes
-                newMove.pay_interest = angular.copy(interes)
-                newMove.interest_balance = 0
-                pagoInteres += interes
-            } else {
-                pagoInteres = pago
-                newMove.pay_interest = angular.copy(pago)
-                newMove.interest_balance = angular.copy(interes) - angular.copy(pago)
-                pago = 0
-            }
-            console.log(pago);
-            console.log($scope.lastMove.capital_balance);
-            if (pago >= $scope.lastMove.capital_balance && pago > 0) {
-                pagoCapital = pago
-                newMove.capital_balance -= pago
-                newMove.pay_capital = pagoCapital
-            } else {
-                if (pago == 0) {
-                    pagoCapital = 0
-                } else {
-                    pagoCapital = pago
-                    newMove.capital_balance -= pagoCapital
-                    newMove.pay_capital = pagoCapital
-                }
-            }
-            $scope.newMove = newMove;
-            $scope.newMove.idref = null;
-            $scope.calcInterest = $filter('currency')(angular.copy(pagoInteres))
-            $scope.calcIva = $filter('currency')(angular.copy(pagoIva))
-            $scope.calcMonto = $filter('currency')(angular.copy(pagoCapital))
-            console.log($scope.newMove);
-        }catch(err){
-            console.log("catch calcular pago",err);
+    $scope.calcularDeposito = function () {
+
+        console.log($scope.modalpay.deposit);
+        moneyNeeded = $scope.monthlypay - ($scope.lastMove.pay+$scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
+        console.log("Money needed: " , moneyNeeded);
+        $currentMonthPay = $scope.modalpay.deposit < moneyNeeded ? $scope.modalpay.deposit : moneyNeeded;
+        console.log("")
+        if(this.monthPaid()){
+            console.log("mes pagado");
+            $scope.modalpay.interest_balance = 0;
+            $scope.modalpay.interest_balance = 0;
+        }else{
+            console.log("mes no pagado");
+            interest_balance = ( ($scope.capitalb + $scope.lastMove.pay) * ($scope.CreditPadre.interest/100)) / 12;
+            $interestRate = $currentMonthPay/$scope.monthlypay;
+            $scope.modalpay.interest_balance = $interestRate*interest_balance;
+            $scope.modalpay.iva_balance = $scope.modalpay.interest_balance * ($scope.CreditPadre.iva/100);
+            $amortCapital = $currentMonthPay - $scope.modalpay.interest_balance - $scope.modalpay.iva_balance;
+            console.log($amortCapital);
+            $scope.modalpay.total_pay = $scope.modalpay.deposit > moneyNeeded ? ($scope.modalpay.deposit - moneyNeeded)+$amortCapital/**/ : $amortCapital;
+
         }
     }
 
 
     $scope.getData = function () {
         CreditsFact.showCredit($scope.idCredito, function (callback) {
-            console.log("Callback ", callback)
             if (callback.error) {
                 SweetAlert.swal('Mensaje', "No hay Creditos", "warning");
             } else {
-                console.log(callback);
                 $scope.credit = angular.copy(callback.credits);
-                console.log("scope credit[0]",$scope.credit[0]);
                 $scope.cliente = callback.client;
                 $scope.proyecto = callback.project;
                 $scope.moves = callback.moves;
@@ -565,14 +478,12 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
                 $scope.payLiq = $scope.capitalb + ($scope.newinterest_balance + $scope.newiva_balance);
                 $scope.SelectPay($scope.moves);
                 $scope.SelectCond($scope.moves);
-                console.log($scope.pays);
-                console.log($scope.selectedCondicion);
                 if($scope.lastMove == null || $scope.lastMove == undefined){
                     $scope.diferencia = Math.round($scope.CreditPadre.amount);
                 }else{
                     $scope.diferencia = angular.copy(parseFloat($scope.CreditPadre.amount)) - angular.copy(parseFloat($scope.lastMove.capital_balance))
                 }
-                console.log($scope.lastMove)
+
             }
         })
     };

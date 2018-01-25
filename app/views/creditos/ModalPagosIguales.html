@@ -12,7 +12,7 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Pago de Capital</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input class="form-control" ng-model='newpayreal|currency:"":2' ng-disabled="true">
+                                <input class="form-control" ng-model="newpayreal" format="currency" ng-disabled="true">
                             </div>
                         </td>
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
@@ -26,13 +26,13 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Intereses a pagar</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="margin: 0">
-                                <input class="form-control" ng-model='newinterest_balance|currency:"":2' ng-disabled="true">
+                                <input class="form-control" ng-model='newinterest_balance' format="currency" ng-disabled="true">
                             </div>
                         </td>
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Interes IVA a pagar</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="margin: 0">
-                                <input class="form-control" ng-model='newiva_balance|currency:"":2' ng-disabled="true">
+                                <input class="form-control" ng-model='newiva_balance' format="currency" ng-disabled="true">
                             </div>
                         </td>
                     </tr>
@@ -47,7 +47,7 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Total a Pagar este Mes</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <div class="form-group" style="margin: 0">
-                                <input class="form-control" ng-model='monthlypay|currency:"":2' ng-disabled="true">
+                                <input class="form-control" ng-model='monthlypay' format="currency" ng-disabled="true">
                             </div>
                         </td>
                     </tr>
