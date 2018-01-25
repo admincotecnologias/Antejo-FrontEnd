@@ -33,9 +33,9 @@
                                 <th>
                                     DISPOSICION DE CREDITO
                                 </th>
-                                <th class="text-right">Pago Mensual: </th>
-                                <th>
-                                    <a class="btn btn-default" data-toggle="modal" data-target="#modalPagosIguales"><i class="material-icons">add</i></a>
+                                <th ng-if="!monthPaid()" class="text-right">Pago Mensual: </th>
+                                <th ng-if="!monthPaid()">
+                                    <a  class="btn btn-default" data-toggle="modal" data-target="#modalPagosIguales"><i class="material-icons">add</i></a>
                                 </th>
                                 <th class="text-right">Agregar Abono: </th>
                                 <th>

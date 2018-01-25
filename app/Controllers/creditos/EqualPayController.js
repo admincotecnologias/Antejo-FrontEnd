@@ -30,7 +30,8 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
         iva_balance: 0,
         total_pay : 0
 
-    }
+    };
+
     $scope.Disposicion = {};
     $scope.lastCredit = {};
     $scope.newMove = {};
@@ -265,6 +266,74 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
             $scope.addPay(payreal);
         }
     };
+    $scope.saveLiq = function (){
+        var Form = new FormData();
+        Form.append('file',$scope.fileData.file);
+        Form.append('idapplication',$scope.fileData.idapplication);
+        Form.append('type',$scope.fileData.type);
+        if($scope.fileData.file != null){
+            CreditsFact.addFile(Form).then(function(response){
+                if(response.data.error){
+                    SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+                }else{
+                    $scope.newMove.idref = response.data.file.id;
+                    $scope.newMove.typemove = PagoType;
+                    $scope.addLiq();
+                }
+            });
+        }else{
+            $scope.addLiq();
+        }
+    };
+    $scope.addLiq = function() {
+        $scope.newMove ={
+            credit: $scope.CreditPadre.id,
+            capital_balance: 0,
+            interest_balance: $scope.liqInterest_balance,
+            iva_balance: $scope.liqIva_balance,
+            interest_arrear_balance:0,
+            interest_arrear_iva_balance:0,
+            capital: 0,
+            interest:0,
+            interest_arrear:0,
+            iva:0,
+            iva_arrear:0,
+            pay: $scope.capitalb,
+            pay_capital:0,
+            pay_interest:0,
+            pay_iva:0,
+            pay_interest_arrear:0,
+            pay_iva_arrear:0,
+            type_currency: $scope.lastMove.type_currency,
+            currency:$scope.lastMove.currency,
+            typemove: PagoType,
+            period: $scope.modalpay.date
+        };
+        console.log($scope.newMove);
+
+        CreditsFact.addCreditPay($scope.newMove,function (response) {
+            if(response.error){
+                SweetAlert.swal("Error:","No se pudo establecer conexion al servidor.","error");
+            }else{
+                SweetAlert.swal({
+                        title: "Guardado",
+                        text: "PAGO CREADO",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#4bdd86",
+                        confirmButtonText: "Cerrar",
+                        closeOnConfirm: true
+                    },
+                    function(isConfirm){
+                        $scope.modalpay.file = null;
+                        if (isConfirm) {
+                            location.reload();
+                        }
+                    }
+                );
+            }
+        });
+    };
     $scope.addPay = function(payreal) {
         $scope.newMove ={
             credit: $scope.CreditPadre.id,
@@ -420,6 +489,32 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
         return (($scope.modalpay.deposit > $scope.capitalb) || !$scope.modalpay.date) || $scope.modalpay.deposit === 0;
     };
 
+    $scope.calcularPagoLiquidacion = function () {
+        if(this.monthPaid()){
+            $scope.payLiq = $scope.capitalb;
+            $scope.liqInterest_balance  = 0;
+            $scope.liqIva_balance = 0;
+        }else{
+            var moneyNeeded;
+            if($scope.lastMove.typemove == 'DISPOSICION'){
+                moneyNeeded = $scope.monthlypay;
+            }else{
+                moneyNeeded = $scope.monthlypay - ($scope.lastMove.pay+$scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
+            }
+            $currentMonthPay = moneyNeeded;
+            interest_balance = (($scope.capitalb + $scope.lastMove.pay) * ($scope.CreditPadre.interest/100)) / 12;
+            $interestRate = $currentMonthPay/$scope.monthlypay;
+            console.log("tasa de interes al liquidar: ", $interestRate);
+            console.log("interes balance total: ", interest_balance);
+            console.log("Dinero que falta pagar con intereses: ", moneyNeeded);
+            $scope.liqInterest_balance = $interestRate*interest_balance;
+            console.log("interes balance total: ", $scope.liqInterest_balance);
+            $scope.liqIva_balance = $scope.liqInterest_balance * ($scope.CreditPadre.iva/100);
+            console.log("iva balance total: ", $scope.liqIva_balance);
+            $scope.payLiq = $scope.capitalb + $scope.liqInterest_balance + $scope.liqIva_balance;
+
+        }
+    }
     $scope.calcularDeposito = function () {
 
         console.log($scope.modalpay.deposit);
@@ -431,6 +526,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
             console.log("mes pagado");
             $scope.modalpay.interest_balance = 0;
             $scope.modalpay.interest_balance = 0;
+            $scope.modalpay.total_pay = $scope.modalpay.deposit;
         }else{
             console.log("mes no pagado");
             interest_balance = ( ($scope.capitalb + $scope.lastMove.pay) * ($scope.CreditPadre.interest/100)) / 12;
@@ -475,7 +571,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
                 $scope.newinterest_balance = ($scope.capitalb*$scope.TA)/12;
                 $scope.newiva_balance = $scope.newinterest_balance*($scope.CreditPadre.iva/100);
                 $scope.newpayreal = $scope.monthlypay - ($scope.newinterest_balance + $scope.newiva_balance);
-                $scope.payLiq = $scope.capitalb + ($scope.newinterest_balance + $scope.newiva_balance);
+                $scope.payLiq = $scope.capitalb;// ($scope.newinterest_balance + $scope.newiva_balance);
                 $scope.SelectPay($scope.moves);
                 $scope.SelectCond($scope.moves);
                 if($scope.lastMove == null || $scope.lastMove == undefined){
@@ -483,6 +579,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
                 }else{
                     $scope.diferencia = angular.copy(parseFloat($scope.CreditPadre.amount)) - angular.copy(parseFloat($scope.lastMove.capital_balance))
                 }
+                $scope.calcularPagoLiquidacion();
 
             }
         })

@@ -31,6 +31,30 @@
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="margin: 0">
+                                        <label for="calcMonto" class="label txt-Black">Capital</label>
+                                        <input name="calcMonto" class="form-control" ng-model="capitalb" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="margin: 0">
+                                        <label for="calcInteres" class="label txt-Black">Interes</label>
+                                        <input name="calcInteres" class="form-control" ng-model="liqInterest_balance" ng-disabled="true">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="margin: 0">
+                                        <label for="calcIva" class="label txt-Black">IVA</label>
+                                        <input name="calcIva" class="form-control" ng-model="liqIva_balance" ng-disabled="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     <tr style="padding: 0;margin: 0">
                         <td colspan="4" class="text-center" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             Arrastra tu comprobante(s) o haz click.
@@ -62,7 +86,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-default" ng-click="savePago(capitalb)" data-dismiss="modal" ng-disabled="!modalpay.date">Guardar</button>
+                <button type="button" class="btn btn-default" ng-click="saveLiq()" data-dismiss="modal" ng-disabled="!modalpay.date">Guardar</button>
             </div>
         </div>
     </div>
