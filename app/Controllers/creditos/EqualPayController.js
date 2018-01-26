@@ -560,6 +560,7 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
                 $scope.CreditPadreUnedit = angular.copy($scope.CreditPadre);
                 $scope.DateMin = callback.lastMove != null ? new Date(callback.lastMove.period).toDateString() : new Date($scope.CreditPadre.start_date).toDateString()
                 $scope.lastMove = callback.lastMove;
+                $scope.modalpay.date = new Date(Date.parse($scope.lastMove.period));
                 $scope.monthlypay = angular.copy(callback.monthlyPay);
                 $scope.credit.shift();
                 $scope.Disposicion = angular.copy($scope.CreditPadre)
