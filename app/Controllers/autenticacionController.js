@@ -1,5 +1,5 @@
 antejo.factory("AuthFact", [function() {
-    var authUrl = 'http://192.168.1.107:8081/AdminAuth';
+    var authUrl = 'http://localhost:8081/AdminAuth';
     var LogIn = function(email, password, scope, api, location,cb) {
         var logData = {
             email: email,

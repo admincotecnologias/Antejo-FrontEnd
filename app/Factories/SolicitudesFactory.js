@@ -1,5 +1,5 @@
 antejo.factory('ApplicationsFact', ['$http', function($http) {
-    var storageUrl = 'http://192.168.1.191:81/storage/';
+    var storageUrl = 'http://localhost:8081/storage/';
     var DeleteApplication = function(id) {
         var json = {};
         return $http.delete(apiUrl + "/Solicitudes/delete/" + id, json);

@@ -518,7 +518,12 @@ antejo.controller('EqualPayCtrl', ['$scope', '$http', '$filter', 'SweetAlert', '
     $scope.calcularDeposito = function () {
 
         console.log($scope.modalpay.deposit);
-        moneyNeeded = $scope.monthlypay - ($scope.lastMove.pay+$scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
+        var moneyNeeded;
+        if($scope.lastMove.typemove == "DISPOSICION"){
+            moneyNeeded = $scope.monthlypay;
+        }else{
+            moneyNeeded = $scope.monthlypay - ($scope.lastMove.pay+$scope.lastMove.interest_balance + $scope.lastMove.iva_balance);
+        }
         console.log("Money needed: " , moneyNeeded);
         $currentMonthPay = $scope.modalpay.deposit < moneyNeeded ? $scope.modalpay.deposit : moneyNeeded;
         console.log("")
