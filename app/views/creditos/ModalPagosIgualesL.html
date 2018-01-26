@@ -18,7 +18,7 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <datepicker date-format="yyyy-MM-dd" date-min-limit="{{DateMin}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input type="date" class="form-control" ng-model="modalpay.date" readonly required>
+                                <input type="date" class="form-control" ng-model="modalpay.date" disabled readonly required>
                             </datepicker>
                         </td>
                     </tr>
@@ -35,18 +35,21 @@
                         <td colspan="4">
                             <div class="row">
                                 <div class="col-sm-4">
+                                    Total a pagar
                                     <div class="form-group" style="margin: 0">
                                         <label for="calcMonto" class="label txt-Black">Capital</label>
                                         <input name="calcMonto" class="form-control" ng-model="capitalb" ng-disabled="true">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
+                                    Intereses a pagar
                                     <div class="form-group" style="margin: 0">
                                         <label for="calcInteres" class="label txt-Black">Interes</label>
                                         <input name="calcInteres" class="form-control" ng-model="liqInterest_balance" ng-disabled="true">
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
+                                    IVA a pagar
                                     <div class="form-group" style="margin: 0">
                                         <label for="calcIva" class="label txt-Black">IVA</label>
                                         <input name="calcIva" class="form-control" ng-model="liqIva_balance" ng-disabled="true">
@@ -76,11 +79,6 @@
                     </tr>
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            Pago para liquidar a la fecha seleccionada: <span class="label-default">{{liquidarmodal|currency:"$":3}}</span>
-                        </td>
-                    </tr>
                     </tfoot>
                 </table>
             </div>

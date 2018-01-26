@@ -18,7 +18,7 @@
                         <th style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">Fecha</th>
                         <td style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
                             <datepicker date-format="yyyy-MM-dd" date-min-limit="{{DateMin}}" selector="form-control" class="form-group" style="padding: 5px 5px 5px 5px;margin: 0 0 0 0">
-                                <input type="date" class="form-control" ng-model="modalpay.date" readonly required>
+                                <input type="date" class="form-control" ng-model="modalpay.date" disabled readonly required>
                             </datepicker>
                         </td>
                     </tr>
@@ -72,11 +72,6 @@
                     </tr>
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td colspan="4">
-                            Pago para liquidar a la fecha seleccionada: <span class="label-default">{{liquidarmodal|currency:"$":3}}</span>
-                        </td>
-                    </tr>
                     </tfoot>
                 </table>
             </div>
